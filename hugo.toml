@@ -1,3 +1,9 @@
 baseURL = 'https://learningtocountsheep.com/'
 languageCode = 'en-us'
 title = 'Learning to Count Sheep'
+theme = 'terminal'
+
+[params]
+author = 'Your Name'
+description = 'A personal portfolio and blog'
+greeting = 'Welcome to My Portfolio'
