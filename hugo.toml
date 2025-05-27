@@ -1,25 +1,16 @@
-baseURL = "https://yourusername.github.io/" # IMPORTANT: Change to your GitHub pages URL
+baseURL = "https://solarsnake.github.io/" # Corrected baseURL
 languageCode = "en-us"
-title = "SolarSnake's Lair" # Or your name/site title
-# theme = "terminal" # We are not using the full theme features, so this can be omitted if baseof.html is in project layouts
+title = "SolarSnake's Lair" # Or your desired site title
+
+# Remove the theme line if you have your baseof.html in your project's layouts/_default/
+# theme = "terminal"
 
 [params]
-  description = "Portfolio and musings of a DevOps Cloud Engineer."
-  # Add any other global parameters you might want.
-  # For contact info, you can put it here or directly in terminal.js or about.md
-  # email = "your.email@example.com"
-  # linkedin = "yourlinkedinprofile"
-  # github = "yourgithubusername"
+  description = "DevOps Cloud Engineer. Specializing in AI and Matrix-like efficiency."
+  # email = "your.email@example.com" # Replace with your actual email
+  # linkedin = "yourlinkedinprofile" # Replace
+  # github = "solarsnake" # Your GitHub username
 
-# Optional: If you plan to have a blog later
-# [menu]
-#   [[menu.main]]
-#     identifier = "blog"
-#     name = "Blog"
-#     url = "/posts/"
-#     weight = 10
-#   [[menu.main]]
-#     identifier = "about"
-#     name = "About/Resume"
-#     url = "/about/"
-#     weight = 20
+# Ensure HTML is the primary output for the homepage
+[outputs]
+  home = ["HTML", "RSS"] # Make sure HTML is listed (it's usually default)
