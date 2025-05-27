@@ -1,6 +1,6 @@
 baseURL = "https://solarsnake.github.io/" # Corrected baseURL
 languageCode = "en-us"
-title = "SolarSnake's Lair" # Or your desired site title
+title = "Just The Tipp"
 
 # Remove the theme line if you have your baseof.html in your project's layouts/_default/
 # theme = "terminal"
