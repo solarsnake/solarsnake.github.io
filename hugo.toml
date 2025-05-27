@@ -1,9 +1,25 @@
-baseURL = 'https://learningtocountsheep.com/'
-languageCode = 'en-us'
-title = 'Learning to Count Sheep'
-theme = 'terminal'
+baseURL = "https://yourusername.github.io/" # IMPORTANT: Change to your GitHub pages URL
+languageCode = "en-us"
+title = "SolarSnake's Lair" # Or your name/site title
+# theme = "terminal" # We are not using the full theme features, so this can be omitted if baseof.html is in project layouts
 
 [params]
-author = 'Your Name'
-description = 'A personal portfolio and blog'
-greeting = 'Welcome to My Portfolio'
+  description = "Portfolio and musings of a DevOps Cloud Engineer."
+  # Add any other global parameters you might want.
+  # For contact info, you can put it here or directly in terminal.js or about.md
+  # email = "your.email@example.com"
+  # linkedin = "yourlinkedinprofile"
+  # github = "yourgithubusername"
+
+# Optional: If you plan to have a blog later
+# [menu]
+#   [[menu.main]]
+#     identifier = "blog"
+#     name = "Blog"
+#     url = "/posts/"
+#     weight = 10
+#   [[menu.main]]
+#     identifier = "about"
+#     name = "About/Resume"
+#     url = "/about/"
+#     weight = 20

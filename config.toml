@@ -1,5 +1,4 @@
-[module]
-    [module.hugoVersion]
-        #  extended = true
-        #    min = "0.91.2"
-        #    max = "0.91.2"
+baseURL = "https://learningtocountsheep.com/"
+title = "Your Portfolio Title"
+languageCode = "en-us"
+theme = "terminal"
