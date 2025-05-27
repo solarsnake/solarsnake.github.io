@@ -1,16 +1,15 @@
-baseURL = "https://solarsnake.github.io/" # Corrected baseURL
+baseURL = "https://solarsnake.github.io/"
 languageCode = "en-us"
-title = "Just The Tipp"
-
-# Remove the theme line if you have your baseof.html in your project's layouts/_default/
-# theme = "terminal"
+title = "SolarSnake :: Terminal" # You can change this site title
 
 [params]
-  description = "DevOps Cloud Engineer. Specializing in AI and Matrix-like efficiency."
-  # email = "your.email@example.com" # Replace with your actual email
-  # linkedin = "yourlinkedinprofile" # Replace
-  # github = "solarsnake" # Your GitHub username
+  description = "DevOps Cloud Engineer Portfolio. Type 'help' for commands."
+  author = "SolarSnake"
 
-# Ensure HTML is the primary output for the homepage
+# This ensures Hugo generates HTML and an RSS feed for the homepage.
+# And just HTML for regular pages. It's often default but good to be explicit.
 [outputs]
-  home = ["HTML", "RSS"] # Make sure HTML is listed (it's usually default)
+  home = ["HTML", "RSS"]
+  page = ["HTML"]
+
+# By not specifying a 'theme' here, Hugo will use the layouts in your project's /layouts directory.

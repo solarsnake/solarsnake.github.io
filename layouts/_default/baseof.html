@@ -3,17 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ .Title }}</title>
-    <link rel="stylesheet" href="/assets/css/custom.css"> </head>
+    <title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} | {{ .Site.Title }}{{ end }}</title>
+    <style>
+        body { background-color: black; color: #00FF00; font-family: 'Courier New', Courier, monospace; margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; min-height: 90vh; }
+        header { margin-bottom: 20px; text-align: center; }
+        header h1 { font-size: 2em; margin: 0; color: #00FF00; text-shadow: 0 0 5px #00cc00, 0 0 10px #00cc00; } /* Added neon glow */
+        main { width: 100%; max-width: 700px; } /* Container for terminal or page content */
+        
+        /* Terminal Specific Styles */
+        #terminal-container { border: 1px solid #00FF00; padding: 15px; min-height: 250px; background-color: #0A0A0A; box-shadow: 0 0 10px #00FF00; } /* Added box shadow */
+        .terminal-output div { margin-bottom: 5px; white-space: pre-wrap; word-break: break-all; }
+        .terminal-prompt { display: flex; align-items: center; margin-top: 10px; }
+        .terminal-prompt span { margin-right: 5px; color: #00FF00; } /* Prompt symbol color */
+        #terminal-input { background-color: transparent; color: #00FF00; border: none; outline: none; font-family: inherit; font-size: 1em; flex-grow: 1; }
+        
+        /* Links */
+        a { color: #33FF33; text-decoration: none; }
+        a:hover { color: #55FF55; text-decoration: underline; }
+
+        /* Styles for non-homepage content (like resume page) */
+        .page-content { text-align: left; padding: 20px; max-width: 800px; margin: 20px auto; border: 1px solid #00ff00; background-color: #050505;}
+        .page-content h1, .page-content h2 { color: #00ff00; border-bottom: 1px solid #00cc00; padding-bottom: 5px; }
+        .page-content ul { list-style-type: square; padding-left: 20px; }
+    </style>
+    </head>
 <body>
     <header>
         <h1>{{ .Site.Title }}</h1>
     </header>
+
     <main>
-        <div id="terminal">
-            <div style="display: flex; align-items: center;"> <span>&gt;&nbsp;</span> <input id="terminal-input" type="text" autofocus autocomplete="off">
+        {{ if .IsHome }}
+        <div id="terminal-container">
+            <div class="terminal-output" id="terminal-output">
+                </div>
+            <div class="terminal-prompt">
+                <span>&gt;</span>
+                <input type="text" id="terminal-input" autofocus autocomplete="off">
             </div>
         </div>
+        {{ else }}
+        <div class="page-content">
+            <h1>{{ .Title }}</h1>
+            {{ .Content }}
+            <p style="margin-top: 20px;"><a href="/">[Return to Terminal]</a></p>
+        </div>
+        {{ end }}
     </main>
-    <script src="/js/terminal.js"></script> </body>
+
+    <script src="/js/terminal.js"></script>
+</body>
 </html>

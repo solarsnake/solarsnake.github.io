@@ -1,6 +1,5 @@
 ---
-title: "Just The Tipp"
-description: "A little bit about me."
-date: 2025-03-18T00:00:00-00:00
+title: "Terminal Access Protocol" # This sets the <title> tag for the homepage
+date: 2025-05-27
 draft: false
 ---
