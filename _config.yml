@@ -1,0 +1,43 @@
+title: Tippens Terminal
+author: Tim Tippens
+email: solarsnake88@proton.me
+description: >- # this means to ignore newlines until "baseurl:"
+  Welcome to my personal website and blog, presented in a retro terminal style.
+baseurl: "" # the subpath of your site, e.g. /blog. Usually empty for user pages.
+url: "https://solarsnake.github.io" # replace 'solarsnake' with your GitHub username
+github_username: solarsnake # replace with your GitHub username
+
+# Build settings
+theme: minima # Using a basic theme as a fallback, can be overridden by your custom CSS.
+plugins:
+  - jekyll-feed
+
+# For the blog page
+paginate: 5
+paginate_path: "/blog/page:num/"
+
+# Collections (optional, but good practice for structure)
+collections:
+  pages:
+    output: true
+    permalink: /:name/
+
+# Exclude from processing.
+# The following items will not be processed, by default.
+# Any item listed under the `exclude:` key here will be automatically added to
+# the internal "default list".
+#
+# Excluded items can be processed by explicitly listing the directories or
+# files themselves here under the `include:` key.
+#
+exclude:
+  - .sass-cache/
+  - .jekyll-cache/
+  - gemfiles/
+  - Gemfile
+  - Gemfile.lock
+  - node_modules/
+  - vendor/bundle/
+  - vendor/cache/
+  - vendor/gems/
+  - vendor/ruby/

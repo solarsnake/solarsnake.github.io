@@ -1,0 +1,112 @@
+/* General body styling */
+body {
+    font-family: 'Courier New', Courier, monospace;
+    background-color: #1e1e1e; /* Dark background */
+    color: #d4d4d4; /* Light text */
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Align to top for terminal */
+    min-height: 100vh;
+    line-height: 1.6;
+}
+
+.container {
+    width: 90%;
+    max-width: 1000px; /* Max width for content pages */
+    margin: 20px auto;
+    padding: 15px;
+}
+
+/* Terminal specific styles */
+/* The #terminal div itself might not need much if jquery.terminal handles its own wrapper */
+/* Style for jQuery Terminal (you can override defaults from jquery.terminal.min.css) */
+.terminal, .cmd { /* Apply to the terminal instance and command line plugin */
+    --color: #d4d4d4; /* Default text color */
+    --background: #121212; /* Terminal background */
+    --prompt-color: #569cd6; /* Prompt color (e.g., blueish) */
+    --command-color: #9cdcfe; /* Command text color */
+    --error-color: #f44747; /* Error message color */
+    --link-color: #4ec9b0; /* Link color */
+    font-size: 1em; /* Base font size, can be adjusted */
+    line-height: 1.4; /* Line height within terminal */
+}
+
+/* Links within terminal */
+.terminal a {
+    color: var(--link-color);
+    text-decoration: underline;
+}
+.terminal a:hover {
+    color: #ffffff;
+    background-color: var(--link-color);
+}
+
+/* Styling for pages (resume, blog) */
+.page-content {
+    background-color: #2a2a2a; /* Slightly lighter background for content boxes */
+    padding: 20px;
+    border-radius: 5px;
+    margin-top: 20px;
+    color: #d4d4d4;
+}
+
+.page-content h1, .page-content h2, .page-content h3 {
+    color: #569cd6; /* Header colors */
+    border-bottom: 1px solid #444;
+    padding-bottom: 5px;
+}
+
+.page-content a {
+    color: #4ec9b0;
+}
+.page-content a:hover {
+    color: #7ef0d1;
+    text-decoration: none;
+}
+
+/* Navigation (if you add a traditional one later) */
+nav ul {
+    list-style-type: none;
+    padding: 0;
+}
+nav ul li {
+    display: inline;
+    margin-right: 10px;
+}
+
+/* Light/Dark theme placeholders (implement if you use the 'theme' command) */
+body.light-theme .terminal, body.light-theme .cmd {
+    --color: #333333;
+    --background: #f0f0f0;
+    --prompt-color: #007acc;
+    --command-color: #005c99;
+    --error-color: #d9534f;
+}
+body.light-theme {
+    background-color: #ffffff;
+    color: #333333;
+}
+body.light-theme .page-content {
+    background-color: #f9f9f9;
+    color: #333;
+}
+body.light-theme .page-content h1, body.light-theme .page-content h2, body.light-theme .page-content h3 {
+    color: #007acc;
+}
+
+/* Responsive considerations for terminal */
+@media (max-width: 600px) {
+    .terminal, .cmd {
+        font-size: 0.9em; /* Slightly smaller font on mobile */
+    }
+    .container {
+        width: 95%;
+        margin: 10px auto;
+    }
+    #terminal {
+        /* May need height adjustments if vh unit causes issues with mobile browser bars */
+        min-height: 90vh; /* Ensure it takes up good space */
+    }
+}

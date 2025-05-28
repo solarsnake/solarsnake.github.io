@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-F-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ page.title | default: site.title }}</title>
+    <link rel="stylesheet" href="{{ "/assets/css/jquery.terminal.min.css" | relative_url }}">
+    <link rel="stylesheet" href="{{ "/assets/css/style.css" | relative_url }}">
+    <script src="{{ "/assets/js/libs/jquery.min.js" | relative_url }}"></script>
+    <script src="{{ "/assets/js/libs/jquery.terminal.min.js" | relative_url }}"></script>
+</head>
+<body>
+    <div class="container">
+        {{ content }}
+    </div>
+    {% if page.url == "/" or page.layout == "terminal" %}
+        <script src="{{ "/assets/js/custom_terminal.js" | relative_url }}"></script>
+    {% endif %}
+</body>
+</html>
