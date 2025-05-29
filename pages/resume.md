@@ -1,10 +1,7 @@
 ---
-layout: default # Using default, but you might create a 'page' layout later
-title: My Resume
-permalink: /resume/
-# Add a class to body or a wrapper if you want specific styles for content pages
-# Or, add a specific class to the content div in the layout
-# For now, style .page-content in style.css
+layout: default
+title: Resume - Your Name
+permalink: /resume/ # This should match siteConfig.resume_url
 ---
 
 <div class="page-content">

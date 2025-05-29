@@ -1,112 +1,164 @@
 /* General body styling */
 body {
-    font-family: 'Courier New', Courier, monospace;
-    background-color: #1e1e1e; /* Dark background */
-    color: #d4d4d4; /* Light text */
+    font-family: 'Menlo', 'Monaco', 'Consolas', 'Courier New', monospace; /* Better monospace fonts */
+    background-color: #000000; /* Pure black background */
+    color: #00FF00; /* Matrix green text */
     margin: 0;
     padding: 0;
     display: flex;
     justify-content: center;
-    align-items: flex-start; /* Align to top for terminal */
+    align-items: flex-start; /* Align terminal to top */
     min-height: 100vh;
-    line-height: 1.6;
+    line-height: 1.5; /* Slightly adjusted line height */
 }
 
 .container {
-    width: 90%;
-    max-width: 1000px; /* Max width for content pages */
-    margin: 20px auto;
-    padding: 15px;
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    padding: 10px 15px; /* Some horizontal padding */
+    box-sizing: border-box;
 }
 
 /* Terminal specific styles */
-/* The #terminal div itself might not need much if jquery.terminal handles its own wrapper */
-/* Style for jQuery Terminal (you can override defaults from jquery.terminal.min.css) */
-.terminal, .cmd { /* Apply to the terminal instance and command line plugin */
-    --color: #d4d4d4; /* Default text color */
-    --background: #121212; /* Terminal background */
-    --prompt-color: #569cd6; /* Prompt color (e.g., blueish) */
-    --command-color: #9cdcfe; /* Command text color */
-    --error-color: #f44747; /* Error message color */
-    --link-color: #4ec9b0; /* Link color */
-    font-size: 1em; /* Base font size, can be adjusted */
-    line-height: 1.4; /* Line height within terminal */
+/* Apply to the terminal instance, command line plugin, and output elements */
+.terminal, .cmd, .terminal .terminal-output, .terminal .terminal-output div, .terminal .terminal-output span {
+    --color: #00FF00; /* Matrix green */
+    --background: #000000; /* Pure black */
+    --prompt-color: #00FF00; /* Prompt also green */
+    --command-color: #00FF00; /* Command text color */
+    --error-color: #FF4136; /* A bright red for errors */
+    --link-color: #39CCCC;  /* Cyan for links, stands out from green */
+    font-size: 1.05em; /* Slightly larger for better readability */
+    line-height: 1.4;
+    font-family: inherit; /* Inherit from body */
 }
+
+/* Ensure the terminal itself has the black background */
+.terminal {
+    background-color: var(--background);
+    padding: 5px; /* Small internal padding for the terminal div */
+}
+
+/* jQuery Terminal input styling - make it blend in */
+.terminal .cmd,
+.terminal .cmd .prompt,
+.terminal .cmd .cursor, /* Target all parts of the command line */
+.terminal .cmd span[contenteditable="true"], /* The actual input area */
+.terminal .cmd input /* Fallback if older version uses input */
+{
+    background-color: transparent !important;
+    color: var(--command-color) !important;
+    border: none !important;
+    box-shadow: none !important;
+    outline: none !important;
+    font-family: inherit !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    vertical-align: baseline; /* Align with prompt */
+}
+
+/* Blinking block cursor */
+.terminal .cmd .cursor.blink {
+    background-color: var(--color); /* Green block cursor */
+    /* color: var(--background); Text "under" cursor is black - not needed if bg is transparent */
+    animation: blink-animation 1s step-end infinite;
+    display: inline-block; /* Ensure it takes space */
+    width: 0.6em; /* Adjust width of cursor block */
+    height: 1.2em; /* Adjust height of cursor block */
+    vertical-align: -0.15em; /* Fine-tune vertical alignment */
+    margin-left: 1px; /* Small space after text */
+}
+
+@keyframes blink-animation {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; } /* Simple blink */
+}
+
+/* Hide the "clipboard textarea" and other potential utility elements */
+/* These selectors are more aggressive */
+.terminal > textarea[class*="clipboard"],
+.terminal > .clipboard,
+.terminal > div[style*="position: absolute"][style*="z-index: -1"], /* Common pattern for hidden utils */
+.terminal > div[style*="opacity: 0"][style*="height: 1px"]
+{
+    position: absolute !important;
+    top: -9999px !important;
+    left: -9999px !important;
+    width: 0px !important;
+    height: 0px !important;
+    opacity: 0 !important;
+    overflow: hidden !important;
+    pointer-events: none !important;
+    border: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
 
 /* Links within terminal */
 .terminal a {
-    color: var(--link-color);
+    color: var(--link-color) !important; /* Ensure link color overrides */
     text-decoration: underline;
+    font-weight: bold;
 }
 .terminal a:hover {
-    color: #ffffff;
-    background-color: var(--link-color);
+    color: #FFFFFF !important;
+    background-color: var(--link-color) !important;
 }
 
-/* Styling for pages (resume, blog) */
+/* Styling for content pages (resume, blog) */
 .page-content {
-    background-color: #2a2a2a; /* Slightly lighter background for content boxes */
-    padding: 20px;
-    border-radius: 5px;
-    margin-top: 20px;
-    color: #d4d4d4;
+    background-color: #0a0a0a; /* Very dark gray, but not pure black */
+    border: 1px solid #003300; /* Dark green border */
+    padding: 20px 30px;
+    border-radius: 0px; /* Sharp corners for retro feel */
+    margin: 20px auto;
+    max-width: 800px;
+    color: #00E600; /* Lighter matrix green for readability */
+    font-family: 'Lucida Console', 'Courier New', monospace; /* Consistent monospace */
+    line-height: 1.6;
+    box-shadow: 0 0 10px rgba(0, 255, 0, 0.2); /* Subtle green glow */
 }
 
 .page-content h1, .page-content h2, .page-content h3 {
-    color: #569cd6; /* Header colors */
-    border-bottom: 1px solid #444;
-    padding-bottom: 5px;
+    color: #00FF00; /* Bright matrix green headers */
+    border-bottom: 1px solid #005000; /* Darker green border */
+    padding-bottom: 8px;
+    text-shadow: 0 0 5px rgba(0, 255, 0, 0.5); /* Header glow */
 }
 
 .page-content a {
-    color: #4ec9b0;
+    color: #39CCCC; /* Cyan for links */
+    font-weight: bold;
 }
 .page-content a:hover {
-    color: #7ef0d1;
+    color: #FFFFFF;
+    background-color: #39CCCC;
     text-decoration: none;
 }
 
-/* Navigation (if you add a traditional one later) */
-nav ul {
-    list-style-type: none;
-    padding: 0;
+.page-content ul {
+    list-style-type: square; /* Or 'none' and use custom bullets */
 }
-nav ul li {
-    display: inline;
-    margin-right: 10px;
+.page-content li {
+    margin-bottom: 8px;
 }
 
-/* Light/Dark theme placeholders (implement if you use the 'theme' command) */
-body.light-theme .terminal, body.light-theme .cmd {
-    --color: #333333;
-    --background: #f0f0f0;
-    --prompt-color: #007acc;
-    --command-color: #005c99;
-    --error-color: #d9534f;
-}
-body.light-theme {
-    background-color: #ffffff;
-    color: #333333;
-}
-body.light-theme .page-content {
-    background-color: #f9f9f9;
-    color: #333;
-}
-body.light-theme .page-content h1, body.light-theme .page-content h2, body.light-theme .page-content h3 {
-    color: #007acc;
-}
 
-/* Responsive considerations for terminal */
-@media (max-width: 600px) {
-    .terminal, .cmd {
-        font-size: 0.9em; /* Slightly smaller font on mobile */
+/* Responsive considerations */
+@media (max-width: 768px) {
+    .terminal, .cmd, .terminal .terminal-output div, .terminal .terminal-output span {
+        font-size: 0.95em;
     }
     .container {
-        width: 95%;
-        margin: 10px auto;
+        padding: 5px 10px;
     }
     #terminal {
-        /* May need height adjustments if vh unit causes issues with mobile browser bars */
-        min-height: 90vh; /* Ensure it takes up good space */
+        min-height: calc(100vh - 20px);
+    }
+    .page-content {
+        margin: 10px;
+        padding: 15px 20px;
     }
 }

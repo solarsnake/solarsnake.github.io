@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-F-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ page.title | default: site.title }}</title>
     <link rel="stylesheet" href="{{ "/assets/css/jquery.terminal.min.css" | relative_url }}">
@@ -13,8 +13,20 @@
     <div class="container">
         {{ content }}
     </div>
-    {% if page.url == "/" or page.layout == "terminal" %}
-        <script src="{{ "/assets/js/custom_terminal.js" | relative_url }}"></script>
+
+    <script>
+        // Pass Jekyll config to JavaScript
+        var siteConfig = {
+            title: "{{ site.title | escape_javascript }}",
+            email: "{{ site.email | escape_javascript }}",
+            github_username: "{{ site.github_username | escape_javascript }}",
+            baseurl: "{{ site.baseurl | escape_javascript }}",
+            resume_url: "{{ '/pages/resume/' | relative_url }}", // Or just /resume/ if permalink is set
+            blog_url: "{{ '/pages/blog/' | relative_url }}"      // Or just /blog/ if permalink is set
+        };
+    </script>
+
+    {% if page.url == "/" %} <script src="{{ "/assets/js/custom_terminal.js" | relative_url }}"></script>
     {% endif %}
 </body>
 </html>
