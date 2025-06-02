@@ -36,14 +36,17 @@ body {
 
 /* Ensure the terminal itself has the black background */
 .terminal {
-    background-color: var(--background);
+    background-color: var(--background) !important; /* Ensure this applies */
     padding: 5px; /* Small internal padding for the terminal div */
+    border: none !important; /* Remove any default borders on the terminal itself */
 }
 
 /* jQuery Terminal input styling - make it blend in */
+/* Target the command line wrapper and its direct children that might have backgrounds */
 .terminal .cmd,
+.terminal .cmd > div, /* Catch any immediate div wrappers within .cmd */
 .terminal .cmd .prompt,
-.terminal .cmd .cursor, /* Target all parts of the command line */
+.terminal .cmd .cursor,
 .terminal .cmd span[contenteditable="true"], /* The actual input area */
 .terminal .cmd input /* Fallback if older version uses input */
 {
@@ -58,16 +61,24 @@ body {
     vertical-align: baseline; /* Align with prompt */
 }
 
+/* Specifically target the input field if it's a span or input */
+.terminal .cmd span[contenteditable="true"],
+.terminal .cmd input {
+    display: inline-block; /* Ensure it behaves well with other elements */
+}
+
+
 /* Blinking block cursor */
 .terminal .cmd .cursor.blink {
-    background-color: var(--color); /* Green block cursor */
-    /* color: var(--background); Text "under" cursor is black - not needed if bg is transparent */
+    background-color: var(--color) !important; /* Green block cursor, ensure it overrides */
     animation: blink-animation 1s step-end infinite;
     display: inline-block; /* Ensure it takes space */
     width: 0.6em; /* Adjust width of cursor block */
     height: 1.2em; /* Adjust height of cursor block */
     vertical-align: -0.15em; /* Fine-tune vertical alignment */
     margin-left: 1px; /* Small space after text */
+    box-shadow: none !important; /* Ensure no box shadow on cursor */
+    border: none !important; /* Ensure no border on cursor */
 }
 
 @keyframes blink-animation {
@@ -76,11 +87,13 @@ body {
 }
 
 /* Hide the "clipboard textarea" and other potential utility elements */
-/* These selectors are more aggressive */
-.terminal > textarea[class*="clipboard"],
-.terminal > .clipboard,
-.terminal > div[style*="position: absolute"][style*="z-index: -1"], /* Common pattern for hidden utils */
-.terminal > div[style*="opacity: 0"][style*="height: 1px"]
+/* These selectors are more aggressive and less reliant on direct children */
+.terminal textarea[class*="clipboard"], /* Any textarea with 'clipboard' in class */
+.terminal .clipboard, /* Any element with class 'clipboard' */
+.terminal div[class*="clipboard-"], /* Any div with class starting 'clipboard-' */
+.terminal > div[style*="position: absolute"], /* Direct children absolutely positioned (often utils) */
+.terminal div[style*="opacity: 0"], /* Any div that's made transparent (often utils) */
+.terminal > div:not(.terminal-output):not(.cmd) /* Attempt to hide other direct child divs that aren't output or cmd line */
 {
     position: absolute !important;
     top: -9999px !important;
@@ -93,7 +106,16 @@ body {
     border: none !important;
     padding: 0 !important;
     margin: 0 !important;
+    visibility: hidden !important; /* Stronger than opacity 0 sometimes */
+    display: none !important; /* Most aggressive hiding */
 }
+
+/* If the "Clipboard textarea for jQuery Terminal" text is plain text in a div,
+   and you can identify a unique parent via browser inspector, you could do:
+   .some-unique-parent-of-clipboard-text { display: none !important; }
+   This is hard to do without inspecting the live DOM.
+   The rules above should catch most programmatically added utility elements.
+*/
 
 
 /* Links within terminal */
@@ -154,7 +176,7 @@ body {
     .container {
         padding: 5px 10px;
     }
-    #terminal {
+    #terminal { /* If your terminal div has id="terminal" */
         min-height: calc(100vh - 20px);
     }
     .page-content {
