@@ -203,71 +203,9 @@
                 '/': { type: 'dir', content: ['about.txt', 'resume.md', 'blog', 'contact.txt', 'projects'] },
                 '/blog': { type: 'dir', content: ['post1-welcome.md', 'post2-deep-dive.md'] },
                 '/projects': { type: 'dir', content: ['project-alpha.txt', 'project-beta.txt'] },
-                '/about.txt': { type: 'file', content: `About Me:\nI am a passionate DevOps professional with a knack for automation and cloud technologies. This terminal is a showcase of my skills and projects.\nType 'help' for a list of commands.` },
+                '/about.txt': { type: 'file', content: `About Me:\nI am a passionate DevOps professional with a knack for automation and cloud technologies. This terminal is a showcase of my skills and a brief history of my career.\nType 'help' for a list of commands.` },
                 '/resume.md': { type: 'file', content: `
-# Your Name
-DevOps Engineer | Cloud Specialist
-your.email@example.com | [LinkedIn](${siteConfig.linkedin_url}) | [GitHub](https://github.com/${siteConfig.github_username})
-
-## Summary
-Highly motivated and results-oriented DevOps Engineer with X years of experience in designing, implementing, and managing CI/CD pipelines, cloud infrastructure, and automated solutions. Proven ability to optimize system performance, enhance security, and streamline development workflows.
-
-## Skills
-- **Cloud Platforms:** AWS (EC2, S3, Lambda, VPC, IAM), Azure, GCP
-- **CI/CD:** Jenkins, GitLab CI, GitHub Actions
-- **Containerization:** Docker, Kubernetes
-- **IaC:** Terraform, Ansible, CloudFormation
-- **Scripting:** Python, Bash, PowerShell
-- **Monitoring:** Prometheus, Grafana, ELK Stack
-- **OS:** Linux (Debian, CentOS, Ubuntu), Windows Server
-
-## Experience
-**Senior DevOps Engineer | Tech Solutions Inc.** | Jan 2020 – Present
-- Led the design and implementation of a scalable CI/CD pipeline, reducing deployment times by 40%.
-- Managed AWS infrastructure, optimizing costs by 15% through resource analysis and implementation of auto-scaling policies.
-- Automated infrastructure provisioning using Terraform and Ansible, improving deployment consistency and speed.
-
-**DevOps Engineer | Cloud Innovators LLC** | Jun 2017 – Dec 2019
-- Developed and maintained CI/CD pipelines using Jenkins for various microservices.
-- Implemented monitoring and logging solutions using ELK Stack and Prometheus/Grafana.
-- Collaborated with development teams to improve application performance and reliability.
-
-## Education
-**B.S. in Computer Science | State University** | May 2017
-- Relevant coursework: Operating Systems, Networks, Software Engineering.
-- Capstone Project: Developed a cloud-based file storage system.
-
-## Certifications
-- AWS Certified DevOps Engineer - Professional
-- Certified Kubernetes Administrator (CKA)
-` },
-                '/contact.txt': { type: 'file', content: `Contact Information:\nEmail: [[!;;;;mailto:${siteConfig.email}]${siteConfig.email}]\nGitHub: [[!;;;;https://github.com/${siteConfig.github_username}]https://github.com/${siteConfig.github_username}]]\nLinkedIn: [[!;;;;${siteConfig.linkedin_url}]${siteConfig.linkedin_url}]]` },
-                '/blog/post1-welcome.md': { type: 'file', content: `
-# Welcome to My Blog!
-*Date: 2025-06-03*
-
-This is the first post on my new terminal-style blog. I'm excited to share my thoughts on tech, DevOps, and more.
-
-You can view this post on its own page by typing:
-[[b;#00FF00;]open /blog/post1-welcome.md]
-
-Stay tuned for more updates!
-` },
-                '/blog/post2-deep-dive.md': { type: 'file', content: `
-# A Deep Dive into Kubernetes
-*Date: 2025-06-10*
-
-Kubernetes, often abbreviated as K8s, is an open-source system for automating deployment, scaling, and management of containerized applications.
-
-## Core Concepts
-- **Pods:** The smallest deployable units.
-- **Services:** An abstract way to expose an application running on a set of Pods.
-- **Deployments:** Describes an application’s life cycle.
-
-You can view this post on its own page by typing:
-[[b;#00FF00;]open /blog/post2-deep-dive.md]
-
-More content to come...
+Go ahead and type "resume" into the terminal to view a more well formatted resume, silly.
 ` },
                 '/projects/project-alpha.txt': { type: 'file', content: 'Project Alpha: An automated deployment script for web applications using Ansible and Docker.'},
                 '/projects/project-beta.txt': { type: 'file', content: 'Project Beta: A serverless image processing pipeline on AWS Lambda and S3.'},
@@ -476,6 +414,19 @@ More content to come...
                     term.echo("Simulating exit. Goodbye!");
                 } else if (fullCommand === 'rm -rf *' || fullCommand === 'rm -rf /') {
                     // Easter egg for "rm -rf *"
+                    term.echo("⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠋⠁⠀⠀⠈⠉⠙⠻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿");
+                    term.echo("⣿⣿⣿⣿⣿⣿⣿⣿⣿⡟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠻⣿⣿⣿⣿⣿⣿⣿⣿⣿");
+                    term.echo("⣿⣿⣿⣿⣿⣿⣿⣿⡟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⢻⣿⣿⣿⣿⣿⣿⣿");
+                    term.echo("⣿⣿⣿⣿⣿⣿⣿⡟⠀⠀⠀⠀⠀⢀⣠⣤⣤⣤⣤⣄⠀⠀⠀⠹⣿⣿⣿⣿⣿⣿");
+                    term.echo("⣿⣿⣿⣿⣿⣿⣿⠁⠀⠀⠀⠀⠾⣿⣿⣿⣿⠿⠛⠉⠀⠀⠀⠀⠘⣿⣿⣿⣿⣿");
+                    term.echo("⣿⣿⣿⣿⣿⣿⡏⠀⠀⠀⣤⣶⣤⣉⣿⣿⡯⣀⣴⣿⡗⠀⠀⠀⠀⣿⣿⣿⣿⣿");
+                    term.echo("⣿⣿⣿⣿⣿⣿⡇⠀⠀⠀⡈⠀⠀⠉⣿⣿⣶⡉⠀⠀⣀⡀⠀⠀⠀⢻⣿⣿⣿⣿");
+                    term.echo("⣿⣿⣿⣿⣿⣿⡇⠀⠀⠸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠇⠀⠀⠀⢸⣿⣿⣿⣿");
+                    term.echo("⣿⣿⣿⣿⣿⣿⣿⠀⠀⠀⠉⢉⣽⣿⠿⣿⡿⢻⣯⡍⢁⠄⠀⠀⠀⣸⣿⣿⣿⣿");
+                    term.echo("⣿⣿⣿⣿⣿⣿⣿⡄⠀⠀⠐⡀⢉⠉⠀⠠⠀⢉⣉⠀⡜⠀⠀⠀⠀⣿⣿⣿⣿⣿");
+                    term.echo("⣿⣿⣿⣿⣿⣿⠿⠁⠀⠀⠀⠘⣤⣭⣟⠛⠛⣉⣁⡜⠀⠀⠀⠀⠀⠛⠿⣿⣿⣿");
+                    term.echo("⡿⠟⠛⠉⠉⠀⠀⠀⠀⠀⠀⠀⠈⢻⣿⡀⠀⣿⠏⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠉");
+                    term.echo("⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠁⠀⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀");                    
                     term.echo("  [[b;orange;]Hey, careful there Boris! ;)]");
                     term.echo("  Why are you trying to erase my site?");
                 }

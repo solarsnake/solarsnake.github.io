@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Resume | Timothy M. Tippens</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Dark Matrix Theme (Greens & Grays) -->
+    <!-- Application Structure Plan: The application is structured as a single-page portfolio with a sticky top navigation for easy access to key sections: About, Skills, Experience, and Education. The core design is a "dashboard" or "interactive timeline" approach. The 'Skills' section is interactive, allowing users to filter the 'Experience' section to instantly see where specific technologies were applied. The 'Experience' section is a collapsible timeline to keep the initial view clean and prevent information overload. This structure was chosen because it allows a non-linear exploration of the candidate's history, which is highly valuable for recruiters who are often looking for specific skill sets and their application in real-world scenarios, rather than reading a resume from top to bottom. -->
+    <!-- Visualization & Content Choices: 
+        - Report Info: Technical Skills. Goal: Organize and enable filtering. Viz/Presentation: Grouped, styled buttons (HTML/CSS). Interaction: onClick filters the experience timeline. Justification: Provides a direct way for a technical audience to vet the candidate against job requirements. Library/Method: Vanilla JS + Tailwind CSS.
+        - Report Info: Work History. Goal: Show career progression and detail on demand. Viz/Presentation: A collapsible vertical timeline. Interaction: onClick expands/collapses job details. Justification: Manages information density and allows users to focus on relevant roles. Library/Method: Vanilla JS + Tailwind CSS.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #000000; /* Black background */
+            color: #00FF00; /* Matrix green text */
+        }
+        .nav-link {
+            transition: color 0.3s ease;
+        }
+        .skill-tag {
+            transition: all 0.2s ease-in-out;
+        }
+        .skill-tag.active {
+            background-color: #0F9D58; /* Darker green for active */
+            color: #fff;
+            transform: scale(1.05);
+        }
+        .highlight {
+            background-color: #10B981; /* Brighter green highlight */
+            border-radius: 3px;
+            padding: 0 2px;
+        }
+        .timeline-item-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-in-out;
+        }
+        .timeline-item-content.open {
+            max-height: 1000px;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="bg-gray-900/80 backdrop-blur-md sticky top-0 z-50 border-b border-green-700">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <h1 class="text-xl font-bold text-green-300">Timothy M. Tippens</h1>
+            <div class="hidden md:flex space-x-8">
+                <a href="#about" class="nav-link text-green-500 hover:text-green-300">About</a>
+                <a href="#skills" class="nav-link text-green-500 hover:text-green-300">Skills</a>
+                <a href="#experience" class="nav-link text-green-500 hover:text-green-300">Experience</a>
+                <a href="#education" class="nav-link text-green-500 hover:text-green-300">Education</a>
+            </div>
+            <div class="md:hidden">
+                <select id="mobile-nav" class="bg-gray-800 border border-green-700 text-green-300 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5">
+                    <option value="#about">About</option>
+                    <option value="#skills">Skills</option>
+                    <option value="#experience">Experience</option>
+                    <option value="#education">Education</option>
+                </select>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-6 py-12">
+        <section id="about" class="mb-16 scroll-mt-24">
+            <div class="text-center mb-12">
+                 <h2 class="text-4xl font-bold text-green-300 mb-4">Cloud Architect & DevOps Engineer</h2>
+                 <p class="text-lg text-green-500 max-w-3xl mx-auto">
+                    Award-winning professional with 10+ years of experience driving advancements in cloud infrastructure, automation, and CI/CD for mission-critical environments.
+                 </p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8 text-center">
+                 <div class="bg-gray-800 p-6 rounded-lg shadow-sm border border-green-700">
+                     <h3 class="text-lg font-semibold text-green-300 mb-2">Multi-Cloud Specialist</h3>
+                     <p class="text-green-500">Expertise in AWS, Azure, and GCP, designing and deploying highly available, scalable, and cost-optimized solutions.</p>
+                 </div>
+                 <div class="bg-gray-800 p-6 rounded-lg shadow-sm border border-green-700">
+                     <h3 class="text-lg font-semibold text-green-300 mb-2">Infrastructure as Code</h3>
+                     <p class="text-green-500">Proficient in IaC using Kubernetes, Terraform, Ansible, and Python to build robust and secure cloud operations.</p>
+                 </div>
+                 <div class="bg-gray-800 p-6 rounded-lg shadow-sm border border-green-700">
+                     <h3 class="text-lg font-semibold text-green-300 mb-2">Proven Problem Solver</h3>
+                     <p class="text-green-500">A track record of solving intricate technical challenges and delivering efficient, secure, and resilient systems.</p>
+                 </div>
+            </div>
+        </section>
+
+        <section id="skills" class="mb-20 scroll-mt-24">
+            <div class="text-center mb-10">
+                <h2 class="text-3xl font-bold text-green-300 mb-2">Technical Skills</h2>
+                <p class="text-green-500">This section allows you to explore the technologies I've used. Click on a skill to highlight the professional experiences where it was applied. This helps to quickly see the practical application of my technical abilities throughout my career.</p>
+            </div>
+            <div id="skills-container" class="space-y-6"></div>
+        </section>
+        
+        <section id="experience" class="mb-16 scroll-mt-24">
+            <div class="text-center mb-12">
+                 <h2 class="text-3xl font-bold text-green-300 mb-2">Professional Experience</h2>
+                 <p class="text-green-500">Here is a timeline of my career progression. Each entry details my roles and accomplishments. Click on any job title to expand or collapse the list of responsibilities and achievements for that position.</p>
+            </div>
+            <div id="experience-container" class="relative border-l-2 border-green-700 ml-4 md:ml-0"></div>
+        </section>
+
+        <section id="education" class="scroll-mt-24">
+            <div class="text-center mb-8">
+                 <h2 class="text-3xl font-bold text-green-300 mb-2">Education</h2>
+            </div>
+            <div class="bg-gray-800 p-8 rounded-lg shadow-sm border border-green-700 max-w-2xl mx-auto text-center">
+                <h3 class="text-xl font-semibold text-green-300">University of North Carolina Chapel Hill</h3>
+                <p class="text-green-500 mt-1">BA in Communications, Minor in Creative Writing - 2010</p>
+                <p class="text-sm text-green-400 mt-2">Awarded Outstanding Achievement in Scholarship and Rick Dees Production Fund Scholarship</p>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-gray-950 text-green-400 mt-20">
+        <div class="container mx-auto px-6 py-8 text-center">
+            <h3 class="text-xl font-semibold mb-2 text-green-300">Contact Information</h3>
+            <p>Timothy M. Tippens | San Diego, CA</p>
+            <div class="mt-4 space-x-6">
+                <a href="mailto:timothy.tippens@gmail.com" class="hover:text-green-300">timothy.tippens@gmail.com</a>
+                <span>|</span>
+                <span>Cell: 919.491.5120</span>
+                <span>|</span>
+                <span>Home: 424.253.4307</span>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const skillsData = {
+            "Software": ["Dockerd", "Containerd", "Kubernetes", "Helm", "Rancher", "Jenkins", "Ansible", "Terraform", "CloudFormation", "Puppet", "JFrog", "Digital.ai", "Jupyter", "GitHub", "GitLab", "ECS", "EKS", "Jira", "SonarQube", "Coverity", "MySQL", "PSQL", "DNS", "DHCP", "VMware"],
+            "Languages": ["Bash", "Python", "Go"],
+            "OSS": ["Windows", "Linux", "CentOS", "Red Hat", "Fedora", "Ubuntu", "Debian", "macOS"],
+            "Cloud": ["AWS", "Azure", "GCP", "VSphere", "OpenStack"]
+        };
+
+        const experienceData = [
+            {
+                company: "NASA's Jet Propulsion Laboratory",
+                location: "Pasadena, CA (Remote)",
+                duration: "2017-Present",
+                roles: [
+                    {
+                        title: "Senior Cloud Engineer",
+                        duration: "2022-Present",
+                        details: [
+                            "Operationalized flight software testing and deployment for Europa Clipper in the cloud",
+                            "Migrated +10 COTS & internally developed applications from monolithic architecture to scalable EKS deployments",
+                            "Containerized hardware virtualization tooling for flight missions, enabling efficient, scalable simulation pipelines",
+                            "Awarded for individual contribution to cloud optimization through innovative software testing and architecture",
+                            "Developed and automated AWS infrastructure deployment and system maintenance using Ansible, Python and CloudFormation, achieving 30% cost reduction for Computer Aided Engineering cloud environments at JPL",
+                            "Architected and implemented automated patching and OS pipeline deployment for multi-AZ environment utilizing Ansible, CloudFormation and AWS Systems Manager, ensuring CSET compliance"
+                        ]
+                    },
+                    {
+                        title: "System Architect",
+                        duration: "2017-2022",
+                        details: [
+                            "Implemented CI/CD pipeline for Computer Aided Engineering software suite deployment and testing",
+                            "Redesigned Desktop Engineering platform for Windows and Linux environments for high-availability/autoscaling",
+                            "Supported deployment, maintenance and security for multiple tools (+25 unique applications, +1600 customers)",
+                            "Interfaced with and guided customers on new technologies from interns through senior management",
+                            "Developed and released Puppet infrastructure for cloud orchestration and compliance",
+                            "Developed Elasticsearch-backed research application for detailed data analysis/research group",
+                            "Automated application test suites for use across lab, providing detailed documentation",
+                            "Engineered and deployed a Kubernetes based CI solution for projects utilizing Jenkins and Jupyter Notebooks in AWS GovCloud"
+                        ]
+                    }
+                ]
+            },
+            {
+                company: "NBC/Universal",
+                location: "Los Angeles, CA",
+                duration: "2014-2017",
+                roles: [
+                     {
+                        title: "Linux Systems Administrator",
+                        duration: "2015-2017",
+                        details: [
+                            "Achieved $80k in license savings by migrating to a more cost-effective business unit backup solution",
+                            "Designed cloud backup architecture in AWS resulting in cost efficiencies and improved data resilience",
+                            "Built bare-metal high-availability (HA) environment for corporate and production environments",
+                            "Administered and automated AWS infrastructure using Puppet, Terraform and the AWS CLI",
+                            "Developed Oracle/Solaris-backed Data Warehouse platform for Business Intelligence",
+                            "Implemented and evaluated open-source monitoring tools (Sensu, Nagios, Zabbix) for all environments",
+                            "Centralized change management using Bitbucket",
+                            "Built Quantum StorNext solution (CentOS-backed) for internal Production team",
+                            "Developed runbooks for the Network Operations Center (NOC), standardizing web development workflows"
+                        ]
+                    },
+                    {
+                        title: "Software Engineer",
+                        duration: "2014-2015",
+                        details: [
+                            "Managed Movieclips.com tech stack and provided NetApp storage administration. Technologies used include Terraform, Python, Redis, PostgreSQL, and Ceph.",
+                            "Managed and optimized a high-volume publishing pipeline processing over 500 videos for web/YouTube",
+                            "Architected automated content backup solution",
+                            "Performed Python debugging and SQL scripting to increase production pipeline productivity",
+                            "Created an efficient and effective workflow by bridging the gap between the tech and content side of the company",
+                            "Managed relationships with multiple Hollywood Studios"
+                        ]
+                    }
+                ]
+            },
+            {
+                company: "ZEFR INC",
+                location: "Venice, CA",
+                duration: "2012-2014",
+                roles: [
+                    {
+                        title: "IT Operations",
+                        duration: "2012-2014",
+                        details: [
+                            "Won the Award of Excellence in 2014",
+                            "Saved over $20k in AWS costs per year by building an on-premises virtualization cluster (OpenStack)",
+                            "Performed service integration and implementation",
+                            "Completed Linux Server architecture and maintenance",
+                            "Conducted macOS and Windows administration",
+                            "Provided daily tech support to employees and executives including support for gatherings and exhibitions, such as PandoDaily fireside chats and TED talks"
+                        ]
+                    }
+                ]
+            }
+        ];
+        
+        let activeSkill = null;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const skillsContainer = document.getElementById('skills-container');
+            
+            Object.keys(skillsData).forEach(category => {
+                const categoryDiv = document.createElement('div');
+                categoryDiv.className = "bg-gray-800 p-6 rounded-lg shadow-sm border border-green-700";
+                
+                const categoryTitle = document.createElement('h3');
+                categoryTitle.className = 'text-lg font-semibold text-green-300 mb-4';
+                categoryTitle.textContent = category;
+                categoryDiv.appendChild(categoryTitle);
+
+                const tagsContainer = document.createElement('div');
+                tagsContainer.className = 'flex flex-wrap gap-2';
+                
+                skillsData[category].forEach(skill => {
+                    const tag = document.createElement('button');
+                    tag.className = 'skill-tag bg-gray-800 text-green-300 font-medium py-2 px-4 rounded-full hover:bg-green-700 hover:text-white';
+                    tag.textContent = skill;
+                    tag.dataset.skill = skill;
+                    tag.addEventListener('click', () => toggleSkillFilter(skill));
+                    tagsContainer.appendChild(tag);
+                });
+                
+                categoryDiv.appendChild(tagsContainer);
+                skillsContainer.appendChild(categoryDiv);
+            });
+            
+            const experienceContainer = document.getElementById('experience-container');
+            experienceData.forEach(exp => {
+                const expDiv = document.createElement('div');
+                expDiv.className = 'mb-8 pl-8 md:pl-12 relative timeline-item';
+
+                expDiv.innerHTML = `
+                    <div class="absolute -left-2.5 top-1.5 w-5 h-5 bg-green-500 rounded-full border-4 border-black"></div>
+                    <h3 class="text-xl font-bold text-green-300">${exp.company}</h3>
+                    <p class="text-md text-green-500 mb-1">${exp.location}</p>
+                    <p class="text-sm font-semibold text-green-400 mb-4">${exp.duration}</p>
+                `;
+
+                exp.roles.forEach(role => {
+                    const roleDiv = document.createElement('div');
+                    roleDiv.className = 'mb-4';
+                    
+                    const roleHeader = document.createElement('div');
+                    roleHeader.className = 'cursor-pointer flex justify-between items-center bg-gray-800 p-3 rounded-lg hover:bg-gray-700';
+                    roleHeader.innerHTML = `
+                        <div>
+                            <h4 class="font-semibold text-green-300">${role.title}</h4>
+                            <p class="text-sm text-green-500">${role.duration}</p>
+                        </div>
+                        <span class="text-green-500 transform transition-transform duration-300">&#9662;</span>
+                    `;
+                    
+                    const roleContent = document.createElement('div');
+                    roleContent.className = 'timeline-item-content mt-3 pl-4 border-l-2 border-green-700';
+                    
+                    const ul = document.createElement('ul');
+                    ul.className = 'list-disc list-inside space-y-2 text-green-500';
+                    role.details.forEach(detail => {
+                        const li = document.createElement('li');
+                        li.className = 'experience-detail';
+                        li.textContent = detail; /* Use textContent to avoid re-parsing HTML during initial render */
+                        li.dataset.originalContent = detail; /* Store original text for filtering */
+                        ul.appendChild(li);
+                    });
+                    
+                    roleContent.appendChild(ul);
+                    roleDiv.appendChild(roleHeader);
+                    roleDiv.appendChild(roleContent);
+                    expDiv.appendChild(roleDiv);
+
+                    roleHeader.addEventListener('click', () => {
+                        roleContent.classList.toggle('open');
+                        const arrow = roleHeader.querySelector('span');
+                        arrow.classList.toggle('rotate-180');
+                    });
+                });
+                experienceContainer.appendChild(expDiv);
+            });
+        });
+
+        function toggleSkillFilter(skill) {
+            const skillButton = document.querySelector(`.skill-tag[data-skill='${skill}']`);
+            if (activeSkill === skill) {
+                activeSkill = null;
+                skillButton.classList.remove('active');
+            } else {
+                if (activeSkill) {
+                    document.querySelector(`.skill-tag[data-skill='${activeSkill}']`).classList.remove('active');
+                }
+                activeSkill = skill;
+                skillButton.classList.add('active');
+            }
+            applyFilter();
+        }
+
+        function applyFilter() {
+            document.querySelectorAll('.experience-detail').forEach(li => {
+                const originalText = li.dataset.originalContent;
+                li.innerHTML = originalText; // Reset innerHTML to original text first
+
+                if (activeSkill) {
+                    const regex = new RegExp(`\\b(${activeSkill})\\b`, 'gi');
+                    if (originalText.match(regex)) {
+                        li.innerHTML = originalText.replace(regex, `<span class="highlight">$1</span>`);
+                        li.style.display = 'list-item'; 
+                    } else {
+                        li.style.display = 'none'; 
+                    }
+                } else {
+                    li.style.display = 'list-item'; 
+                }
+            });
+        }
+        
+        const mobileNav = document.getElementById('mobile-nav');
+        mobileNav.addEventListener('change', (e) => {
+            window.location.hash = e.target.value;
+        });
+
+    </script>
+</body>
+</html>
