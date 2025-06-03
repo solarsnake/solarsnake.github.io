@@ -64,7 +64,7 @@
             --error-color: #FF4136; /* Bright red for errors */
             --link-color: #39CCCC;  /* Cyan for links */
             font-size: 1em; /* Base font size */
-            line-height: 1.4;
+            /* line-height: 1.4; */
             font-family: inherit; /* Inherit from body */
         }
 
@@ -163,6 +163,18 @@
             white-space: pre-wrap; /* Important for wrapping lines */
             word-wrap: break-word; /* Ensure long words break */
         }
+
+        /* For help command formatting */
+        .help-command {
+            display: inline-block;
+            width: 20ch; /* Adjust as needed for command name column width */
+            white-space: nowrap;
+        }
+        .help-description {
+            display: inline-block;
+            vertical-align: top;
+        }
+
     </style>
 </head>
 <body class="bg-black text-green-400">
@@ -174,7 +186,7 @@
             const siteConfig = {
                 title: "suǝddᴉʇ",
                 username: "tippens",
-                hostname: "justthetipp.com",
+                hostname: "dev.ops",
                 github_username: "solarsnake", 
                 linkedin_url: "https://www.linkedin.com/in/timothytippens/",
                 email: "solarsnake88@proton.me", 
@@ -307,26 +319,36 @@ More content to come...
                 // --- Command Implementations ---
                 if (cmd === 'help') {
                     term.echo('Available commands:');
-                    term.echo('  [[b;#00FF00;]about]                 - Display information about this terminal.');
-                    term.echo('  [[b;#00FF00;]blog]                  - Navigate to the blog index page.');
-                    term.echo('  [[b;#00FF00;]cat <file>]           - Display content of a file.');
-                    term.echo('  [[b;#00FF00;]cd <directory>]       - Change current directory.');
-                    term.echo('  [[b;#00FF00;]clear]                - Clear the terminal screen.');
-                    term.echo('  [[b;#00FF00;]contact]              - Show contact information (or navigate to contact page).');
-                    term.echo('  [[b;#00FF00;]date]                 - Display the current date and time.');
-                    term.echo('  [[b;#00FF00;]echo <text>]          - Display text.');
-                    term.echo('  [[b;#00FF00;]exit]                 - Close the terminal (simulated).');
-                    term.echo('  [[b;#00FF00;]home]                 - Navigate to the home page (this terminal).');
-                    term.echo('  [[b;#00FF00;]help]                 - Show this help message.');
-                    term.echo('  [[b;#00FF00;]history]              - Show command history.');
-                    term.echo('  [[b;#00FF00;]ls [path]]            - List files and directories.');
-                    term.echo('  [[b;#00FF00;]open <file>]          - Open a file/page in a new tab/window (e.g., blog posts, resume).');
-                    term.echo('  [[b;#00FF00;]pwd]                  - Print working directory.');
-                    term.echo('  [[b;#00FF00;]resume]               - Navigate to the resume page.');
-                    term.echo('  [[b;#00FF00;]social]               - Display social media links.');
-                    term.echo('  [[b;#00FF00;]theme <dark|light>]   - Change terminal theme (placeholder).');
-                    term.echo('  [[b;#00FF00;]welcome]              - Display the welcome message.');
-                    term.echo('  [[b;#00FF00;]whoami]               - Display current user.');
+                    const helpItems = [
+                        { cmd: 'about', desc: 'Display information about this terminal.' },
+                        { cmd: 'blog', desc: 'Navigate to the blog index page.' },
+                        { cmd: 'cat &lt;file&gt;', desc: 'Display content of a file.' },
+                        { cmd: 'cd &lt;directory&gt;', desc: 'Change current directory.' },
+                        { cmd: 'clear', desc: 'Clear the terminal screen.' },
+                        { cmd: 'contact', desc: 'Navigate to contact page.' },
+                        { cmd: 'date', desc: 'Display the current date and time.' },
+                        { cmd: 'echo &lt;text&gt;', desc: 'Display text.' },
+                        { cmd: 'exit', desc: 'Close the terminal (simulated).' },
+                        { cmd: 'home', desc: 'Navigate to the home page (this terminal).' },
+                        { cmd: 'help', desc: 'Show this help message.' },
+                        { cmd: 'history', desc: 'Show command history.' },
+                        { cmd: 'ls [path]', desc: 'List files and directories.' },
+                        { cmd: 'open &lt;file&gt;', desc: 'Open a file/page in a new tab/window.' },
+                        { cmd: 'pwd', desc: 'Print working directory.' },
+                        { cmd: 'resume', desc: 'Navigate to the resume page.' },
+                        { cmd: 'social', desc: 'Display social media links.' },
+                        { cmd: 'theme &lt;dark|light&gt;', desc: 'Change terminal theme (placeholder).' },
+                        { cmd: 'welcome', desc: 'Display the welcome message.' },
+                        { cmd: 'whoami', desc: 'Display current user.' }
+                    ];
+                    helpItems.forEach(item => {
+                        // Format the command part using terminal's formatter
+                        // Note: item.cmd already has HTML entities for < and >
+                        const formattedCmd = $.terminal.format(`[[b;#00FF00;]${item.cmd}]`);
+                        // Construct the full HTML line, then echo with raw: true
+                        const line = `  <span class="help-command">${formattedCmd}</span> <span class="help-description">- ${item.desc}</span>`;
+                        term.echo(line, {raw: true});
+                    });
 
                 } else if (cmd === 'echo') {
                     term.echo(args.join(' '));
@@ -364,10 +386,10 @@ More content to come...
                     window.location.href = siteConfig.baseurl + '/resume.html';
                 } else if (cmd === 'blog') {
                     term.echo('Navigating to blog index...');
-                    window.location.href = siteConfig.baseurl + '/blog.html'; // Navigate to blog/index.html
+                    window.location.href = siteConfig.baseurl + '/blog/index.html';
                 } else if (cmd === 'home') {
                     term.echo('Navigating to home...');
-                    window.location.href = siteConfig.baseurl + '/'; // Or index.html
+                    window.location.href = siteConfig.baseurl + '/'; 
                 } else if (cmd === 'ls') {
                     const pathToList = args[0] ? getAbsolutePath(args[0]) : currentPath;
                     const dir = getFile(pathToList);
@@ -537,8 +559,8 @@ More content to come...
             }
 
             function welcomeMessage(termInstance) {
-                termInstance.echo(`Welcome to [[b;#00FF00;]${siteConfig.title} OS]] (v1.0.1)`);
-                termInstance.echo(`Type '[[b;#00FF00;]help]' for a list of available commands.`);
+                termInstance.echo(`Welcome to [[b;#00FF00;]${siteConfig.title} OS] (v1.0.1)`);
+                termInstance.echo(`Type '[[b;#00FF00;]help]' for a list of available commands or '[[b;#00FF00;]about] to learn a bit more about me.'`);
                 termInstance.echo('---');
             }
         });
