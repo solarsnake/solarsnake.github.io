@@ -1,6 +1,547 @@
----
-layout: default # Or a custom layout for the terminal
-title: Welcome
----
-<div id="terminal"></div>
-<script src="/assets/js/libs/jquery.min.js"></script> <script src="/assets/js/libs/jquery.terminal.min.js"></script> <link href="/assets/css/jquery.terminal.min.css" rel="stylesheet"/> <script src="/assets/js/custom_terminal.js"></script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terminal Portfolio</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- jQuery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <!-- jQuery Terminal -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.terminal/2.44.1/js/jquery.terminal.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery.terminal/2.44.1/css/jquery.terminal.min.css" rel="stylesheet"/>
+    <!-- Marked.js for Markdown parsing -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+    <style>
+        /* Custom scrollbar for a more terminal-like feel */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1e1e1e; /* Dark background for track */
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #555; /* Grey thumb */
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #777; /* Lighter grey on hover */
+        }
+
+        /* Basic body styling */
+        body {
+            font-family: 'Menlo', 'Monaco', 'Consolas', 'Courier New', monospace;
+            background-color: #000000; /* Black background */
+            color: #00FF00; /* Matrix green text */
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            line-height: 1.5;
+        }
+
+        /* Terminal container */
+        .terminal-container {
+            width: 100%;
+            max-width: 100%; /* Full width */
+            height: 100vh; /* Full viewport height */
+            padding: 10px;
+            box-sizing: border-box;
+        }
+
+        /* jQuery Terminal specific styles */
+        /* These override or complement jquery.terminal.min.css and Tailwind */
+        .terminal, .cmd, .terminal .terminal-output, .terminal .terminal-output div, .terminal .terminal-output span {
+            --color: #00FF00; /* Matrix green for text */
+            --background: #000000; /* Black background */
+            --prompt-color: #00FF00; /* Prompt color */
+            --command-color: #00FF00; /* Command text color */
+            --error-color: #FF4136; /* Bright red for errors */
+            --link-color: #39CCCC;  /* Cyan for links */
+            font-size: 1em; /* Base font size */
+            line-height: 1.4;
+            font-family: inherit; /* Inherit from body */
+        }
+
+        .terminal {
+            background-color: var(--background) !important;
+            padding: 5px;
+            border: none !important;
+            height: 100% !important; /* Ensure terminal takes full height of its container */
+        }
+        
+        /* Ensure cmd input area blends in */
+        .terminal .cmd,
+        .terminal .cmd > div,
+        .terminal .cmd .prompt,
+        .terminal .cmd .cursor,
+        .terminal .cmd span[contenteditable="true"],
+        .terminal .cmd input {
+            background-color: transparent !important;
+            color: var(--command-color) !important;
+            border: none !important;
+            box-shadow: none !important;
+            outline: none !important;
+            font-family: inherit !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            vertical-align: baseline;
+        }
+
+        /* Blinking block cursor */
+        .terminal .cmd .cursor.blink {
+            background-color: var(--color) !important; /* Green block cursor */
+            animation: terminal-blink 1s step-end infinite;
+            display: inline-block;
+            width: 0.6em; /* Adjust width of cursor block */
+            height: 1.2em; /* Adjust height of cursor block */
+            vertical-align: -0.15em; /* Fine-tune vertical alignment */
+            margin-left: 1px;
+            box-shadow: none !important;
+            border: none !important;
+        }
+        
+        /* Links within terminal */
+        .terminal a {
+            color: var(--link-color) !important;
+            text-decoration: underline;
+            font-weight: bold;
+        }
+        .terminal a:hover {
+            color: #FFFFFF !important;
+            background-color: var(--link-color) !important;
+        }
+
+        /* Content displayed by 'cat' command */
+        .terminal-cat-content {
+            background-color: #0a0a0a; /* Slightly off-black */
+            border-left: 3px solid #00FF00;
+            padding: 10px 15px;
+            margin: 10px 0;
+            color: #00E600; /* Lighter green for readability */
+            white-space: pre-wrap; /* Preserve whitespace and wrap */
+            word-wrap: break-word;
+        }
+        .terminal-cat-content h1, .terminal-cat-content h2, .terminal-cat-content h3 {
+            color: #00FF00;
+            border-bottom: 1px solid #005000;
+            padding-bottom: 5px;
+            margin-top: 15px;
+            margin-bottom: 10px;
+        }
+        .terminal-cat-content p { margin-bottom: 10px; }
+        .terminal-cat-content ul, .terminal-cat-content ol { margin-left: 20px; margin-bottom: 10px; }
+        .terminal-cat-content li { margin-bottom: 5px; }
+        .terminal-cat-content code {
+            background-color: #1a1a1a;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-family: inherit;
+        }
+        .terminal-cat-content pre code {
+            display: block;
+            padding: 10px;
+            overflow-x: auto;
+        }
+        .terminal-cat-content blockquote {
+            border-left: 3px solid #008000; /* Darker green for blockquote */
+            padding-left: 10px;
+            margin-left: 0;
+            font-style: italic;
+            color: #00cc00; /* Medium green */
+        }
+
+        /* Ensure terminal output divs take full width for proper line wrapping */
+        .terminal .terminal-output > div > div {
+            width: 100%;
+            display: block;
+            white-space: pre-wrap; /* Important for wrapping lines */
+            word-wrap: break-word; /* Ensure long words break */
+        }
+    </style>
+</head>
+<body class="bg-black text-green-400">
+    <div id="terminal" class="terminal-container"></div>
+
+    <script>
+        jQuery(function($, undefined) {
+            // --- Configuration and Data ---
+            const siteConfig = {
+                title: "suǝddᴉʇ",
+                username: "tippens",
+                hostname: "justthetipp.com",
+                github_username: "solarsnake", 
+                linkedin_url: "https://www.linkedin.com/in/timothytippens/",
+                email: "solarsnake88@proton.me", 
+                baseurl: "" 
+            };
+
+            // Simulated file system
+            const filesystem = {
+                '/': { type: 'dir', content: ['about.txt', 'resume.md', 'blog', 'contact.txt', 'projects'] },
+                '/blog': { type: 'dir', content: ['post1-welcome.md', 'post2-deep-dive.md'] },
+                '/projects': { type: 'dir', content: ['project-alpha.txt', 'project-beta.txt'] },
+                '/about.txt': { type: 'file', content: `About Me:\nI am a passionate DevOps professional with a knack for automation and cloud technologies. This terminal is a showcase of my skills and projects.\nType 'help' for a list of commands.` },
+                '/resume.md': { type: 'file', content: `
+# Your Name
+DevOps Engineer | Cloud Specialist
+your.email@example.com | [LinkedIn](${siteConfig.linkedin_url}) | [GitHub](https://github.com/${siteConfig.github_username})
+
+## Summary
+Highly motivated and results-oriented DevOps Engineer with X years of experience in designing, implementing, and managing CI/CD pipelines, cloud infrastructure, and automated solutions. Proven ability to optimize system performance, enhance security, and streamline development workflows.
+
+## Skills
+- **Cloud Platforms:** AWS (EC2, S3, Lambda, VPC, IAM), Azure, GCP
+- **CI/CD:** Jenkins, GitLab CI, GitHub Actions
+- **Containerization:** Docker, Kubernetes
+- **IaC:** Terraform, Ansible, CloudFormation
+- **Scripting:** Python, Bash, PowerShell
+- **Monitoring:** Prometheus, Grafana, ELK Stack
+- **OS:** Linux (Debian, CentOS, Ubuntu), Windows Server
+
+## Experience
+**Senior DevOps Engineer | Tech Solutions Inc.** | Jan 2020 – Present
+- Led the design and implementation of a scalable CI/CD pipeline, reducing deployment times by 40%.
+- Managed AWS infrastructure, optimizing costs by 15% through resource analysis and implementation of auto-scaling policies.
+- Automated infrastructure provisioning using Terraform and Ansible, improving deployment consistency and speed.
+
+**DevOps Engineer | Cloud Innovators LLC** | Jun 2017 – Dec 2019
+- Developed and maintained CI/CD pipelines using Jenkins for various microservices.
+- Implemented monitoring and logging solutions using ELK Stack and Prometheus/Grafana.
+- Collaborated with development teams to improve application performance and reliability.
+
+## Education
+**B.S. in Computer Science | State University** | May 2017
+- Relevant coursework: Operating Systems, Networks, Software Engineering.
+- Capstone Project: Developed a cloud-based file storage system.
+
+## Certifications
+- AWS Certified DevOps Engineer - Professional
+- Certified Kubernetes Administrator (CKA)
+` },
+                '/contact.txt': { type: 'file', content: `Contact Information:\nEmail: [[!;;;;mailto:${siteConfig.email}]${siteConfig.email}]\nGitHub: [[!;;;;https://github.com/${siteConfig.github_username}]https://github.com/${siteConfig.github_username}]]\nLinkedIn: [[!;;;;${siteConfig.linkedin_url}]${siteConfig.linkedin_url}]]` },
+                '/blog/post1-welcome.md': { type: 'file', content: `
+# Welcome to My Blog!
+*Date: 2025-06-03*
+
+This is the first post on my new terminal-style blog. I'm excited to share my thoughts on tech, DevOps, and more.
+
+You can view this post on its own page by typing:
+[[b;#00FF00;]open /blog/post1-welcome.md]
+
+Stay tuned for more updates!
+` },
+                '/blog/post2-deep-dive.md': { type: 'file', content: `
+# A Deep Dive into Kubernetes
+*Date: 2025-06-10*
+
+Kubernetes, often abbreviated as K8s, is an open-source system for automating deployment, scaling, and management of containerized applications.
+
+## Core Concepts
+- **Pods:** The smallest deployable units.
+- **Services:** An abstract way to expose an application running on a set of Pods.
+- **Deployments:** Describes an application’s life cycle.
+
+You can view this post on its own page by typing:
+[[b;#00FF00;]open /blog/post2-deep-dive.md]
+
+More content to come...
+` },
+                '/projects/project-alpha.txt': { type: 'file', content: 'Project Alpha: An automated deployment script for web applications using Ansible and Docker.'},
+                '/projects/project-beta.txt': { type: 'file', content: 'Project Beta: A serverless image processing pipeline on AWS Lambda and S3.'},
+            };
+
+            let currentPath = '/';
+
+            // --- Utility Functions ---
+            function getAbsolutePath(path) {
+                if (!path) return currentPath; // Handle empty path for commands like 'ls'
+                if (path.startsWith('/')) {
+                    // Normalize path: remove trailing slash unless it's the root
+                    if (path !== '/' && path.endsWith('/')) {
+                        return path.slice(0, -1);
+                    }
+                    return path;
+                }
+                const parts = currentPath.split('/').filter(p => p.length > 0);
+                const pathParts = path.split('/').filter(p => p.length > 0);
+
+                for (const part of pathParts) {
+                    if (part === '..') {
+                        if (parts.length > 0) {
+                            parts.pop();
+                        }
+                    } else if (part !== '.') {
+                        parts.push(part);
+                    }
+                }
+                const newAbsPath = '/' + parts.join('/');
+                // Normalize path: remove trailing slash unless it's the root
+                if (newAbsPath !== '/' && newAbsPath.endsWith('/')) {
+                    return newAbsPath.slice(0, -1);
+                }
+                return newAbsPath || '/';
+            }
+
+            function getFile(path) {
+                const absolutePath = getAbsolutePath(path);
+                return filesystem[absolutePath];
+            }
+
+            function renderMarkdown(markdown) {
+                const html = marked.parse(markdown);
+                return { html: `<div class="terminal-cat-content">${html}</div>`, raw: true };
+            }
+            
+            // --- Terminal Initialization ---
+            const term = $('#terminal').terminal(function(command, term) {
+                const parts = command.trim().split(' ');
+                const cmd = parts[0].toLowerCase();
+                const args = parts.slice(1);
+
+                // --- Command Implementations ---
+                if (cmd === 'help') {
+                    term.echo('Available commands:');
+                    term.echo('  [[b;#00FF00;]about]                 - Display information about this terminal.');
+                    term.echo('  [[b;#00FF00;]blog]                  - Navigate to the blog index page.');
+                    term.echo('  [[b;#00FF00;]cat <file>]           - Display content of a file.');
+                    term.echo('  [[b;#00FF00;]cd <directory>]       - Change current directory.');
+                    term.echo('  [[b;#00FF00;]clear]                - Clear the terminal screen.');
+                    term.echo('  [[b;#00FF00;]contact]              - Show contact information (or navigate to contact page).');
+                    term.echo('  [[b;#00FF00;]date]                 - Display the current date and time.');
+                    term.echo('  [[b;#00FF00;]echo <text>]          - Display text.');
+                    term.echo('  [[b;#00FF00;]exit]                 - Close the terminal (simulated).');
+                    term.echo('  [[b;#00FF00;]home]                 - Navigate to the home page (this terminal).');
+                    term.echo('  [[b;#00FF00;]help]                 - Show this help message.');
+                    term.echo('  [[b;#00FF00;]history]              - Show command history.');
+                    term.echo('  [[b;#00FF00;]ls [path]]            - List files and directories.');
+                    term.echo('  [[b;#00FF00;]open <file>]          - Open a file/page in a new tab/window (e.g., blog posts, resume).');
+                    term.echo('  [[b;#00FF00;]pwd]                  - Print working directory.');
+                    term.echo('  [[b;#00FF00;]resume]               - Navigate to the resume page.');
+                    term.echo('  [[b;#00FF00;]social]               - Display social media links.');
+                    term.echo('  [[b;#00FF00;]theme <dark|light>]   - Change terminal theme (placeholder).');
+                    term.echo('  [[b;#00FF00;]welcome]              - Display the welcome message.');
+                    term.echo('  [[b;#00FF00;]whoami]               - Display current user.');
+
+                } else if (cmd === 'echo') {
+                    term.echo(args.join(' '));
+                } else if (cmd === 'clear') {
+                    term.clear();
+                    welcomeMessage(term);
+                } else if (cmd === 'welcome') {
+                    welcomeMessage(term);
+                } else if (cmd === 'about') {
+                    const file = getFile('/about.txt');
+                    if (file && file.type === 'file') {
+                        term.echo(file.content); 
+                    } else {
+                        term.error('about.txt not found.');
+                    }
+                } else if (cmd === 'social') {
+                    term.echo('Connect with me:');
+                    term.echo(`  GitHub:   [[!;;;;https://github.com/${siteConfig.github_username}]https://github.com/${siteConfig.github_username}]]`);
+                    term.echo(`  LinkedIn: [[!;;;;${siteConfig.linkedin_url}]${siteConfig.linkedin_url}]]`);
+                    term.echo(`  Email:    [[!;;;;mailto:${siteConfig.email}]${siteConfig.email}]]`);
+                } else if (cmd === 'contact') {
+                     // Option 1: Display in terminal
+                    // const file = getFile('/contact.txt');
+                    // if (file && file.type === 'file') {
+                    //    term.echo(file.content);
+                    // } else {
+                    //    term.error('contact.txt not found.');
+                    // }
+                    // Option 2: Navigate to a contact.html page
+                    term.echo('Navigating to contact page...');
+                    window.location.href = siteConfig.baseurl + '/contact.html';
+
+                } else if (cmd === 'resume') {
+                    term.echo('Navigating to resume page...');
+                    window.location.href = siteConfig.baseurl + '/resume.html';
+                } else if (cmd === 'blog') {
+                    term.echo('Navigating to blog index...');
+                    window.location.href = siteConfig.baseurl + '/blog.html'; // Navigate to blog/index.html
+                } else if (cmd === 'home') {
+                    term.echo('Navigating to home...');
+                    window.location.href = siteConfig.baseurl + '/'; // Or index.html
+                } else if (cmd === 'ls') {
+                    const pathToList = args[0] ? getAbsolutePath(args[0]) : currentPath;
+                    const dir = getFile(pathToList);
+                    if (dir && dir.type === 'dir') {
+                        term.echo(`Contents of [[b;#FFFFFF;]${pathToList}]:`);
+                        if (dir.content.length === 0) {
+                            term.echo('  (empty)');
+                        } else {
+                            dir.content.forEach(item => {
+                                const itemPath = (pathToList === '/' ? '' : pathToList) + '/' + item;
+                                const entry = getFile(itemPath);
+                                if (entry && entry.type === 'dir') {
+                                    term.echo(`  [[b;#39CCCC;]${item}/]]`); 
+                                } else {
+                                    term.echo(`  ${item}`);
+                                }
+                            });
+                        }
+                    } else {
+                        term.error(`ls: cannot access '${args[0] || pathToList}': No such file or directory`);
+                    }
+                } else if (cmd === 'cat') {
+                    if (args.length === 0) {
+                        term.error('Usage: cat <filename>');
+                    } else {
+                        const pathToFile = getAbsolutePath(args[0]);
+                        const file = getFile(pathToFile);
+                        if (file && file.type === 'file') {
+                            if (pathToFile.endsWith('.md')) {
+                                const {html, raw} = renderMarkdown(file.content);
+                                term.echo(html, {raw: raw});
+                            } else {
+                                term.echo(file.content);
+                            }
+                        } else {
+                             term.error(`cat: ${args[0]}: No such file or directory`);
+                        }
+                    }
+                } else if (cmd === 'open') {
+                    if (args.length === 0) {
+                        term.error('Usage: open <filepath>');
+                        return;
+                    }
+                    const pathToFile = getAbsolutePath(args[0]);
+                    const file = getFile(pathToFile);
+
+                    if (file && file.type === 'file') {
+                        let targetUrl = '';
+                        if (pathToFile.startsWith('/blog/')) {
+                            const slug = pathToFile.substring('/blog/'.length).replace('.md', '');
+                            targetUrl = `${siteConfig.baseurl}/blog/${slug}.html`;
+                        } else if (pathToFile === '/resume.md') {
+                             targetUrl = `${siteConfig.baseurl}/resume.html`;
+                        } else if (pathToFile === '/contact.txt') { // Example for contact page
+                             targetUrl = `${siteConfig.baseurl}/contact.html`;
+                        }
+                        
+                        if (targetUrl) {
+                            term.echo(`Opening ${args[0]} in a new tab...`);
+                            window.open(targetUrl, '_blank');
+                        } else {
+                            term.echo(`Don't know how to open '${args[0]}' directly. Try 'cat ${args[0]}'.`);
+                        }
+                    } else {
+                        term.error(`open: ${args[0]}: No such file or directory`);
+                    }
+
+                } else if (cmd === 'cd') {
+                    if (args.length === 0 || args[0] === '~' || args[0] === '') {
+                         currentPath = '/'; 
+                    } else {
+                        const newPath = getAbsolutePath(args[0]);
+                        const dir = getFile(newPath);
+                        if (dir && dir.type === 'dir') {
+                            currentPath = newPath;
+                        } else {
+                            term.error(`cd: ${args[0]}: No such file or directory`);
+                        }
+                    }
+                    term.set_prompt(getPrompt());
+                } else if (cmd === 'pwd') {
+                    term.echo(currentPath);
+                } else if (cmd === 'whoami') {
+                    term.echo(siteConfig.username);
+                } else if (cmd === 'date') {
+                    term.echo(new Date().toString());
+                } else if (cmd === 'history') {
+                    term.history().data().forEach((h, i) => term.echo(`${String(i).padStart(3, ' ')}: ${h}`));
+                } else if (cmd === 'theme') {
+                    term.echo("Theme functionality not yet implemented.");
+                } else if (cmd === 'exit') {
+                    term.echo("Simulating exit. Goodbye!");
+                }
+                else if (command.trim() !== '') {
+                    term.error(`[[;red;]${cmd}: command not found]`);
+                }
+            }, {
+                greetings: false,
+                prompt: getPrompt(),
+                name: 'portfolio_terminal',
+                onInit: function(term) {
+                    welcomeMessage(term);
+                    term.focus(true);
+                },
+                convertLinks: true,
+                historySize: 200,
+                scrollOnOutput: true,
+                outputLimit: 100, 
+                tabcompletion: true,
+                completionEscape: false, 
+                completion: function(string) {
+                    const command = this.get_command();
+                    const parts = command.split(/(\s+)/); 
+                    const cmdName = parts[0].toLowerCase();
+                    
+                    let currentArgInput = string;
+                    if (parts.length > 1) {
+                        let lastPart = parts[parts.length - 1];
+                        if (command.endsWith(' ')) { 
+                            currentArgInput = "";
+                        } else {
+                           currentArgInput = lastPart;
+                        }
+                    }
+
+                    let list = [];
+                    const commands = ['help', 'echo', 'clear', 'welcome', 'about', 'social', 'contact', 'resume', 'blog', 'ls', 'cat', 'cd', 'pwd', 'whoami', 'date', 'history', 'theme', 'exit', 'open', 'home'];
+
+                    if (parts.length <= 1 || (parts.length > 1 && command.lastIndexOf(' ') === command.length -1 && string === '')) { 
+                         if (command.lastIndexOf(' ') === command.length -1 && string === ''){ 
+                            const dirEntry = getFile(currentPath);
+                            if (dirEntry && dirEntry.type === 'dir') {
+                                list = dirEntry.content.map(item => {
+                                    const itemEntry = getFile(getAbsolutePath(item));
+                                    return item + (itemEntry && itemEntry.type === 'dir' ? '/' : '');
+                                });
+                            }
+                        } else {
+                            list = commands.filter(cmd => cmd.startsWith(string));
+                        }
+                    } else if (['cat', 'ls', 'cd', 'open'].includes(cmdName)) {
+                        const pathPrefixMatch = currentArgInput.match(/^(.*\/)/);
+                        const pathPrefix = pathPrefixMatch ? pathPrefixMatch[0] : '';
+                        const partialName = currentArgInput.substring(pathPrefix.length);
+                        
+                        const dirToList = getAbsolutePath(pathPrefix || currentPath);
+                        const dirEntry = getFile(dirToList);
+
+                        if (dirEntry && dirEntry.type === 'dir') {
+                            list = dirEntry.content
+                                .filter(item => item.startsWith(partialName))
+                                .map(item => {
+                                    const fullItemPath = (dirToList === '/' && !pathPrefix) ? `/${item}` : (pathPrefix + item);
+                                    const itemEntry = getFile(getAbsolutePath(fullItemPath)); 
+                                    return pathPrefix + item + (itemEntry && itemEntry.type === 'dir' ? '/' : '');
+                                });
+                        }
+                    }
+                    return list;
+                }
+            });
+
+            // --- Helper Functions for Terminal ---
+            function getPrompt() {
+                return `[[b;#00FF00;]${siteConfig.username}@${siteConfig.hostname}]` + 
+                       `[[;#FFFFFF;]:${currentPath === '/' ? '~' : currentPath}]$ `;
+            }
+
+            function welcomeMessage(termInstance) {
+                termInstance.echo(`Welcome to [[b;#00FF00;]${siteConfig.title} OS]] (v1.0.1)`);
+                termInstance.echo(`Type '[[b;#00FF00;]help]' for a list of available commands.`);
+                termInstance.echo('---');
+            }
+        });
+    </script>
+</body>
+</html>

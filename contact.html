@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Me</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto+Mono&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #111827; /* Dark blue-gray background */
+            color: #d1d5db; /* Light gray text */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .container {
+            max-width: 600px;
+            width: 90%;
+            padding: 2rem;
+            background-color: #1f2937; /* Slightly lighter blue-gray */
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            text-align: center;
+        }
+        h1 {
+            color: #60a5fa; /* Light blue */
+            margin-bottom: 1.5rem;
+        }
+        .contact-item {
+            margin-bottom: 1rem;
+            font-size: 1.125rem;
+        }
+        .contact-item strong {
+            color: #9ca3af; /* Medium gray */
+        }
+        .contact-item a {
+            color: #3b82f6; /* Standard blue */
+            text-decoration: none;
+        }
+        .contact-item a:hover {
+            text-decoration: underline;
+            color: #60a5fa; /* Lighter blue on hover */
+        }
+         /* Simple navigation bar */
+        .navbar {
+            background-color: #374151; /* Medium-dark gray */
+            padding: 1rem;
+            text-align: center;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .navbar a {
+            color: white;
+            margin: 0 1rem;
+            font-weight: 500;
+        }
+        .navbar a:hover {
+            color: #9ca3af; /* Lighter gray on hover */
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <nav class="navbar">
+            <a href="index.html">Terminal Home</a>
+            <a href="resume.html">Resume</a>
+            <a href="blog.html">Blog</a>
+        </nav>
+        <h1 class="text-3xl font-bold">Get In Touch</h1>
+        <div class="contact-details mt-6">
+            <p class="contact-item">
+                <strong>Email:</strong> 
+                <a href="mailto:your.email@example.com">your.email@example.com</a>
+            </p>
+            <p class="contact-item">
+                <strong>GitHub:</strong> 
+                <a href="https://github.com/your-github-username" target="_blank">github.com/your-github-username</a>
+            </p>
+            <p class="contact-item">
+                <strong>LinkedIn:</strong> 
+                <a href="https://linkedin.com/in/your-profile-url" target="_blank">linkedin.com/in/your-profile-url</a>
+            </p>
+            <!-- Add other contact methods if you like -->
+        </div>
+    </div>
+</body>
+</html>

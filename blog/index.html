@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Blog</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto+Mono&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #111827; /* Dark blue-gray background */
+            color: #d1d5db; /* Light gray text */
+        }
+        .container {
+            max-width: 900px;
+            margin: 2rem auto;
+            padding: 2rem;
+        }
+        .post-entry {
+            background-color: #1f2937; /* Slightly lighter blue-gray */
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+            transition: transform 0.2s ease-in-out;
+        }
+        .post-entry:hover {
+            transform: translateY(-5px);
+        }
+        .post-title {
+            color: #60a5fa; /* Light blue for titles */
+        }
+        .post-title:hover {
+            color: #93c5fd; /* Even lighter blue on hover */
+        }
+        .post-date {
+            color: #9ca3af; /* Medium gray for date */
+            font-size: 0.875rem;
+        }
+        .post-excerpt {
+            color: #d1d5db; /* Light gray for excerpt */
+        }
+        .read-more {
+            color: #3b82f6; /* Standard blue for links */
+            font-weight: 500;
+        }
+        .read-more:hover {
+            text-decoration: underline;
+        }
+        /* Simple navigation bar */
+        .navbar {
+            background-color: #374151; /* Medium-dark gray */
+            padding: 1rem;
+            text-align: center;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+        }
+        .navbar a {
+            color: white;
+            margin: 0 1rem;
+            font-weight: 500;
+        }
+        .navbar a:hover {
+            color: #9ca3af; /* Lighter gray on hover */
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <nav class="navbar">
+            <a href="../index.html">Terminal Home</a> <!-- Adjusted path for being in /blog/ -->
+            <a href="../resume.html">Resume</a>
+            <!-- Add other links as needed -->
+        </nav>
+
+        <h1 class="text-4xl font-bold text-white mb-8 text-center">My Blog Posts</h1>
+
+        <!-- Blog Post Entry 1 -->
+        <article class="post-entry">
+            <h2 class="text-2xl font-semibold mb-2">
+                <a href="post1-welcome.html" class="post-title">Welcome to My Blog!</a>
+            </h2>
+            <p class="post-date mb-3">June 03, 2025</p>
+            <p class="post-excerpt mb-4">
+                This is the first post on my new terminal-style blog. I'm excited to share my thoughts on tech, DevOps, and more. Stay tuned for more updates!
+            </p>
+            <a href="post1-welcome.html" class="read-more">Read more &rarr;</a>
+        </article>
+
+        <!-- Blog Post Entry 2 -->
+        <article class="post-entry">
+            <h2 class="text-2xl font-semibold mb-2">
+                <a href="post2-deep-dive.html" class="post-title">A Deep Dive into Kubernetes</a>
+            </h2>
+            <p class="post-date mb-3">June 10, 2025</p>
+            <p class="post-excerpt mb-4">
+                Kubernetes, often abbreviated as K8s, is an open-source system for automating deployment, scaling, and management of containerized applications. Learn about its core concepts...
+            </p>
+            <a href="post2-deep-dive.html" class="read-more">Read more &rarr;</a>
+        </article>
+
+        <!-- Add more post entries here -->
+
+    </div>
+</body>
+</html>
