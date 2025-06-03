@@ -55,7 +55,6 @@
         }
 
         /* jQuery Terminal specific styles */
-        /* These override or complement jquery.terminal.min.css and Tailwind */
         .terminal, .cmd, .terminal .terminal-output, .terminal .terminal-output div, .terminal .terminal-output span {
             --color: #00FF00; /* Matrix green for text */
             --background: #000000; /* Black background */
@@ -64,7 +63,7 @@
             --error-color: #FF4136; /* Bright red for errors */
             --link-color: #39CCCC;  /* Cyan for links */
             font-size: 1em; /* Base font size */
-            /* line-height: 1.4; */
+            line-height: 1.4;
             font-family: inherit; /* Inherit from body */
         }
 
@@ -75,7 +74,6 @@
             height: 100% !important; /* Ensure terminal takes full height of its container */
         }
         
-        /* Ensure cmd input area blends in */
         .terminal .cmd,
         .terminal .cmd > div,
         .terminal .cmd .prompt,
@@ -93,20 +91,18 @@
             vertical-align: baseline;
         }
 
-        /* Blinking block cursor */
         .terminal .cmd .cursor.blink {
-            background-color: var(--color) !important; /* Green block cursor */
+            background-color: var(--color) !important; 
             animation: terminal-blink 1s step-end infinite;
             display: inline-block;
-            width: 0.6em; /* Adjust width of cursor block */
-            height: 1.2em; /* Adjust height of cursor block */
-            vertical-align: -0.15em; /* Fine-tune vertical alignment */
+            width: 0.6em; 
+            height: 1.2em; 
+            vertical-align: -0.15em; 
             margin-left: 1px;
             box-shadow: none !important;
             border: none !important;
         }
         
-        /* Links within terminal */
         .terminal a {
             color: var(--link-color) !important;
             text-decoration: underline;
@@ -117,14 +113,13 @@
             background-color: var(--link-color) !important;
         }
 
-        /* Content displayed by 'cat' command */
         .terminal-cat-content {
-            background-color: #0a0a0a; /* Slightly off-black */
+            background-color: #0a0a0a; 
             border-left: 3px solid #00FF00;
             padding: 10px 15px;
             margin: 10px 0;
-            color: #00E600; /* Lighter green for readability */
-            white-space: pre-wrap; /* Preserve whitespace and wrap */
+            color: #00E600; 
+            white-space: pre-wrap; 
             word-wrap: break-word;
         }
         .terminal-cat-content h1, .terminal-cat-content h2, .terminal-cat-content h3 {
@@ -149,30 +144,32 @@
             overflow-x: auto;
         }
         .terminal-cat-content blockquote {
-            border-left: 3px solid #008000; /* Darker green for blockquote */
+            border-left: 3px solid #008000; 
             padding-left: 10px;
             margin-left: 0;
             font-style: italic;
-            color: #00cc00; /* Medium green */
+            color: #00cc00; 
         }
 
-        /* Ensure terminal output divs take full width for proper line wrapping */
         .terminal .terminal-output > div > div {
             width: 100%;
             display: block;
-            white-space: pre-wrap; /* Important for wrapping lines */
-            word-wrap: break-word; /* Ensure long words break */
+            white-space: pre-wrap; 
+            word-wrap: break-word; 
         }
-
         /* For help command formatting */
         .help-command {
             display: inline-block;
-            width: 20ch; /* Adjust as needed for command name column width */
+            width: 28ch; /* Adjusted width for longer commands with args */
             white-space: nowrap;
+            vertical-align: top;
         }
         .help-description {
             display: inline-block;
             vertical-align: top;
+            /* Allow description to wrap if it's very long */
+            white-space: normal; 
+            word-break: break-word;
         }
 
     </style>
@@ -181,6 +178,14 @@
     <div id="terminal" class="terminal-container"></div>
 
     <script>
+        // Handle bfcache page restore for back/forward navigation
+        window.addEventListener('pageshow', function(event) {
+            if (event.persisted) {
+                // Page is loaded from the bfcache, force a reload
+                window.location.reload();
+            }
+        });
+
         jQuery(function($, undefined) {
             // --- Configuration and Data ---
             const siteConfig = {
@@ -193,7 +198,7 @@
                 baseurl: "" 
             };
 
-            // Simulated file system
+            // Simulated file system (This is where 'ls /blog' gets its content)
             const filesystem = {
                 '/': { type: 'dir', content: ['about.txt', 'resume.md', 'blog', 'contact.txt', 'projects'] },
                 '/blog': { type: 'dir', content: ['post1-welcome.md', 'post2-deep-dive.md'] },
@@ -272,9 +277,8 @@ More content to come...
 
             // --- Utility Functions ---
             function getAbsolutePath(path) {
-                if (!path) return currentPath; // Handle empty path for commands like 'ls'
+                if (!path) return currentPath; 
                 if (path.startsWith('/')) {
-                    // Normalize path: remove trailing slash unless it's the root
                     if (path !== '/' && path.endsWith('/')) {
                         return path.slice(0, -1);
                     }
@@ -293,7 +297,6 @@ More content to come...
                     }
                 }
                 const newAbsPath = '/' + parts.join('/');
-                // Normalize path: remove trailing slash unless it's the root
                 if (newAbsPath !== '/' && newAbsPath.endsWith('/')) {
                     return newAbsPath.slice(0, -1);
                 }
@@ -315,6 +318,7 @@ More content to come...
                 const parts = command.trim().split(' ');
                 const cmd = parts[0].toLowerCase();
                 const args = parts.slice(1);
+                const fullCommand = command.trim(); // Keep the original trimmed command for specific checks
 
                 // --- Command Implementations ---
                 if (cmd === 'help') {
@@ -342,10 +346,7 @@ More content to come...
                         { cmd: 'whoami', desc: 'Display current user.' }
                     ];
                     helpItems.forEach(item => {
-                        // Format the command part using terminal's formatter
-                        // Note: item.cmd already has HTML entities for < and >
-                        const formattedCmd = $.terminal.format(`[[b;#00FF00;]${item.cmd}]`);
-                        // Construct the full HTML line, then echo with raw: true
+                        const formattedCmd = $.terminal.format(`[[b;#00FF00;]${item.cmd}]`); 
                         const line = `  <span class="help-command">${formattedCmd}</span> <span class="help-description">- ${item.desc}</span>`;
                         term.echo(line, {raw: true});
                     });
@@ -370,23 +371,14 @@ More content to come...
                     term.echo(`  LinkedIn: [[!;;;;${siteConfig.linkedin_url}]${siteConfig.linkedin_url}]]`);
                     term.echo(`  Email:    [[!;;;;mailto:${siteConfig.email}]${siteConfig.email}]]`);
                 } else if (cmd === 'contact') {
-                     // Option 1: Display in terminal
-                    // const file = getFile('/contact.txt');
-                    // if (file && file.type === 'file') {
-                    //    term.echo(file.content);
-                    // } else {
-                    //    term.error('contact.txt not found.');
-                    // }
-                    // Option 2: Navigate to a contact.html page
                     term.echo('Navigating to contact page...');
                     window.location.href = siteConfig.baseurl + '/contact.html';
-
                 } else if (cmd === 'resume') {
                     term.echo('Navigating to resume page...');
                     window.location.href = siteConfig.baseurl + '/resume.html';
                 } else if (cmd === 'blog') {
                     term.echo('Navigating to blog index...');
-                    window.location.href = siteConfig.baseurl + '/blog/index.html';
+                    window.location.href = siteConfig.baseurl + '/blog/index.html'; 
                 } else if (cmd === 'home') {
                     term.echo('Navigating to home...');
                     window.location.href = siteConfig.baseurl + '/'; 
@@ -443,7 +435,7 @@ More content to come...
                             targetUrl = `${siteConfig.baseurl}/blog/${slug}.html`;
                         } else if (pathToFile === '/resume.md') {
                              targetUrl = `${siteConfig.baseurl}/resume.html`;
-                        } else if (pathToFile === '/contact.txt') { // Example for contact page
+                        } else if (pathToFile === '/contact.txt') { 
                              targetUrl = `${siteConfig.baseurl}/contact.html`;
                         }
                         
@@ -482,9 +474,13 @@ More content to come...
                     term.echo("Theme functionality not yet implemented.");
                 } else if (cmd === 'exit') {
                     term.echo("Simulating exit. Goodbye!");
+                } else if (fullCommand === 'rm -rf *' || fullCommand === 'rm -rf /') {
+                    // Easter egg for "rm -rf *"
+                    term.echo("  [[b;orange;]Hey, careful there Boris! ;)]");
+                    term.echo("  Why are you trying to erase my site?");
                 }
                 else if (command.trim() !== '') {
-                    term.error(`[[;red;]${cmd}: command not found]`);
+                    term.error(`${cmd}: command not found`); // Removed explicit red formatting
                 }
             }, {
                 greetings: false,
@@ -523,7 +519,8 @@ More content to come...
                             const dirEntry = getFile(currentPath);
                             if (dirEntry && dirEntry.type === 'dir') {
                                 list = dirEntry.content.map(item => {
-                                    const itemEntry = getFile(getAbsolutePath(item));
+                                    const itemPath = (currentPath === '/' ? '' : currentPath) + '/' + item;
+                                    const itemEntry = getFile(itemPath);
                                     return item + (itemEntry && itemEntry.type === 'dir' ? '/' : '');
                                 });
                             }
@@ -559,10 +556,28 @@ More content to come...
             }
 
             function welcomeMessage(termInstance) {
-                termInstance.echo(`Welcome to [[b;#00FF00;]${siteConfig.title} OS] (v1.0.1)`);
-                termInstance.echo(`Type '[[b;#00FF00;]help]' for a list of available commands or '[[b;#00FF00;]about] to learn a bit more about me.'`);
+                termInstance.echo(`Welcome to [[b;#00FF00;]${siteConfig.title} OS]] (v1.0.1)`);
+                termInstance.echo(`Type '[[b;#00FF00;]help]' for a list of available commands.`);
                 termInstance.echo('---');
             }
+
+            // Re-focus terminal on document click if the click is not on an interactive element
+            // and the terminal is not already focused.
+            $(document).on('click', function(event) {
+                if (!term.enabled()) { 
+                    return;
+                }
+                const $target = $(event.target);
+                // Check if the click is outside the terminal div, or if it's inside but not on an interactive element.
+                if (!$target.closest('#terminal').length || 
+                    ($target.closest('#terminal').length && !$target.is('a, button, input, textarea, [contenteditable="true"]') && !$target.closest('a, button').length)) {
+                    
+                    const activeTerminal = $.terminal.active();
+                    if (!activeTerminal || activeTerminal[0] !== term[0]) {
+                         term.focus(true);
+                    }
+                }
+            });
         });
     </script>
 </body>
