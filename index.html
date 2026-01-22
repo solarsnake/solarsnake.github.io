@@ -62,8 +62,8 @@
             --command-color: #00FF00; /* Command text color */
             --error-color: #FF4136; /* Bright red for errors */
             --link-color: #39CCCC;  /* Cyan for links */
-            font-size: 1em; /* Base font size */
-            line-height: 1.4;
+            font-size: 0.9em; /* Reduced font size for more professional look */
+            line-height: 1.5;
             font-family: inherit; /* Inherit from body */
         }
 
@@ -92,15 +92,20 @@
         }
 
         .terminal .cmd .cursor.blink {
-            background-color: var(--color) !important; 
+            background-color: var(--color) !important;
             animation: terminal-blink 1s step-end infinite;
             display: inline-block;
-            width: 0.6em; 
-            height: 1.2em; 
-            vertical-align: -0.15em; 
-            margin-left: 1px;
-            box-shadow: none !important;
+            width: 0.5em;
+            height: 1.3em;
+            vertical-align: -0.2em;
+            margin-left: 2px;
+            box-shadow: 0 0 5px var(--color) !important;
             border: none !important;
+        }
+
+        @keyframes terminal-blink {
+            0%, 49% { opacity: 1; }
+            50%, 100% { opacity: 0; }
         }
         
         .terminal a {
@@ -189,26 +194,22 @@
         jQuery(function($, undefined) {
             // --- Configuration and Data ---
             const siteConfig = {
-                title: "suǝddᴉʇ",
+                title: "Timothy Tippens",
                 username: "tippens",
-                hostname: "dev.ops",
-                github_username: "solarsnake", 
-                linkedin_url: "https://www.linkedin.com/in/timothytippens/",
-                email: "solarsnake88@proton.me", 
-                baseurl: "" 
+                hostname: "portfolio",
+                github_username: "solarsnake",
+                linkedin_url: "https://linkedin.com/in/timothytippens",
+                email: "solarsnake88@proton.me",
+                baseurl: ""
             };
 
-            // Simulated file system 
+            // Simulated file system
             const filesystem = {
-                '/': { type: 'dir', content: ['about.txt', 'resume.md', 'blog', 'contact.txt', 'projects'] },
-                '/blog': { type: 'dir', content: ['post1-welcome.md', 'post2-deep-dive.md'] },
-                '/projects': { type: 'dir', content: ['project-alpha.txt', 'project-beta.txt'] },
-                '/about.txt': { type: 'file', content: `About Me:\nI am a passionate DevOps professional with a knack for automation and cloud technologies. This terminal is a showcase of my skills and a brief history of my career.\nType 'help' for a list of commands.` },
-                '/resume.md': { type: 'file', content: `
-Go ahead and type "resume" into the terminal to view a more well formatted resume, silly.
-` },
-                '/projects/project-alpha.txt': { type: 'file', content: 'Project Alpha: An automated deployment script for web applications using Ansible and Docker.'},
-                '/projects/project-beta.txt': { type: 'file', content: 'Project Beta: A serverless image processing pipeline on AWS Lambda and S3.'},
+                '/': { type: 'dir', content: ['about.txt', 'resume.md', 'contact.txt'] },
+                '/blog': { type: 'dir', content: [] },
+                '/about.txt': { type: 'file', content: `About Me:\nAward-winning Cloud Architect & DevOps Engineer with 10+ years of experience driving advancements in cloud infrastructure, automation, and CI/CD for mission-critical environments.\n\nI specialize in building robust, scalable, and automated systems using cloud-native technologies across AWS, Azure, and GCP. My expertise lies in Infrastructure as Code (Terraform, Ansible, Kubernetes) and creating efficient solutions that bridge development and operations.\n\nType 'help' for a list of commands or 'resume' to view my full resume.` },
+                '/resume.md': { type: 'file', content: `# Resume\n\nFor the full interactive resume experience, type 'resume' in the terminal to navigate to my detailed resume page.\n\n## Quick Summary\n- 10+ years in Cloud Architecture & DevOps\n- Multi-cloud specialist (AWS, Azure, GCP)\n- Expert in Kubernetes, Terraform, Ansible, Python\n- Focus on automation, CI/CD, and infrastructure as code\n` },
+                '/contact.txt': { type: 'file', content: `Contact Information:\n\nEmail:    solarsnake88@proton.me\nGitHub:   github.com/solarsnake\nLinkedIn: linkedin.com/in/timothytippens\n\nFeel free to reach out for collaboration, opportunities, or just to connect!` },
             };
 
             let currentPath = '/';
@@ -507,8 +508,10 @@ Go ahead and type "resume" into the terminal to view a more well formatted resum
             }
 
             function welcomeMessage(termInstance) {
-                termInstance.echo(`Welcome to [[b;#00FF00;]${siteConfig.title} OS] (v1.0.1)`);
-                termInstance.echo(`Type '[[b;#00FF00;]help]' for a list of available commands.`);
+                termInstance.echo(`Welcome to [[b;#00FF00;]${siteConfig.title}]'s Portfolio Terminal`);
+                termInstance.echo(`Cloud Architect & DevOps Engineer`);
+                termInstance.echo(``);
+                termInstance.echo(`Type '[[b;#00FF00;]help]' for available commands or '[[b;#00FF00;]about]' to learn more.`);
                 termInstance.echo('---');
             }
 
