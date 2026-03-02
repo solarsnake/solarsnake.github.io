@@ -3,41 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tippens</title>
-    <!-- Tailwind CSS -->
+    <title>tippens@portfolio</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- jQuery -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <!-- jQuery Terminal -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.terminal/2.44.1/js/jquery.terminal.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery.terminal/2.44.1/css/jquery.terminal.min.css" rel="stylesheet"/>
-    <!-- Marked.js for Markdown parsing -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
     <style>
-        /* Custom scrollbar for a more terminal-like feel */
-        ::-webkit-scrollbar {
-            width: 8px;
-            height: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #1e1e1e; /* Dark background for track */
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #555; /* Grey thumb */
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #777; /* Lighter grey on hover */
-        }
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #0a0a0a; }
+        ::-webkit-scrollbar-thumb { background: #1a4a1a; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #2a6a2a; }
 
-        /* Basic body styling */
         body {
             font-family: 'Menlo', 'Monaco', 'Consolas', 'Courier New', monospace;
-            background-color: #000000; /* Black background */
-            color: #00FF00; /* Matrix green text */
-            margin: 0;
-            padding: 0;
+            background-color: #000000;
+            color: #00FF00;
+            margin: 0; padding: 0;
             display: flex;
             justify-content: center;
             align-items: flex-start;
@@ -45,35 +28,34 @@
             line-height: 1.5;
         }
 
-        /* Terminal container */
         .terminal-container {
             width: 100%;
-            max-width: 100%; /* Full width */
-            height: 100vh; /* Full viewport height */
+            max-width: 100%;
+            height: 100vh;
             padding: 10px;
             box-sizing: border-box;
         }
 
-        /* jQuery Terminal specific styles */
-        .terminal, .cmd, .terminal .terminal-output, .terminal .terminal-output div, .terminal .terminal-output span {
-            --color: #00FF00; /* Matrix green for text */
-            --background: #000000; /* Black background */
-            --prompt-color: #00FF00; /* Prompt color */
-            --command-color: #00FF00; /* Command text color */
-            --error-color: #FF4136; /* Bright red for errors */
-            --link-color: #39CCCC;  /* Cyan for links */
-            font-size: 0.9em; /* Reduced font size for more professional look */
+        .terminal, .cmd, .terminal .terminal-output,
+        .terminal .terminal-output div, .terminal .terminal-output span {
+            --color: #00FF00;
+            --background: #000000;
+            --prompt-color: #00FF00;
+            --command-color: #00FF00;
+            --error-color: #FF4136;
+            --link-color: #00FFCC;
+            font-size: 0.9em;
             line-height: 1.5;
-            font-family: inherit; /* Inherit from body */
+            font-family: inherit;
         }
 
         .terminal {
             background-color: var(--background) !important;
             padding: 5px;
             border: none !important;
-            height: 100% !important; /* Ensure terminal takes full height of its container */
+            height: 100% !important;
         }
-        
+
         .terminal .cmd,
         .terminal .cmd > div,
         .terminal .cmd .prompt,
@@ -107,7 +89,7 @@
             0%, 49% { opacity: 1; }
             50%, 100% { opacity: 0; }
         }
-        
+
         .terminal a {
             color: var(--link-color) !important;
             text-decoration: underline;
@@ -119,80 +101,96 @@
         }
 
         .terminal-cat-content {
-            background-color: #0a0a0a; 
+            background-color: #050505;
             border-left: 3px solid #00FF00;
             padding: 10px 15px;
-            margin: 10px 0;
-            color: #00E600; 
-            white-space: pre-wrap; 
+            margin: 8px 0;
+            color: #00E600;
+            white-space: pre-wrap;
             word-wrap: break-word;
         }
         .terminal-cat-content h1, .terminal-cat-content h2, .terminal-cat-content h3 {
             color: #00FF00;
-            border-bottom: 1px solid #005000;
-            padding-bottom: 5px;
-            margin-top: 15px;
-            margin-bottom: 10px;
+            border-bottom: 1px solid #003a00;
+            padding-bottom: 4px;
+            margin-top: 12px;
+            margin-bottom: 8px;
         }
-        .terminal-cat-content p { margin-bottom: 10px; }
-        .terminal-cat-content ul, .terminal-cat-content ol { margin-left: 20px; margin-bottom: 10px; }
-        .terminal-cat-content li { margin-bottom: 5px; }
+        .terminal-cat-content p { margin-bottom: 8px; }
+        .terminal-cat-content ul, .terminal-cat-content ol { margin-left: 20px; margin-bottom: 8px; }
+        .terminal-cat-content li { margin-bottom: 4px; }
         .terminal-cat-content code {
-            background-color: #1a1a1a;
+            background-color: #111;
             padding: 2px 5px;
             border-radius: 3px;
             font-family: inherit;
         }
-        .terminal-cat-content pre code {
-            display: block;
-            padding: 10px;
-            overflow-x: auto;
-        }
+        .terminal-cat-content pre code { display: block; padding: 10px; overflow-x: auto; }
         .terminal-cat-content blockquote {
-            border-left: 3px solid #008000; 
+            border-left: 3px solid #005500;
             padding-left: 10px;
             margin-left: 0;
             font-style: italic;
-            color: #00cc00; 
+            color: #00bb00;
         }
+        .terminal-cat-content strong { color: #00FF00; }
+        .terminal-cat-content em { color: #39FF14; }
 
         .terminal .terminal-output > div > div {
             width: 100%;
             display: block;
-            white-space: pre-wrap; 
-            word-wrap: break-word; 
+            white-space: pre-wrap;
+            word-wrap: break-word;
         }
-        /* For help command formatting */
-        .help-command {
+
+        .help-cmd {
             display: inline-block;
-            width: 28ch; /* Adjusted width for longer commands with args */
+            width: 26ch;
             white-space: nowrap;
             vertical-align: top;
         }
-        .help-description {
+        .help-desc {
             display: inline-block;
             vertical-align: top;
-            /* Allow description to wrap if it's very long */
-            white-space: normal; 
+            white-space: normal;
             word-break: break-word;
         }
 
+        /* neofetch table layout */
+        .nf-row { display: flex; gap: 0; margin-bottom: 1px; }
+        .nf-key { color: #00FF00; font-weight: bold; width: 14ch; flex-shrink: 0; }
+        .nf-val { color: #00CC00; }
+
+        /* light theme override */
+        body.theme-light {
+            background-color: #f0f0f0;
+            color: #1a1a1a;
+        }
+        body.theme-light .terminal, body.theme-light .terminal .terminal-output div, body.theme-light .terminal .terminal-output span {
+            --color: #1a1a1a;
+            --background: #f0f0f0;
+            --prompt-color: #006600;
+            --command-color: #1a1a1a;
+            --link-color: #006688;
+        }
+        body.theme-light .terminal { background-color: #f0f0f0 !important; }
+        body.theme-light .terminal .cmd { color: #1a1a1a !important; }
+        body.theme-light ::-webkit-scrollbar-track { background: #e0e0e0; }
+        body.theme-light ::-webkit-scrollbar-thumb { background: #aaa; }
+        body.theme-light .terminal-cat-content { background-color: #e8e8e8; border-left-color: #006600; color: #1a1a1a; }
     </style>
 </head>
 <body class="bg-black text-green-400">
     <div id="terminal" class="terminal-container"></div>
 
     <script>
-        // Handle bfcache page restore for back/forward navigation
-        window.addEventListener('pageshow', function(event) {
-            if (event.persisted) {
-                // Page is loaded from the bfcache, force a reload
-                window.location.reload();
-            }
+        window.addEventListener('pageshow', function(e) {
+            if (e.persisted) window.location.reload();
         });
 
         jQuery(function($, undefined) {
-            // --- Configuration and Data ---
+            const SESSION_START = Date.now();
+
             const siteConfig = {
                 title: "Timothy Tippens",
                 username: "tippens",
@@ -203,145 +201,209 @@
                 baseurl: ""
             };
 
-            // Simulated file system
+            // Simulated filesystem
             const filesystem = {
-                '/': { type: 'dir', content: ['about.txt', 'resume.md', 'contact.txt'] },
-                '/blog': { type: 'dir', content: [] },
-                '/about.txt': { type: 'file', content: `About Me:\nAward-winning Cloud Architect & DevOps Engineer with 10+ years of experience driving advancements in cloud infrastructure, automation, and CI/CD for mission-critical environments.\n\nI specialize in building robust, scalable, and automated systems using cloud-native technologies across AWS, Azure, and GCP. My expertise lies in Infrastructure as Code (Terraform, Ansible, Kubernetes) and creating efficient solutions that bridge development and operations.\n\nType 'help' for a list of commands or 'resume' to view my full resume.` },
-                '/resume.md': { type: 'file', content: `# Resume\n\nFor the full interactive resume experience, type 'resume' in the terminal to navigate to my detailed resume page.\n\n## Quick Summary\n- 10+ years in Cloud Architecture & DevOps\n- Multi-cloud specialist (AWS, Azure, GCP)\n- Expert in Kubernetes, Terraform, Ansible, Python\n- Focus on automation, CI/CD, and infrastructure as code\n` },
-                '/contact.txt': { type: 'file', content: `Contact Information:\n\nEmail:    solarsnake88@proton.me\nGitHub:   github.com/solarsnake\nLinkedIn: linkedin.com/in/timothytippens\n\nFeel free to reach out for collaboration, opportunities, or just to connect!` },
+                '/': { type: 'dir', content: ['about.txt', 'resume.md', 'contact.txt', 'blog', 'projects'] },
+                '/blog': { type: 'dir', content: ['index.html'] },
+                '/projects': { type: 'dir', content: [] },
+                '/about.txt': {
+                    type: 'file',
+                    content: `Timothy Tippens — Cloud Architect & DevOps / AI Engineer
+${'─'.repeat(55)}
+
+10+ years designing and operating infrastructure at scale.
+Currently focused on the intersection of DevOps and AI —
+building systems that are fast, observable, and intelligent.
+
+Specializations
+  • Infrastructure as Code  — Terraform, Pulumi, Ansible
+  • Container Orchestration — Kubernetes, EKS, AKS, GKE
+  • Multi-cloud             — AWS, Azure, GCP
+  • CI/CD & Automation      — GitHub Actions, ArgoCD, Jenkins
+  • Observability           — Prometheus, Grafana, Datadog
+  • Languages               — Python, Go, Bash, TypeScript
+  • AI/ML Ops               — MLflow, SageMaker, Vertex AI
+
+Type 'skills'  for a full skill matrix.
+Type 'resume'  to view the interactive resume.
+Type 'social'  for contact links.`
+                },
+                '/resume.md': {
+                    type: 'file',
+                    content: `# Timothy Tippens — Resume
+
+> For the full interactive resume with skill filtering,
+> type 'resume' to navigate to the resume page.
+
+## Quick Summary
+- 10+ years in Cloud Architecture & DevOps
+- Multi-cloud specialist: AWS · Azure · GCP
+- Expert in Kubernetes, Terraform, Ansible, Python
+- DevOps meets AI — building intelligent infrastructure
+
+## Experience Highlights
+- Cloud Architecture & platform engineering at scale
+- CI/CD pipeline design and optimization
+- Infrastructure automation and IaC best practices
+- Team leadership and cross-functional collaboration
+`
+                },
+                '/contact.txt': {
+                    type: 'file',
+                    content: `Contact
+${'─'.repeat(30)}
+Email     solarsnake88@proton.me
+GitHub    github.com/solarsnake
+LinkedIn  linkedin.com/in/timothytippens
+
+Feel free to reach out for opportunities, collaboration,
+or just to connect!`
+                },
+                '/blog/index.html': { type: 'file', content: '(web page — type "blog" to open)' },
             };
 
             let currentPath = '/';
+            let currentTheme = 'dark';
 
-            // --- Utility Functions ---
+            // ── Utilities ──────────────────────────────────────────────
             function getAbsolutePath(path) {
-                if (!path) return currentPath; 
-                if (path.startsWith('/')) {
-                    if (path !== '/' && path.endsWith('/')) {
-                        return path.slice(0, -1);
-                    }
-                    return path;
-                }
+                if (!path) return currentPath;
+                if (path.startsWith('/')) return path !== '/' && path.endsWith('/') ? path.slice(0, -1) : path;
                 const parts = currentPath.split('/').filter(p => p.length > 0);
                 const pathParts = path.split('/').filter(p => p.length > 0);
-
                 for (const part of pathParts) {
-                    if (part === '..') {
-                        if (parts.length > 0) {
-                            parts.pop();
-                        }
-                    } else if (part !== '.') {
-                        parts.push(part);
-                    }
+                    if (part === '..') { if (parts.length > 0) parts.pop(); }
+                    else if (part !== '.') parts.push(part);
                 }
-                const newAbsPath = '/' + parts.join('/');
-                if (newAbsPath !== '/' && newAbsPath.endsWith('/')) {
-                    return newAbsPath.slice(0, -1);
-                }
-                return newAbsPath || '/';
+                const newPath = '/' + parts.join('/');
+                return newPath !== '/' && newPath.endsWith('/') ? newPath.slice(0, -1) : newPath || '/';
             }
 
             function getFile(path) {
-                const absolutePath = getAbsolutePath(path);
-                return filesystem[absolutePath];
+                return filesystem[getAbsolutePath(path)];
             }
 
             function renderMarkdown(markdown) {
                 const html = marked.parse(markdown);
-                return { html: `<div class="terminal-cat-content">${html}</div>`, raw: true };
+                return `<div class="terminal-cat-content">${html}</div>`;
             }
-            
-            // --- Terminal Initialization ---
+
+            function getUptime() {
+                const ms = Date.now() - SESSION_START;
+                const s = Math.floor(ms / 1000);
+                const m = Math.floor(s / 60);
+                const h = Math.floor(m / 60);
+                if (h > 0) return `${h}h ${m % 60}m ${s % 60}s`;
+                if (m > 0) return `${m}m ${s % 60}s`;
+                return `${s}s`;
+            }
+
+            function getPrompt() {
+                return `[[b;#00FF00;]${siteConfig.username}@${siteConfig.hostname}]` +
+                       `[[;#AAAAAA;]:${currentPath === '/' ? '~' : currentPath}]$ `;
+            }
+
+            // ── Help items ─────────────────────────────────────────────
+            const helpItems = [
+                { section: 'Navigation' },
+                { cmd: 'blog',          desc: 'Open blog.' },
+                { cmd: 'contact',       desc: 'Open contact page.' },
+                { cmd: 'home',          desc: 'Return to this terminal.' },
+                { cmd: 'resume',        desc: 'Open interactive resume.' },
+                { section: 'Filesystem' },
+                { cmd: 'cat <file>',    desc: 'Display file content.' },
+                { cmd: 'cd <dir>',      desc: 'Change directory.' },
+                { cmd: 'ls [path]',     desc: 'List directory contents.' },
+                { cmd: 'pwd',           desc: 'Print working directory.' },
+                { section: 'Info' },
+                { cmd: 'about',         desc: 'About this portfolio.' },
+                { cmd: 'date',          desc: 'Current date and time.' },
+                { cmd: 'help',          desc: 'Show this help.' },
+                { cmd: 'history',       desc: 'Command history.' },
+                { cmd: 'man <cmd>',     desc: 'Show command manual.' },
+                { cmd: 'neofetch',      desc: 'System info (portfolio edition).' },
+                { cmd: 'skills',        desc: 'Full skill matrix.' },
+                { cmd: 'social',        desc: 'Social links.' },
+                { cmd: 'uptime',        desc: 'Session uptime.' },
+                { cmd: 'uname [-a]',    desc: 'System name.' },
+                { cmd: 'whoami',        desc: 'Current user.' },
+                { section: 'Utilities' },
+                { cmd: 'clear',         desc: 'Clear screen.' },
+                { cmd: 'echo <text>',   desc: 'Echo text.' },
+                { cmd: 'ping <host>',   desc: 'Ping a host.' },
+                { cmd: 'theme <name>',  desc: 'Switch theme: dark | light | matrix.' },
+                { cmd: 'welcome',       desc: 'Show welcome message.' },
+            ];
+
+            // Manual pages
+            const manPages = {
+                cat:     'cat - concatenate and display file content\n\nUsage: cat <file>\n\nDisplays the content of a file. Markdown files (.md) are rendered.\n\nExamples:\n  cat about.txt\n  cat resume.md',
+                cd:      'cd - change directory\n\nUsage: cd [dir]\n\nChanges the current working directory. With no argument, returns to /.\n\nExamples:\n  cd blog\n  cd /\n  cd ..',
+                ls:      'ls - list directory contents\n\nUsage: ls [path]\n\nLists files and directories. Directories are shown in cyan.\n\nExamples:\n  ls\n  ls /blog',
+                echo:    'echo - display text\n\nUsage: echo <text>\n\nPrints the provided text to stdout.\n\nExample:\n  echo hello world',
+                date:    'date - display current date and time\n\nUsage: date\n\nPrints the current date, time, and timezone.',
+                ping:    'ping - send ICMP packets to a host\n\nUsage: ping <host>\n\nSimulates a network ping to the given hostname.\n\nExample:\n  ping google.com',
+                whoami:  'whoami - print current user\n\nUsage: whoami\n\nPrints the name of the current logged-in user.',
+                uname:   'uname - print system information\n\nUsage: uname [-a]\n\nPrints kernel/system information. Use -a for full output.',
+                theme:   'theme - change terminal color theme\n\nUsage: theme <name>\n\nAvailable themes:\n  dark    Classic dark terminal (default)\n  light   Light mode\n  matrix  Bright matrix green\n\nExample:\n  theme light',
+                history: 'history - show command history\n\nUsage: history\n\nDisplays a numbered list of previously entered commands.',
+                social:  'social - display social links\n\nUsage: social\n\nShows GitHub, LinkedIn, and email contact links.',
+                man:     'man - display command manual\n\nUsage: man <command>\n\nShows the manual page for the given command.\n\nExample:\n  man ls',
+            };
+
+            // ── Terminal init ──────────────────────────────────────────
             const term = $('#terminal').terminal(function(command, term) {
-                const parts = command.trim().split(' ');
+                const parts = command.trim().split(/\s+/);
                 const cmd = parts[0].toLowerCase();
                 const args = parts.slice(1);
-                const fullCommand = command.trim(); // Keep the original trimmed command for specific checks
+                const fullCmd = command.trim();
 
-                // --- Command Implementations ---
-                if (cmd === 'help') {
-                    term.echo('Available commands:');
-                    const helpItems = [
-                        { cmd: 'about', desc: 'Display information about this terminal.' },
-                        { cmd: 'blog', desc: 'Navigate to the blog index page.' },
-                        { cmd: 'cat &lt;file&gt;', desc: 'Display content of a file.' },
-                        { cmd: 'cd &lt;directory&gt;', desc: 'Change current directory.' },
-                        { cmd: 'clear', desc: 'Clear the terminal screen.' },
-                        { cmd: 'contact', desc: 'Navigate to contact page.' },
-                        { cmd: 'date', desc: 'Display the current date and time.' },
-                        { cmd: 'echo &lt;text&gt;', desc: 'Display text.' },
-                        { cmd: 'exit', desc: 'Close the terminal (simulated).' },
-                        { cmd: 'home', desc: 'Navigate to the home page (this terminal).' },
-                        { cmd: 'help', desc: 'Show this help message.' },
-                        { cmd: 'history', desc: 'Show command history.' },
-                        { cmd: 'ls [path]', desc: 'List files and directories.' },
-                        { cmd: 'open &lt;file&gt;', desc: 'Open a file/page in a new tab/window.' },
-                        { cmd: 'pwd', desc: 'Print working directory.' },
-                        { cmd: 'resume', desc: 'Navigate to the resume page.' },
-                        { cmd: 'social', desc: 'Display social media links.' },
-                        { cmd: 'theme &lt;dark|light&gt;', desc: 'Change terminal theme (placeholder).' },
-                        { cmd: 'welcome', desc: 'Display the welcome message.' },
-                        { cmd: 'whoami', desc: 'Display current user.' }
-                    ];
-                    helpItems.forEach(item => {
-                        const formattedCmd = $.terminal.format(`[[b;#00FF00;]${item.cmd}]`); 
-                        const line = `  <span class="help-command">${formattedCmd}</span> <span class="help-description">- ${item.desc}</span>`;
-                        term.echo(line, {raw: true});
-                    });
+                // ── Navigation ──────────────────────────────────────
+                if (cmd === 'blog') {
+                    term.echo('Navigating to blog...');
+                    window.location.href = siteConfig.baseurl + '/blog/index.html';
 
-                } else if (cmd === 'echo') {
-                    term.echo(args.join(' '));
-                } else if (cmd === 'clear') {
-                    term.clear();
-                    welcomeMessage(term);
-                } else if (cmd === 'welcome') {
-                    welcomeMessage(term);
-                } else if (cmd === 'about') {
-                    const file = getFile('/about.txt');
-                    if (file && file.type === 'file') {
-                        term.echo(file.content); 
-                    } else {
-                        term.error('about.txt not found.');
-                    }
-                } else if (cmd === 'social') {
-                    term.echo('Connect with me:');
-                    term.echo(`  GitHub:   [[!;;;;https://github.com/${siteConfig.github_username}]https://github.com/${siteConfig.github_username}]]`);
-                    term.echo(`  LinkedIn: [[!;;;;${siteConfig.linkedin_url}]${siteConfig.linkedin_url}]]`);
-                    term.echo(`  Email:    [[!;;;;mailto:${siteConfig.email}]${siteConfig.email}]]`);
                 } else if (cmd === 'contact') {
-                    term.echo('Navigating to contact page...');
+                    term.echo('Navigating to contact...');
                     window.location.href = siteConfig.baseurl + '/contact.html';
+
                 } else if (cmd === 'resume') {
-                    term.echo('Navigating to resume page...');
+                    term.echo('Navigating to resume...');
                     window.location.href = siteConfig.baseurl + '/resume.html';
-                } else if (cmd === 'blog') {
-                    term.echo('Navigating to blog index...');
-                    window.location.href = siteConfig.baseurl + '/blog/index.html'; 
+
                 } else if (cmd === 'home') {
                     term.echo('Navigating to home...');
-                    window.location.href = siteConfig.baseurl + '/'; 
+                    window.location.href = siteConfig.baseurl + '/';
+
+                // ── Filesystem ──────────────────────────────────────
                 } else if (cmd === 'ls') {
                     const pathToList = args[0] ? getAbsolutePath(args[0]) : currentPath;
                     const dir = getFile(pathToList);
                     if (dir && dir.type === 'dir') {
-                        term.echo(`Contents of [[b;#FFFFFF;]${pathToList}]:`);
-                        if (dir.content.length === 0) {
-                            term.echo('  (empty)');
-                        } else {
-                            dir.content.forEach(item => {
-                                const itemPath = (pathToList === '/' ? '' : pathToList) + '/' + item;
-                                const entry = getFile(itemPath);
-                                if (entry && entry.type === 'dir') {
-                                    term.echo(`  [[b;#39CCCC;]${item}/]]`); 
-                                } else {
-                                    term.echo(`  ${item}`);
-                                }
-                            });
-                        }
+                        const now = new Date();
+                        const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+                        const mo = months[now.getMonth()];
+                        const dy = String(now.getDate()).padStart(2, ' ');
+                        const hr = `${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
+
+                        term.echo(`total ${dir.content.length}`);
+                        dir.content.forEach(item => {
+                            const itemPath = (pathToList === '/' ? '' : pathToList) + '/' + item;
+                            const entry = filesystem[itemPath];
+                            const isDir = entry && entry.type === 'dir';
+                            const perms = isDir ? 'drwxr-xr-x' : '-rw-r--r--';
+                            const size = isDir ? '4096' : String(Math.floor(Math.random() * 8000 + 512)).padStart(7, ' ');
+                            const owner = 'tippens tippens';
+                            const name = isDir
+                                ? `[[b;#00FFCC;]${item}/]`
+                                : item;
+                            term.echo(`${perms}  1 ${owner} ${size} ${mo} ${dy} ${hr} ${name}`, { raw: true });
+                        });
+                        if (dir.content.length === 0) term.echo('(empty)');
                     } else {
                         term.error(`ls: cannot access '${args[0] || pathToList}': No such file or directory`);
                     }
+
                 } else if (cmd === 'cat') {
                     if (args.length === 0) {
                         term.error('Usage: cat <filename>');
@@ -350,47 +412,18 @@
                         const file = getFile(pathToFile);
                         if (file && file.type === 'file') {
                             if (pathToFile.endsWith('.md')) {
-                                const {html, raw} = renderMarkdown(file.content);
-                                term.echo(html, {raw: raw});
+                                term.echo(renderMarkdown(file.content), { raw: true });
                             } else {
                                 term.echo(file.content);
                             }
                         } else {
-                             term.error(`cat: ${args[0]}: No such file or directory`);
+                            term.error(`cat: ${args[0]}: No such file or directory`);
                         }
-                    }
-                } else if (cmd === 'open') {
-                    if (args.length === 0) {
-                        term.error('Usage: open <filepath>');
-                        return;
-                    }
-                    const pathToFile = getAbsolutePath(args[0]);
-                    const file = getFile(pathToFile);
-
-                    if (file && file.type === 'file') {
-                        let targetUrl = '';
-                        if (pathToFile.startsWith('/blog/')) {
-                            const slug = pathToFile.substring('/blog/'.length).replace('.md', '');
-                            targetUrl = `${siteConfig.baseurl}/blog/${slug}.html`;
-                        } else if (pathToFile === '/resume.md') {
-                             targetUrl = `${siteConfig.baseurl}/resume.html`;
-                        } else if (pathToFile === '/contact.txt') { 
-                             targetUrl = `${siteConfig.baseurl}/contact.html`;
-                        }
-                        
-                        if (targetUrl) {
-                            term.echo(`Opening ${args[0]} in a new tab...`);
-                            window.open(targetUrl, '_blank');
-                        } else {
-                            term.echo(`Don't know how to open '${args[0]}' directly. Try 'cat ${args[0]}'.`);
-                        }
-                    } else {
-                        term.error(`open: ${args[0]}: No such file or directory`);
                     }
 
                 } else if (cmd === 'cd') {
                     if (args.length === 0 || args[0] === '~' || args[0] === '') {
-                         currentPath = '/'; 
+                        currentPath = '/';
                     } else {
                         const newPath = getAbsolutePath(args[0]);
                         const dir = getFile(newPath);
@@ -401,20 +434,202 @@
                         }
                     }
                     term.set_prompt(getPrompt());
+
                 } else if (cmd === 'pwd') {
                     term.echo(currentPath);
+
+                } else if (cmd === 'open') {
+                    if (args.length === 0) { term.error('Usage: open <filepath>'); return; }
+                    const pathToFile = getAbsolutePath(args[0]);
+                    const file = getFile(pathToFile);
+                    if (file && file.type === 'file') {
+                        let targetUrl = '';
+                        if (pathToFile === '/resume.md') targetUrl = siteConfig.baseurl + '/resume.html';
+                        else if (pathToFile === '/contact.txt') targetUrl = siteConfig.baseurl + '/contact.html';
+                        if (targetUrl) {
+                            term.echo(`Opening ${args[0]}...`);
+                            window.open(targetUrl, '_blank');
+                        } else {
+                            term.echo(`No external URL for '${args[0]}'. Try 'cat ${args[0]}'.`);
+                        }
+                    } else {
+                        term.error(`open: ${args[0]}: No such file or directory`);
+                    }
+
+                // ── Info commands ──────────────────────────────────
+                } else if (cmd === 'about') {
+                    const file = getFile('/about.txt');
+                    term.echo(file ? file.content : 'about.txt not found.');
+
                 } else if (cmd === 'whoami') {
                     term.echo(siteConfig.username);
+
                 } else if (cmd === 'date') {
                     term.echo(new Date().toString());
+
+                } else if (cmd === 'uptime') {
+                    const ut = getUptime();
+                    const t = new Date().toLocaleTimeString();
+                    term.echo(` ${t}  up ${ut},  1 user,  load average: 0.00, 0.00, 0.00`);
+
+                } else if (cmd === 'uname') {
+                    const full = args.includes('-a') || args.includes('--all');
+                    if (full) {
+                        term.echo('Linux portfolio 6.9.0-devops #1 SMP PREEMPT_DYNAMIC Thu Jan  1 00:00:00 UTC 2025 x86_64 GNU/Linux');
+                    } else {
+                        term.echo('Linux');
+                    }
+
+                } else if (cmd === 'neofetch') {
+                    const logo = [
+                        '        :::        ',
+                        '      ::: :::      ',
+                        '    :::     :::    ',
+                        '  :::         :::  ',
+                        ':::::::::::::::::::',
+                        ':::::::::::::::::::',
+                        '  :::         :::  ',
+                        '    :::     :::    ',
+                        '      ::: :::      ',
+                        '        :::        ',
+                    ];
+                    const info = [
+                        `[[b;#00FF00;]${siteConfig.username}][[;#AAAAAA;]@][[b;#00FF00;]portfolio]`,
+                        `[[;#444;]${'─'.repeat(22)}]`,
+                        `[[b;#00FF00;]OS][[;#aaa;]:] Cloud Native Linux`,
+                        `[[b;#00FF00;]Host][[;#aaa;]:] ${window.location.hostname}`,
+                        `[[b;#00FF00;]Role][[;#aaa;]:] Cloud Architect & DevOps Engineer`,
+                        `[[b;#00FF00;]Shell][[;#aaa;]:] jQuery Terminal 2.44.1`,
+                        `[[b;#00FF00;]Stack][[;#aaa;]:] AWS · Azure · GCP · K8s · Terraform`,
+                        `[[b;#00FF00;]AI/ML][[;#aaa;]:] MLflow · SageMaker · Vertex AI · LLMs`,
+                        `[[b;#00FF00;]Languages][[;#aaa;]:] Python · Go · Bash · TypeScript`,
+                        `[[b;#00FF00;]Uptime][[;#aaa;]:] ${getUptime()}`,
+                        ``,
+                        `[[b;#000;#00FF00;]   ][[b;#000;#00CC00;]   ][[b;#000;#009900;]   ][[b;#000;#006600;]   ][[b;#000;#003300;]   ]`,
+                    ];
+
+                    const rows = Math.max(logo.length, info.length);
+                    for (let i = 0; i < rows; i++) {
+                        const l = (logo[i] || '                   ');
+                        const r = info[i] || '';
+                        term.echo(`  [[b;#00FF00;]${l}]  ${r}`, { raw: true });
+                    }
+
+                } else if (cmd === 'skills') {
+                    const categories = [
+                        { name: 'Cloud Platforms', items: ['AWS (EC2, EKS, RDS, Lambda, S3, IAM)', 'Azure (AKS, App Service, DevOps)', 'GCP (GKE, Cloud Run, BigQuery)'] },
+                        { name: 'Container & Orchestration', items: ['Kubernetes (EKS, AKS, GKE, self-hosted)', 'Docker, containerd', 'Helm, Kustomize', 'ArgoCD, Flux (GitOps)'] },
+                        { name: 'Infrastructure as Code', items: ['Terraform (advanced)', 'Pulumi', 'Ansible', 'CloudFormation'] },
+                        { name: 'CI/CD & Automation', items: ['GitHub Actions', 'Jenkins', 'CircleCI', 'GitLab CI'] },
+                        { name: 'Observability', items: ['Prometheus + Grafana', 'Datadog', 'ELK Stack', 'OpenTelemetry'] },
+                        { name: 'Languages', items: ['Python', 'Go', 'Bash/Shell', 'TypeScript/JavaScript'] },
+                        { name: 'AI / ML Ops', items: ['MLflow', 'AWS SageMaker', 'Google Vertex AI', 'LLM integration & prompt engineering', 'Vector databases (Pinecone, Weaviate)'] },
+                        { name: 'Databases', items: ['PostgreSQL, MySQL', 'Redis, Memcached', 'MongoDB', 'DynamoDB'] },
+                        { name: 'Networking & Security', items: ['VPC design, peering, transit gateways', 'Service meshes (Istio, Linkerd)', 'IAM, RBAC, secrets management (Vault)'] },
+                    ];
+
+                    term.echo(`[[b;#00FF00;]${siteConfig.title} — Skill Matrix]`);
+                    term.echo(`[[;#555;]${'─'.repeat(40)}]`);
+                    categories.forEach(cat => {
+                        term.echo(`\n  [[b;#00FFCC;]${cat.name}]`);
+                        cat.items.forEach(item => {
+                            term.echo(`    [[;#00CC00;]·] ${item}`);
+                        });
+                    });
+                    term.echo('');
+
+                } else if (cmd === 'social') {
+                    term.echo('Connect:');
+                    term.echo(`  [[b;#00FFCC;]GitHub]    [[!;;;;https://github.com/${siteConfig.github_username}]https://github.com/${siteConfig.github_username}]]`);
+                    term.echo(`  [[b;#00FFCC;]LinkedIn]  [[!;;;;${siteConfig.linkedin_url}]${siteConfig.linkedin_url}]]`);
+                    term.echo(`  [[b;#00FFCC;]Email]     [[!;;;;mailto:${siteConfig.email}]${siteConfig.email}]]`);
+
                 } else if (cmd === 'history') {
-                    term.history().data().forEach((h, i) => term.echo(`${String(i).padStart(3, ' ')}: ${h}`));
+                    term.history().data().forEach((h, i) => term.echo(`${String(i + 1).padStart(4, ' ')}  ${h}`));
+
+                } else if (cmd === 'help') {
+                    term.echo('');
+                    term.echo(`[[b;#00FF00;]Available Commands]  (type 'man <cmd>' for details)`);
+                    term.echo(`[[;#333;]${'─'.repeat(55)}]`);
+                    helpItems.forEach(item => {
+                        if (item.section) {
+                            term.echo(`\n  [[b;#00FFCC;]── ${item.section}]`);
+                        } else {
+                            const fCmd = `[[b;#00FF00;]${item.cmd}]`;
+                            const line = `    <span class="help-cmd">${fCmd}</span><span class="help-desc" style="color:#008800">  ${item.desc}</span>`;
+                            term.echo(line, { raw: true });
+                        }
+                    });
+                    term.echo('');
+
+                } else if (cmd === 'man') {
+                    if (args.length === 0) {
+                        term.error('Usage: man <command>');
+                    } else {
+                        const page = manPages[args[0].toLowerCase()];
+                        if (page) {
+                            term.echo(`[[b;#00FF00;]MANUAL: ${args[0].toUpperCase()}]`);
+                            term.echo(`[[;#333;]${'─'.repeat(40)}]`);
+                            term.echo(page);
+                        } else {
+                            term.error(`man: no manual entry for '${args[0]}'`);
+                        }
+                    }
+
+                // ── Utilities ──────────────────────────────────────
+                } else if (cmd === 'echo') {
+                    term.echo(args.join(' '));
+
+                } else if (cmd === 'clear') {
+                    term.clear();
+                    welcomeMessage(term);
+
+                } else if (cmd === 'welcome') {
+                    welcomeMessage(term);
+
+                } else if (cmd === 'ping') {
+                    if (args.length === 0) { term.error('Usage: ping <host>'); return; }
+                    const host = args[0];
+                    term.echo(`PING ${host}: 56 data bytes`);
+                    let count = 0;
+                    const iv = setInterval(() => {
+                        if (count >= 4) { clearInterval(iv); term.echo(`\n--- ${host} ping statistics ---\n4 packets transmitted, 4 received, 0% packet loss`); return; }
+                        const rtt = (Math.random() * 8 + 12).toFixed(3);
+                        term.echo(`64 bytes from ${host}: icmp_seq=${count} ttl=64 time=${rtt} ms`);
+                        count++;
+                    }, 600);
+
                 } else if (cmd === 'theme') {
-                    term.echo("Theme functionality not yet implemented.");
+                    const themes = {
+                        dark: { bg: '#000000', fg: '#00FF00', link: '#00FFCC' },
+                        light: null, // handled via CSS class
+                        matrix: { bg: '#000000', fg: '#39FF14', link: '#00FF99' }
+                    };
+                    const name = (args[0] || '').toLowerCase();
+                    if (!name || !['dark', 'light', 'matrix'].includes(name)) {
+                        term.echo('Usage: theme <dark|light|matrix>');
+                        term.echo(`Current theme: [[b;#00FF00;]${currentTheme}]`);
+                        return;
+                    }
+                    currentTheme = name;
+                    document.body.className = name === 'light' ? 'theme-light' : '';
+
+                    if (name === 'matrix') {
+                        document.documentElement.style.setProperty('--color', '#39FF14');
+                    } else if (name === 'dark') {
+                        document.documentElement.style.setProperty('--color', '#00FF00');
+                    }
+
+                    term.echo(`Theme set to [[b;#00FF00;]${name}]`);
+
+                } else if (cmd === 'sudo') {
+                    term.echo('[[;#FF4136;]Permission denied. Nice try.]');
+
                 } else if (cmd === 'exit') {
-                    term.echo("Simulating exit. Goodbye!");
-                } else if (fullCommand === 'rm -rf *' || fullCommand === 'rm -rf /') {
-                    // Easter egg for "rm -rf *"
+                    term.echo('Goodbye! (refresh to restart session)');
+
+                // ── Easter eggs ─────────────────────────────────────
+                } else if (fullCmd === 'rm -rf *' || fullCmd === 'rm -rf /' || fullCmd === 'rm -rf .') {
                     term.echo("⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠋⠁⠀⠀⠈⠉⠙⠻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿");
                     term.echo("⣿⣿⣿⣿⣿⣿⣿⣿⣿⡟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠻⣿⣿⣿⣿⣿⣿⣿⣿⣿");
                     term.echo("⣿⣿⣿⣿⣿⣿⣿⣿⡟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⢻⣿⣿⣿⣿⣿⣿⣿");
@@ -424,16 +639,39 @@
                     term.echo("⣿⣿⣿⣿⣿⣿⡇⠀⠀⠀⡈⠀⠀⠉⣿⣿⣶⡉⠀⠀⣀⡀⠀⠀⠀⢻⣿⣿⣿⣿");
                     term.echo("⣿⣿⣿⣿⣿⣿⡇⠀⠀⠸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠇⠀⠀⠀⢸⣿⣿⣿⣿");
                     term.echo("⣿⣿⣿⣿⣿⣿⣿⠀⠀⠀⠉⢉⣽⣿⠿⣿⡿⢻⣯⡍⢁⠄⠀⠀⠀⣸⣿⣿⣿⣿");
-                    term.echo("⣿⣿⣿⣿⣿⣿⣿⡄⠀⠀⠐⡀⢉⠉⠀⠠⠀⢉⣉⠀⡜⠀⠀⠀⠀⣿⣿⣿⣿⣿");
-                    term.echo("⣿⣿⣿⣿⣿⣿⠿⠁⠀⠀⠀⠘⣤⣭⣟⠛⠛⣉⣁⡜⠀⠀⠀⠀⠀⠛⠿⣿⣿⣿");
                     term.echo("⡿⠟⠛⠉⠉⠀⠀⠀⠀⠀⠀⠀⠈⢻⣿⡀⠀⣿⠏⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠉");
-                    term.echo("⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠁⠀⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀");                    
-                    term.echo("  [[b;orange;]Hey, careful there Boris! ;)]");
-                    term.echo("  Why are you trying to erase my site?");
+                    term.echo("  [[b;orange;]Hey Boris! Careful with that.] 😄");
+
+                } else if (cmd === 'hack' || cmd === 'hacking') {
+                    term.echo('[[;#00FF00;]Initializing... just kidding. This is a portfolio site.]');
+                    term.echo('[[;#008800;]Type "help" to see what you can actually do.]');
+
+                } else if (cmd === 'vim' || cmd === 'nvim' || cmd === 'nano' || cmd === 'emacs') {
+                    term.echo(`[[;#666;]${cmd}: No text files open in browser terminal.]`);
+                    term.echo('[[;#008800;]Try the blog admin at /admin/ for a real editor.]');
+
+                } else if (cmd === 'curl' || cmd === 'wget') {
+                    term.echo(`[[;#666;]${cmd}: Network access is simulated here.]`);
+                    term.echo('[[;#008800;]Try: social, ping, or just use your browser.]');
+
+                } else if (cmd === 'git') {
+                    const sub = args[0] || '';
+                    if (sub === 'log') {
+                        term.echo('commit b51b066  [[;#008800;]Modernize portfolio terminal]');
+                        term.echo('commit 2f3b054  [[;#008800;]Blog changes]');
+                        term.echo('commit be43173  [[;#008800;]Minor changes]');
+                        term.echo('commit eb33cca  [[;#008800;]Formatted resume]');
+                    } else if (sub === 'status') {
+                        term.echo('On branch terminal');
+                        term.echo('nothing to commit, working tree clean');
+                    } else {
+                        term.echo(`git ${sub}: command delegated to GitHub Actions`);
+                    }
+
+                } else if (command.trim() !== '') {
+                    term.error(`${cmd}: command not found. Type 'help' for available commands.`);
                 }
-                else if (command.trim() !== '') {
-                    term.error(`${cmd}: command not found`); // Removed explicit red formatting
-                }
+
             }, {
                 greetings: false,
                 prompt: getPrompt(),
@@ -445,90 +683,78 @@
                 convertLinks: true,
                 historySize: 200,
                 scrollOnOutput: true,
-                outputLimit: 100, 
+                outputLimit: 500,
                 tabcompletion: true,
-                completionEscape: false, 
+                completionEscape: false,
                 completion: function(string) {
                     const command = this.get_command();
-                    const parts = command.split(/(\s+)/); 
+                    const parts = command.split(/(\s+)/);
                     const cmdName = parts[0].toLowerCase();
-                    
+
                     let currentArgInput = string;
                     if (parts.length > 1) {
                         let lastPart = parts[parts.length - 1];
-                        if (command.endsWith(' ')) { 
-                            currentArgInput = "";
-                        } else {
-                           currentArgInput = lastPart;
-                        }
+                        currentArgInput = command.endsWith(' ') ? '' : lastPart;
                     }
 
-                    let list = [];
-                    const commands = ['help', 'echo', 'clear', 'welcome', 'about', 'social', 'contact', 'resume', 'blog', 'ls', 'cat', 'cd', 'pwd', 'whoami', 'date', 'history', 'theme', 'exit', 'open', 'home'];
+                    const commands = helpItems.filter(i => i.cmd).map(i => i.cmd.split(' ')[0]);
+                    // Add extra commands not in helpItems
+                    const extraCmds = ['exit', 'sudo', 'git', 'vim', 'curl', 'open'];
+                    const allCmds = [...new Set([...commands, ...extraCmds])];
 
-                    if (parts.length <= 1 || (parts.length > 1 && command.lastIndexOf(' ') === command.length -1 && string === '')) { 
-                         if (command.lastIndexOf(' ') === command.length -1 && string === ''){ 
-                            const dirEntry = getFile(currentPath);
-                            if (dirEntry && dirEntry.type === 'dir') {
-                                list = dirEntry.content.map(item => {
-                                    const itemPath = (currentPath === '/' ? '' : currentPath) + '/' + item;
-                                    const itemEntry = getFile(itemPath);
-                                    return item + (itemEntry && itemEntry.type === 'dir' ? '/' : '');
-                                });
-                            }
-                        } else {
-                            list = commands.filter(cmd => cmd.startsWith(string));
-                        }
+                    let list = [];
+                    if (parts.length <= 1) {
+                        list = allCmds.filter(c => c.startsWith(string));
                     } else if (['cat', 'ls', 'cd', 'open'].includes(cmdName)) {
                         const pathPrefixMatch = currentArgInput.match(/^(.*\/)/);
                         const pathPrefix = pathPrefixMatch ? pathPrefixMatch[0] : '';
                         const partialName = currentArgInput.substring(pathPrefix.length);
-                        
                         const dirToList = getAbsolutePath(pathPrefix || currentPath);
                         const dirEntry = getFile(dirToList);
-
                         if (dirEntry && dirEntry.type === 'dir') {
                             list = dirEntry.content
                                 .filter(item => item.startsWith(partialName))
                                 .map(item => {
-                                    const fullItemPath = (dirToList === '/' && !pathPrefix) ? `/${item}` : (pathPrefix + item);
-                                    const itemEntry = getFile(getAbsolutePath(fullItemPath)); 
+                                    const fullItemPath = (dirToList === '/' && !pathPrefix)
+                                        ? `/${item}` : (pathPrefix + item);
+                                    const itemEntry = filesystem[getAbsolutePath(fullItemPath)];
                                     return pathPrefix + item + (itemEntry && itemEntry.type === 'dir' ? '/' : '');
                                 });
                         }
+                    } else if (cmdName === 'theme') {
+                        list = ['dark', 'light', 'matrix'].filter(t => t.startsWith(currentArgInput));
+                    } else if (cmdName === 'man') {
+                        list = Object.keys(manPages).filter(k => k.startsWith(currentArgInput));
                     }
                     return list;
                 }
             });
 
-            // --- Helper Functions for Terminal ---
-            function getPrompt() {
-                return `[[b;#00FF00;]${siteConfig.username}@${siteConfig.hostname}]` + 
-                       `[[;#FFFFFF;]:${currentPath === '/' ? '~' : currentPath}]$ `;
-            }
-
             function welcomeMessage(termInstance) {
-                termInstance.echo(`Welcome to [[b;#00FF00;]${siteConfig.title}]'s Portfolio Terminal`);
-                termInstance.echo(`Cloud Architect & DevOps Engineer`);
-                termInstance.echo(``);
-                termInstance.echo(`Type '[[b;#00FF00;]help]' for available commands or '[[b;#00FF00;]about]' to learn more.`);
-                termInstance.echo('---');
+                termInstance.echo(`  [[b;#00FF00;]████████╗██╗██████╗ ██████╗ ███████╗███╗   ██╗███████╗]`);
+                termInstance.echo(`  [[b;#00CC00;]╚══██╔══╝██║██╔══██╗██╔══██╗██╔════╝████╗  ██║██╔════╝]`);
+                termInstance.echo(`  [[b;#00FF00;]   ██║   ██║██████╔╝██████╔╝█████╗  ██╔██╗ ██║███████╗]`);
+                termInstance.echo(`  [[b;#00CC00;]   ██║   ██║██╔═══╝ ██╔═══╝ ██╔══╝  ██║╚██╗██║╚════██║]`);
+                termInstance.echo(`  [[b;#00FF00;]   ██║   ██║██║     ██║     ███████╗██║ ╚████║███████║]`);
+                termInstance.echo(`  [[b;#008800;]   ╚═╝   ╚═╝╚═╝     ╚═╝     ╚══════╝╚═╝  ╚═══╝╚══════╝]`);
+                termInstance.echo('');
+                termInstance.echo(`  [[b;#00FF00;]Timothy Tippens] — Cloud Architect & DevOps / AI Engineer`);
+                termInstance.echo(`  [[;#555;]Cloud Native · Kubernetes · Terraform · Python · AI/ML]`);
+                termInstance.echo('');
+                termInstance.echo(`  Type [[b;#00FF00;]help] for commands · [[b;#00FF00;]neofetch] for system info · [[b;#00FF00;]skills] for tech stack`);
+                termInstance.echo(`  [[;#444;]──────────────────────────────────────────────────────────]`);
             }
 
-            // Re-focus terminal on document click if the click is not on an interactive element
-            // and the terminal is not already focused.
             $(document).on('click', function(event) {
-                if (!term.enabled()) { 
-                    return;
-                }
+                if (!term.enabled()) return;
                 const $target = $(event.target);
-                // Check if the click is outside the terminal div, or if it's inside but not on an interactive element.
-                if (!$target.closest('#terminal').length || 
-                    ($target.closest('#terminal').length && !$target.is('a, button, input, textarea, [contenteditable="true"]') && !$target.closest('a, button').length)) {
-                    
+                if (!$target.closest('#terminal').length ||
+                    ($target.closest('#terminal').length &&
+                     !$target.is('a, button, input, textarea, [contenteditable="true"]') &&
+                     !$target.closest('a, button').length)) {
                     const activeTerminal = $.terminal.active();
                     if (!activeTerminal || activeTerminal[0] !== term[0]) {
-                         term.focus(true);
+                        term.focus(true);
                     }
                 }
             });

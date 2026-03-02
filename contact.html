@@ -3,95 +3,189 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact Me</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto+Mono&display=swap" rel="stylesheet">
+    <title>Contact — tippens</title>
     <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --green: #00ff00;
+            --green-dim: #00cc00;
+            --green-muted: #008800;
+            --green-dark: #004400;
+            --cyan: #00ffcc;
+            --bg: #000000;
+            --bg-card: #0d0d0d;
+            --border: #1a3a1a;
+            --border-active: #00aa00;
+            --text: #00cc00;
+            --text-dim: #008800;
+            --font: 'Menlo', 'Monaco', 'Consolas', 'Courier New', monospace;
+        }
+
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #000; }
+        ::-webkit-scrollbar-thumb { background: var(--green-muted); border-radius: 3px; }
+
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: #111827; /* Dark blue-gray background */
-            color: #d1d5db; /* Light gray text */
+            font-family: var(--font);
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
+        }
+
+        /* Nav */
+        .site-nav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: var(--bg-card);
+            border-bottom: 1px solid var(--border);
+            padding: 0.75rem 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .site-nav .brand {
+            color: var(--green);
+            font-size: 0.85rem;
+            letter-spacing: 0.05em;
+        }
+
+        .site-nav .brand span { color: var(--text-dim); }
+
+        .nav-links { display: flex; gap: 1.5rem; list-style: none; }
+
+        .nav-links a {
+            color: var(--text-dim);
+            text-decoration: none;
+            font-size: 0.8rem;
+            transition: color 0.15s;
+        }
+
+        .nav-links a:hover { color: var(--green); }
+        .nav-links a.active { color: var(--green); }
+
+        /* Main */
+        main {
+            flex: 1;
+            display: flex;
             align-items: center;
             justify-content: center;
-            min-height: 100vh;
-            margin: 0;
+            padding: 2rem 1rem;
         }
-        .container {
-            max-width: 600px;
-            width: 90%;
-            padding: 2rem;
-            background-color: #1f2937; /* Slightly lighter blue-gray */
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-            text-align: center;
-        }
-        h1 {
-            color: #60a5fa; /* Light blue */
-            margin-bottom: 1.5rem;
-        }
-        .contact-item {
-            margin-bottom: 1rem;
-            font-size: 1.125rem;
-        }
-        .contact-item strong {
-            color: #9ca3af; /* Medium gray */
-        }
-        .contact-item a {
-            color: #3b82f6; /* Standard blue */
-            text-decoration: none;
-        }
-        .contact-item a:hover {
-            text-decoration: underline;
-            color: #60a5fa; /* Lighter blue on hover */
-        }
-         /* Simple navigation bar */
-        .navbar {
-            background-color: #374151; /* Medium-dark gray */
-            padding: 1rem;
-            text-align: center;
-            border-radius: 8px;
-            margin-bottom: 2rem;
+
+        .contact-card {
             width: 100%;
-            box-sizing: border-box;
+            max-width: 520px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            padding: 2rem 2.5rem;
         }
-        .navbar a {
-            color: white;
-            margin: 0 1rem;
-            font-weight: 500;
+
+        .contact-card h1 {
+            font-size: 1.1rem;
+            color: var(--green);
+            margin-bottom: 0.25rem;
         }
-        .navbar a:hover {
-            color: #9ca3af; /* Lighter gray on hover */
+
+        .contact-card .subtitle {
+            font-size: 0.75rem;
+            color: var(--text-dim);
+            margin-bottom: 2rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.8rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .contact-item:last-child { border-bottom: none; }
+
+        .contact-label {
+            font-size: 0.72rem;
+            color: var(--text-dim);
+            width: 7ch;
+            flex-shrink: 0;
+        }
+
+        .contact-value {
+            font-size: 0.82rem;
+        }
+
+        .contact-value a {
+            color: var(--cyan);
             text-decoration: none;
+            transition: color 0.15s;
+        }
+
+        .contact-value a:hover {
+            color: var(--green);
+            text-decoration: underline;
+        }
+
+        .contact-footer {
+            margin-top: 1.75rem;
+            font-size: 0.72rem;
+            color: var(--text-dim);
+            line-height: 1.6;
+        }
+
+        @media (max-width: 500px) {
+            .site-nav { flex-direction: column; gap: 0.5rem; }
+            .contact-card { padding: 1.5rem; }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <nav class="navbar">
-            <a href="index.html">Terminal Home</a>
-            <a href="resume.html">Resume</a>
-            <a href="blog.html">Blog</a>
-        </nav>
-        <h1 class="text-3xl font-bold">Get In Touch</h1>
-        <div class="contact-details mt-6">
-            <p class="contact-item">
-                <strong>Email:</strong>
+
+<nav class="site-nav">
+    <div class="brand">tippens@portfolio<span>:/contact</span>$</div>
+    <ul class="nav-links">
+        <li><a href="index.html">~/terminal</a></li>
+        <li><a href="resume.html">~/resume</a></li>
+        <li><a href="blog/index.html">~/blog</a></li>
+        <li><a href="contact.html" class="active">~/contact</a></li>
+    </ul>
+</nav>
+
+<main>
+    <div class="contact-card">
+        <h1>// get in touch</h1>
+        <p class="subtitle">tippens@portfolio — open to opportunities & collaboration</p>
+
+        <div class="contact-item">
+            <span class="contact-label">email</span>
+            <div class="contact-value">
                 <a href="mailto:solarsnake88@proton.me">solarsnake88@proton.me</a>
-            </p>
-            <p class="contact-item">
-                <strong>GitHub:</strong>
-                <a href="https://github.com/solarsnake" target="_blank">github.com/solarsnake</a>
-            </p>
-            <p class="contact-item">
-                <strong>LinkedIn:</strong>
-                <a href="https://linkedin.com/in/timothytippens" target="_blank">linkedin.com/in/timothytippens</a>
-            </p>
-            <!-- Add other contact methods if you like -->
+            </div>
         </div>
+
+        <div class="contact-item">
+            <span class="contact-label">github</span>
+            <div class="contact-value">
+                <a href="https://github.com/solarsnake" target="_blank" rel="noopener">github.com/solarsnake</a>
+            </div>
+        </div>
+
+        <div class="contact-item">
+            <span class="contact-label">linkedin</span>
+            <div class="contact-value">
+                <a href="https://linkedin.com/in/timothytippens" target="_blank" rel="noopener">linkedin.com/in/timothytippens</a>
+            </div>
+        </div>
+
+        <p class="contact-footer">
+            Cloud Architect &amp; DevOps / AI Engineer — 10+ years building<br>
+            scalable infrastructure across AWS, Azure, and GCP.
+        </p>
     </div>
+</main>
+
 </body>
 </html>
