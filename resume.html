@@ -4,6 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Resume — Timothy M. Tippens</title>
+
+    <!-- Open Graph / Twitter Card -->
+    <meta property="og:type"        content="profile">
+    <meta property="og:title"       content="Timothy Tippens — Cloud Architect & DevOps / AI Engineer">
+    <meta property="og:description" content="10+ years building scalable cloud infrastructure across AWS, Azure, and GCP. Interactive resume with skill filtering.">
+    <meta property="og:url"         content="https://justthetipp.com/resume.html">
+    <meta property="og:site_name"   content="tippens@portfolio">
+    <meta name="twitter:card"       content="summary">
+    <meta name="twitter:title"      content="Timothy Tippens — Resume">
+    <meta name="twitter:description" content="Cloud Architect & DevOps / AI Engineer — 10+ years at NASA JPL, NBCUniversal, and more.">
+
     <style>
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -338,6 +349,56 @@
             .nav-mobile { display: block; }
             .about-cards { grid-template-columns: 1fr; }
         }
+
+        /* ── Print / PDF ── */
+        @media print {
+            * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+
+            body { background: #fff; color: #000; font-size: 10pt; line-height: 1.4; }
+
+            .site-nav, .nav-mobile, #filter-banner { display: none !important; }
+
+            .page-wrap { max-width: 100%; padding: 0; }
+
+            section { margin-bottom: 1.5rem; break-inside: avoid; }
+
+            .section-header { border-bottom: 1px solid #000; margin-bottom: 0.75rem; }
+            .section-header h2 { color: #000; font-size: 8pt; letter-spacing: 0.1em; }
+            .section-header p { display: none; }
+
+            .about-headline { color: #000; font-size: 13pt; }
+            .about-summary { color: #333; }
+
+            .about-card { border: 1px solid #000; break-inside: avoid; }
+            .about-card h3 { color: #000; }
+            .about-card p { color: #333; }
+
+            .skill-category { border: 1px solid #ccc; break-inside: avoid; }
+            .skill-category-name { color: #000; }
+            .skill-tag { border: 1px solid #666; color: #000; }
+
+            .timeline { border-left: 2px solid #000; }
+            .timeline-company::before { color: #000; }
+            .company-name { color: #000; }
+            .company-meta { color: #333; }
+
+            /* Expand all roles for print */
+            .role-header { border: 1px solid #000; background: #f5f5f5; cursor: default; }
+            .role-title { color: #000; }
+            .role-duration { color: #333; }
+            .role-chevron { display: none; }
+            .role-content { max-height: none !important; overflow: visible !important; border-left: 2px solid #ccc; }
+            .experience-detail { color: #333; }
+            .experience-detail::before { color: #000; }
+
+            .education-card { border: 1px solid #000; }
+            .education-card h3 { color: #000; }
+            .education-card .degree { color: #333; }
+            .education-card .award { color: #333; border-left-color: #000; }
+
+            footer { border-top: 1px solid #000; color: #000; }
+            footer a { color: #000; text-decoration: underline; }
+        }
     </style>
 </head>
 <body>
@@ -440,11 +501,11 @@
 <footer>
     Timothy M. Tippens &nbsp;·&nbsp; San Diego, CA
     <br><br>
-    <a href="mailto:timothy.tippens@gmail.com">timothy.tippens@gmail.com</a>
+    <a href="mailto:solarsnake88@proton.me">solarsnake88@proton.me</a>
     <span class="sep">|</span>
-    919.491.5120
+    <a href="https://github.com/solarsnake" target="_blank" rel="noopener">github.com/solarsnake</a>
     <span class="sep">|</span>
-    424.253.4307
+    <a href="https://linkedin.com/in/timothytippens" target="_blank" rel="noopener">linkedin.com/in/timothytippens</a>
 </footer>
 
 <script>

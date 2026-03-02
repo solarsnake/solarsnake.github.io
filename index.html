@@ -4,6 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>tippens@portfolio</title>
+
+    <!-- Open Graph / Twitter Card -->
+    <meta property="og:type"        content="website">
+    <meta property="og:title"       content="tippens@portfolio — Cloud Architect & DevOps / AI Engineer">
+    <meta property="og:description" content="Interactive terminal portfolio for Timothy Tippens — Cloud Architect, DevOps, and AI Engineer with 10+ years at NASA JPL, NBCUniversal, and more.">
+    <meta property="og:url"         content="https://justthetipp.com/">
+    <meta property="og:site_name"   content="tippens@portfolio">
+    <meta name="twitter:card"       content="summary">
+    <meta name="twitter:title"      content="tippens@portfolio">
+    <meta name="twitter:description" content="Interactive terminal portfolio — Cloud Architect & DevOps / AI Engineer.">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.terminal/2.44.1/js/jquery.terminal.min.js"></script>
@@ -322,6 +332,7 @@ or just to connect!`
                 { cmd: 'history',       desc: 'Command history.' },
                 { cmd: 'man <cmd>',     desc: 'Show command manual.' },
                 { cmd: 'neofetch',      desc: 'System info (portfolio edition).' },
+                { cmd: 'projects',      desc: 'Fetch live GitHub projects.' },
                 { cmd: 'skills',        desc: 'Full skill matrix.' },
                 { cmd: 'social',        desc: 'Social links.' },
                 { cmd: 'uptime',        desc: 'Session uptime.' },
@@ -537,6 +548,32 @@ or just to connect!`
                         });
                     });
                     term.echo('');
+
+                } else if (cmd === 'projects') {
+                    term.echo(`[[b;#00FF00;]Fetching repos from github.com/${siteConfig.github_username}...]`);
+                    fetch(`https://api.github.com/users/${siteConfig.github_username}/repos?sort=pushed&per_page=8&type=public`, {
+                        headers: { 'Accept': 'application/vnd.github.v3+json' }
+                    })
+                    .then(r => {
+                        if (!r.ok) throw new Error('GitHub API error ' + r.status);
+                        return r.json();
+                    })
+                    .then(repos => {
+                        if (!repos.length) { term.echo('No public repositories found.'); return; }
+                        term.echo('');
+                        repos.forEach(repo => {
+                            const lang = repo.language ? `[[;#00FFCC;]${repo.language}]` : '[[;#444;]—]';
+                            const stars = repo.stargazers_count > 0 ? ` ★${repo.stargazers_count}` : '';
+                            const desc = repo.description || 'No description';
+                            term.echo(`  [[b;#00FF00;]${repo.name}]${stars}  ${lang}`, { raw: true });
+                            term.echo(`  [[;#008800;]${desc}]`);
+                            term.echo(`  [[!;;;;${repo.html_url}]${repo.html_url}]]`);
+                            term.echo('');
+                        });
+                    })
+                    .catch(() => {
+                        term.error('Could not fetch repositories. Check your connection or visit github.com/' + siteConfig.github_username);
+                    });
 
                 } else if (cmd === 'social') {
                     term.echo('Connect:');

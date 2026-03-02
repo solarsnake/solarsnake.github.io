@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 — tippens@portfolio</title>
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --green: #00ff00;
+            --green-dim: #00cc00;
+            --green-muted: #008800;
+            --green-dark: #004400;
+            --cyan: #00ffcc;
+            --red: #ff4136;
+            --bg: #000000;
+            --bg-card: #0d0d0d;
+            --border: #1a3a1a;
+            --text-dim: #008800;
+            --font: 'Menlo', 'Monaco', 'Consolas', 'Courier New', monospace;
+        }
+
+        body {
+            font-family: var(--font);
+            background: var(--bg);
+            color: var(--green-dim);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            padding: 2.5rem 3rem;
+            max-width: 540px;
+            width: 100%;
+        }
+
+        .prompt {
+            font-size: 0.78rem;
+            color: var(--text-dim);
+            margin-bottom: 1.5rem;
+        }
+
+        .prompt span { color: var(--green); }
+
+        .error-code {
+            font-size: clamp(3rem, 10vw, 5rem);
+            color: var(--red);
+            line-height: 1;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.02em;
+        }
+
+        .error-msg {
+            font-size: 0.9rem;
+            color: var(--green-dim);
+            margin-bottom: 0.25rem;
+        }
+
+        .error-sub {
+            font-size: 0.75rem;
+            color: var(--text-dim);
+            margin-bottom: 2rem;
+        }
+
+        .divider {
+            border: none;
+            border-top: 1px solid var(--border);
+            margin: 1.5rem 0;
+        }
+
+        .suggestion {
+            font-size: 0.78rem;
+            color: var(--text-dim);
+            margin-bottom: 1rem;
+        }
+
+        .links { display: flex; flex-direction: column; gap: 0.5rem; }
+
+        .links a {
+            color: var(--cyan);
+            text-decoration: none;
+            font-size: 0.82rem;
+            transition: color 0.15s;
+        }
+
+        .links a::before {
+            content: '$ cd ';
+            color: var(--text-dim);
+        }
+
+        .links a:hover { color: var(--green); text-decoration: underline; }
+
+        .blink {
+            animation: blink 1s step-end infinite;
+        }
+
+        @keyframes blink {
+            0%, 49% { opacity: 1; }
+            50%, 100% { opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+<div class="card">
+    <div class="prompt"><span>tippens@portfolio</span>:/404$</div>
+
+    <div class="error-code">404</div>
+    <div class="error-msg">bash: <strong id="path-display">this path</strong>: No such file or directory</div>
+    <div class="error-sub">exit code 127 — path not found<span class="blink">_</span></div>
+
+    <hr class="divider">
+
+    <div class="suggestion">// did you mean one of these?</div>
+    <div class="links">
+        <a href="/">~/terminal</a>
+        <a href="/resume.html">~/resume</a>
+        <a href="/blog/index.html">~/blog</a>
+        <a href="/contact.html">~/contact</a>
+    </div>
+</div>
+
+<script>
+    const path = window.location.pathname;
+    document.getElementById('path-display').textContent = path || '/404';
+</script>
+</body>
+</html>
