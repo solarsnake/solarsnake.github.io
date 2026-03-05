@@ -239,6 +239,70 @@
             margin-top: 2px;
         }
         #tippens-banner:hover .banner-hint { opacity: 0.9; color: #006600; }
+
+        /* ── Mobile ── */
+        #mobile-quickbar { display: none; }
+
+        @media (max-width: 640px) {
+            /* Shrink terminal to leave room for quickbar */
+            .terminal-container {
+                height: calc(100vh - 52px);
+                height: calc(100dvh - 52px);
+                padding: 6px 6px 0;
+            }
+
+            /* Slightly larger text on phones */
+            .terminal, .cmd,
+            .terminal .terminal-output,
+            .terminal .terminal-output div,
+            .terminal .terminal-output span {
+                font-size: 1em !important;
+            }
+
+            /* Tone down CRT on mobile (save battery, reduce noise) */
+            .crt-vignette { opacity: 0.4; }
+            .crt-sweep { display: none; }
+
+            /* Quickbar */
+            #mobile-quickbar {
+                display: flex;
+                position: fixed;
+                bottom: 0; left: 0; right: 0;
+                z-index: 10000;
+                background: #0a0a0a;
+                border-top: 1px solid #1a3a1a;
+                padding: 0.4rem 0.5rem;
+                gap: 0.35rem;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                scrollbar-width: none;
+            }
+
+            #mobile-quickbar::-webkit-scrollbar { display: none; }
+
+            .qbtn {
+                flex-shrink: 0;
+                background: transparent;
+                border: 1px solid #1a3a1a;
+                color: #008800;
+                font-family: 'Menlo', 'Monaco', 'Consolas', 'Courier New', monospace;
+                font-size: 0.72rem;
+                padding: 0.45rem 0.75rem;
+                cursor: pointer;
+                white-space: nowrap;
+                transition: all 0.1s;
+                min-height: 36px;
+                display: flex;
+                align-items: center;
+            }
+
+            .qbtn:active {
+                border-color: #00aa00;
+                color: #00ff00;
+                background: #003300;
+                outline: none;
+            }
+        }
     </style>
 </head>
 <body class="bg-black text-green-400">
@@ -246,6 +310,17 @@
     <div class="crt-vignette"></div>
     <div class="crt-sweep"></div>
     <div id="terminal" class="terminal-container"></div>
+
+    <!-- Mobile quick-command bar (hidden on desktop via CSS) -->
+    <div id="mobile-quickbar">
+        <button class="qbtn" data-cmd="blog">~/blog</button>
+        <button class="qbtn" data-cmd="resume">~/resume</button>
+        <button class="qbtn" data-cmd="contact">~/contact</button>
+        <button class="qbtn" data-cmd="neofetch">neofetch</button>
+        <button class="qbtn" data-cmd="skills">skills</button>
+        <button class="qbtn" data-cmd="projects">projects</button>
+        <button class="qbtn" data-cmd="help">help</button>
+    </div>
 
     <script>
         window.addEventListener('pageshow', function(e) {
@@ -895,6 +970,14 @@ or just to connect!`
             }
 
             $(document).on('click', '#tippens-banner', glitchBanner);
+
+            // Mobile quickbar — tap to execute command
+            document.querySelectorAll('.qbtn').forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                    term.focus(true);
+                    term.exec(this.dataset.cmd);
+                });
+            });
 
             $(document).on('click', function(event) {
                 if (!term.enabled()) return;

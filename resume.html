@@ -348,6 +348,31 @@
             .nav-links { display: none; }
             .nav-mobile { display: block; }
             .about-cards { grid-template-columns: 1fr; }
+            /* Touch-friendly mobile nav select */
+            .nav-mobile select {
+                font-size: 0.85rem;
+                min-height: 36px;
+                padding: 0.5rem 0.6rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .page-wrap { padding: 1.5rem 1rem 3rem; }
+            .about-headline { font-size: 1.1rem; }
+            /* Larger tap targets for skill tags */
+            .skill-tag {
+                font-size: 0.75rem;
+                padding: 0.4rem 0.65rem;
+                min-height: 32px;
+            }
+            /* Taller role headers for easier tapping */
+            .role-header {
+                padding: 0.75rem 0.8rem;
+                min-height: 44px;
+            }
+            /* Reduce timeline indent on very small screens */
+            .timeline { padding-left: 1.1rem; }
+            .timeline-company::before { left: -1.38rem; }
         }
 
         /* ── Print / PDF ── */
