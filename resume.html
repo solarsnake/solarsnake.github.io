@@ -8,12 +8,12 @@
     <!-- Open Graph / Twitter Card -->
     <meta property="og:type"        content="profile">
     <meta property="og:title"       content="Timothy Tippens — Cloud Architect & DevOps / AI Engineer">
-    <meta property="og:description" content="10+ years building scalable cloud infrastructure across AWS, Azure, and GCP. Interactive resume with skill filtering.">
+    <meta property="og:description" content="13+ years building scalable cloud infrastructure across AWS, Azure, and GCP. Currently at ServiceNow building AI-powered automation. Interactive resume with skill filtering.">
     <meta property="og:url"         content="https://justthetipp.com/resume.html">
     <meta property="og:site_name"   content="tippens@portfolio">
     <meta name="twitter:card"       content="summary">
     <meta name="twitter:title"      content="Timothy Tippens — Resume">
-    <meta name="twitter:description" content="Cloud Architect & DevOps / AI Engineer — 10+ years at NASA JPL, NBCUniversal, and more.">
+    <meta name="twitter:description" content="Cloud Architect & DevOps / AI Engineer — 13+ years at ServiceNow, NASA JPL, NBCUniversal, and more.">
 
     <style>
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -153,12 +153,37 @@
             margin-bottom: 0.6rem;
         }
 
+        .skill-category.ai-category {
+            border-color: #006644;
+            background: #050f0a;
+        }
+
         .skill-category-name {
             font-size: 0.72rem;
             color: var(--cyan);
             letter-spacing: 0.06em;
             text-transform: uppercase;
             margin-bottom: 0.65rem;
+        }
+
+        .ai-category .skill-category-name {
+            color: var(--cyan);
+        }
+
+        .ai-category .skill-tag {
+            border-color: #006644;
+            color: #00aa88;
+        }
+
+        .ai-category .skill-tag:hover {
+            border-color: var(--cyan);
+            color: var(--cyan);
+        }
+
+        .ai-category .skill-tag.active {
+            background: #003322;
+            border-color: var(--cyan);
+            color: var(--cyan);
         }
 
         .skill-tags { display: flex; flex-wrap: wrap; gap: 0.35rem; }
@@ -461,9 +486,10 @@
         </div>
         <p class="about-headline">Cloud Architect &amp; DevOps / AI Engineer</p>
         <p class="about-summary">
-            Award-winning professional with 10+ years of experience driving advancements in cloud infrastructure,
+            Award-winning professional with 13+ years of experience driving advancements in cloud infrastructure,
             automation, and CI/CD for mission-critical environments. Currently at the intersection of DevOps and AI —
-            building systems that are fast, observable, and intelligent.
+            building automated solutions powered by LLMs, Claude skills, and AI tooling at ServiceNow while bringing
+            deep cloud expertise from NASA JPL, NBCUniversal, and beyond.
         </p>
         <div class="about-cards">
             <div class="about-card">
@@ -472,15 +498,15 @@
             </div>
             <div class="about-card">
                 <h3>Infrastructure as Code</h3>
-                <p>Terraform, Pulumi, Ansible, CloudFormation — building robust, secure cloud operations at scale.</p>
+                <p>Terraform, Ansible, CloudFormation, Kubernetes — building robust, secure cloud operations at scale.</p>
             </div>
             <div class="about-card">
-                <h3>AI / MLOps</h3>
-                <p>Operationalizing machine learning pipelines with SageMaker, Vertex AI, MLflow, and LLM integrations.</p>
+                <h3>AI / LLM Tooling</h3>
+                <p>Building with Claude Code, Codex, and Gemini — automating workflows, platform ops, and infrastructure management with LLMs.</p>
             </div>
             <div class="about-card">
                 <h3>Proven Track Record</h3>
-                <p>NASA JPL, NBCUniversal, ZEFR — solving intricate technical challenges across government and industry.</p>
+                <p>ServiceNow, NASA JPL, NBCUniversal, ZEFR — solving intricate technical challenges across enterprise and government.</p>
             </div>
         </div>
     </section>
@@ -535,21 +561,42 @@
 
 <script>
     const skillsData = {
-        "Software":   ["Dockerd", "Containerd", "Kubernetes", "Helm", "Rancher", "Jenkins", "Ansible", "Terraform", "CloudFormation", "Puppet", "JFrog", "Digital.ai", "Jupyter", "GitHub", "GitLab", "ECS", "EKS", "Jira", "SonarQube", "Coverity", "MySQL", "PSQL", "DNS", "DHCP", "VMware"],
-        "Languages":  ["Bash", "Python", "Go"],
+        "AI / LLM Tooling": ["Claude Code", "Codex", "Gemini", "LLMs", "Prompt Engineering", "MLOps", "SageMaker", "Vertex AI", "MLflow", "RAG"],
+        "Software":   ["Dockerd", "Containerd", "Kubernetes", "Helm", "Rancher", "Jenkins", "Ansible", "Terraform", "CloudFormation", "Puppet", "JFrog", "Digital.ai", "Jupyter", "GitHub", "GitLab", "ECS", "EKS", "Jira", "SonarQube", "Coverity", "MySQL", "PostgreSQL", "DNS/DHCP", "VMware", "ServiceNow"],
+        "Languages":  ["Bash", "Python", "Go", "Groovy", "Powershell"],
         "OSS":        ["Windows", "Linux", "CentOS", "Red Hat", "Fedora", "Ubuntu", "Debian", "macOS"],
         "Cloud":      ["AWS", "Azure", "GCP", "VSphere", "OpenStack"]
     };
 
     const experienceData = [
         {
+            company: "ServiceNow",
+            location: "San Diego, CA (Flex)",
+            duration: "2025 – Present",
+            roles: [
+                {
+                    title: "Senior Production Services Engineer",
+                    duration: "2025 – Present",
+                    details: [
+                        "Responsible for securing, automating and maintaining the backbone infrastructure that powers the ServiceNow cloud services platform",
+                        "Developing automated solutions (including Claude skills & related AI tooling) for platform migrations, cert management, ticket management, system administration, infrastructure deployments and database management",
+                        "Provide Tier 4 customer support for Platform deployments across hundreds of commercial industry clients",
+                        "Specialized support for ServiceNow's AI offerings",
+                        "Support efforts to containerize services in the ServiceNow Platform to migrate architecture to K8s",
+                        "Secured platform environments for +100k servers across the ServiceNow cloud, Azure, GCP and AWS",
+                        "Maintained platform stability by providing P1 on-call coverage for infrastructure incidents"
+                    ]
+                }
+            ]
+        },
+        {
             company: "NASA's Jet Propulsion Laboratory",
             location: "Pasadena, CA (Remote)",
-            duration: "2017 – Present",
+            duration: "2017 – 2025",
             roles: [
                 {
                     title: "Senior Cloud Engineer",
-                    duration: "2022 – Present",
+                    duration: "2022 – 2025",
                     details: [
                         "Operationalized flight software testing and deployment for Europa Clipper in the cloud",
                         "Migrated 10+ COTS & internally developed applications from monolithic architecture to scalable EKS deployments",
@@ -584,12 +631,12 @@
                     title: "Linux Systems Administrator",
                     duration: "2015 – 2017",
                     details: [
-                        "Achieved $80k in license savings by migrating to a more cost-effective business unit backup solution",
-                        "Designed cloud backup architecture in AWS resulting in cost efficiencies and improved data resilience",
+                        "Achieved $80k in license savings by migrating to a more cost-effective cloud backup solution",
                         "Built bare-metal high-availability (HA) environment for corporate and production environments",
                         "Administered and automated AWS infrastructure using Puppet, Terraform and the AWS CLI",
                         "Developed Oracle/Solaris-backed Data Warehouse platform for Business Intelligence",
                         "Implemented and evaluated open-source monitoring tools (Sensu, Nagios, Zabbix) for all environments",
+                        "Centralized change management using Bitbucket",
                         "Built Quantum StorNext solution (CentOS-backed) for internal Production team",
                         "Developed runbooks for the Network Operations Center (NOC), standardizing web development workflows"
                     ]
@@ -600,9 +647,8 @@
                     details: [
                         "Managed Movieclips.com tech stack and provided NetApp storage administration — technologies: Terraform, Python, Redis, PostgreSQL, Ceph",
                         "Managed and optimized a high-volume publishing pipeline processing 500+ videos for web/YouTube",
-                        "Architected automated content backup solution",
                         "Performed Python debugging and SQL scripting to increase production pipeline productivity",
-                        "Bridged the gap between tech and content sides of the organization",
+                        "Created an efficient and effective workflow by bridging the gap between the tech and content side of the company",
                         "Managed relationships with multiple Hollywood Studios"
                     ]
                 }
@@ -618,11 +664,10 @@
                     duration: "2012 – 2014",
                     details: [
                         "Won the Award of Excellence in 2014",
-                        "Saved $20k+ in AWS costs per year by building an on-premises virtualization cluster (OpenStack)",
-                        "Performed service integration and implementation",
-                        "Completed Linux Server architecture and maintenance",
-                        "Conducted macOS and Windows administration",
-                        "Provided daily tech support to employees and executives including PandoDaily fireside chats and TED talks"
+                        "Promoted to assist IT Manager with the development of processes (DevOps) and provide tech support on-site and remotely to offices in New York, Boston, Chicago, London, and India",
+                        "Saved over $20k in AWS costs per year by building an on-premises virtualization cluster (OpenStack)",
+                        "Completed Linux Server architecture and maintenance, conducted macOS and Windows administration",
+                        "Provided daily tech support to employees and executives including support for gatherings and exhibitions, such as PandoDaily fireside chats and TED talks"
                     ]
                 }
             ]
@@ -636,7 +681,9 @@
 
     Object.entries(skillsData).forEach(([category, skills]) => {
         const block = document.createElement('div');
-        block.className = 'skill-category';
+        block.className = category === 'AI / LLM Tooling'
+            ? 'skill-category ai-category'
+            : 'skill-category';
 
         const label = document.createElement('div');
         label.className = 'skill-category-name';
