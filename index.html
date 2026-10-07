@@ -833,8 +833,9 @@
                         if (item.section) {
                             term.echo(`\n  [[b;#00FFCC;]── ${item.section}]`);
                         } else {
-                            const fCmd = `[[b;#00FF00;]${item.cmd}]`;
-                            const line = `    <span class="help-cmd">${fCmd}</span><span class="help-desc" style="color:#008800">  ${item.desc}</span>`;
+                            // raw HTML output skips terminal formatting, so style and escape here (e.g. "cat <file>")
+                            const esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+                            const line = `    <span class="help-cmd" style="color:#00FF00;font-weight:bold">${esc(item.cmd)}</span><span class="help-desc" style="color:#008800">  ${esc(item.desc)}</span>`;
                             term.echo(line, { raw: true });
                         }
                     });
