@@ -12,7 +12,7 @@
 
 Browser-side logic that needs tests lives in small UMD files under `assets/js/`. Node tests `require()` them, and pages load them with `<script src>`.
 
-**Tech Stack:** Node 22 (ESM), `marked` (only runtime dep), `fast-xml-parser` (dev-only, tests), `node:test`, jQuery Terminal 2.44.1 (unchanged), GitHub Pages via Actions.
+**Tech Stack:** Node 22 (ESM via `.mjs`; no `"type": "module"`, so the `assets/js/*.js` UMD files load as CommonJS under `require`), `marked` (only runtime dep), `fast-xml-parser` (dev-only, tests), `node:test`, jQuery Terminal 2.44.1 (unchanged), GitHub Pages via Actions.
 
 **Spec:** `docs/superpowers/specs/2026-10-07-site-refresh-design.md`
 
@@ -318,7 +318,6 @@ git commit -m "data: add profile.json and post sections"
 {
   "name": "justthetipp-site",
   "private": true,
-  "type": "module",
   "engines": { "node": ">=22" },
   "scripts": {
     "build": "node scripts/build.mjs",
