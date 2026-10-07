@@ -17,6 +17,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.terminal/2.44.1/js/jquery.terminal.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery.terminal/2.44.1/css/jquery.terminal.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="/assets/css/focus.css">
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script src="/assets/js/profile-text.js"></script>
 
@@ -476,6 +477,7 @@
 
             const PT = window.ProfileText;
             let profile = null;
+            let lastListing = null;
             let buildInfo = null;
             const UNAVAILABLE = 'profile unavailable — see /resume.html';
 
@@ -568,6 +570,7 @@
                 { cmd: 'man <cmd>',     desc: 'Show command manual.' },
                 { cmd: 'neofetch',      desc: 'System info (portfolio edition).' },
                 { cmd: 'posts',         desc: 'Latest blog posts.' },
+                { cmd: 'read <n|slug>', desc: 'Open a blog post.' },
                 { cmd: 'projects',      desc: 'Fetch live GitHub projects.' },
                 { cmd: 'skills',        desc: 'Full skill matrix.' },
                 { cmd: 'social',        desc: 'Social links.' },
@@ -584,6 +587,8 @@
 
             // Manual pages
             const manPages = {
+                read:    'read - open a blog post\n\nUsage: read <n|slug>\n\nOpens post number n from the last `posts` listing, or a post by its slug.\n\nExamples:\n  posts\n  read 1\n  read freedom',
+                keys:    'keys - keyboard navigation\n\nThis site never needs a mouse.\n\nIn the terminal:\n  Tab          complete a command or path\n  Up / Down    command history\n  Ctrl+R       search history\n  Esc          leave the terminal\n\nAfter Esc:\n  Tab / Shift+Tab   move through links on the page\n  Enter             open the focused link\n  Tab back onto the terminal (or click it) to type again\n\nOther pages:\n  Tab / Shift+Tab   move through links and buttons\n  Enter / Space     activate\n  The first Tab reveals "skip to content".\n\nCommands that navigate: resume, ai, blog, contact, home, posts + read <n>',
                 ai:      'ai - show AI work\n\nUsage: ai\n\nLists featured AI and agent-tooling work, with links.\nFull details: /resume.html#ai',
                 posts:   'posts - list latest blog posts\n\nUsage: posts\n\nShows the three most recent Tech & AI posts with links.',
                 cat:     'cat - concatenate and display file content\n\nUsage: cat <file>\n\nDisplays the content of a file. Markdown files (.md) are rendered.\n\nExamples:\n  cat about.txt\n  cat resume.md',
@@ -719,10 +724,21 @@
                         const latest = PT.latestPosts(data, 3);
                         if (!latest.length) { term.error('posts: could not load posts — see /blog/'); return; }
                         term.echo('[[b;#00FF00;]Latest posts]');
-                        latest.forEach(post => {
-                            term.echo(`  [[;#008800;]${PT.escapeBrackets(post.date)}]  [[!;;;;/blog/${post.slug}/]${PT.escapeBrackets(post.title)}]`);
+                        lastListing = latest;
+                        latest.forEach((post, i) => {
+                            term.echo(`  ${i + 1}. [[;#008800;]${PT.escapeBrackets(post.date)}]  [[!;;;;/blog/${post.slug}/]${PT.escapeBrackets(post.title)}]`);
                         });
-                        term.echo('  [[;#555;]all posts:] [[!;;;;/blog/]/blog/]');
+                        term.echo('  [[;#555;]read <n> to open · all posts:] [[!;;;;/blog/]/blog/]');
+                    });
+
+                } else if (cmd === 'read') {
+                    term.pause();
+                    getJson('/posts/index.json').then(data => {
+                        term.resume();
+                        const r = PT.resolveRead(data, lastListing, args[0]);
+                        if (r.error) { term.error(PT.escapeBrackets(r.error)); return; }
+                        term.echo(`Opening /blog/${r.slug}/ ...`);
+                        window.location.href = `/blog/${r.slug}/`;
                     });
 
                 } else if (cmd === 'whoami') {
@@ -809,6 +825,10 @@
                     term.echo('');
                     term.echo(`[[b;#00FF00;]Available Commands]  (type 'man <cmd>' for details)`);
                     term.echo(`[[;#333;]${'─'.repeat(55)}]`);
+                    term.echo(`\n  [[b;#00FFCC;]── Keyboard]`);
+                    term.echo('    [[b;#00FF00;]Tab]        complete      [[b;#00FF00;]↑/↓]  history      [[b;#00FF00;]Ctrl+R]  search history');
+                    term.echo('    [[b;#00FF00;]Esc]        leave the terminal, then Tab / Shift+Tab through links and Enter to open');
+                    term.echo('    [[;#008800;]Tab back here (or click) to type again · man keys for more]');
                     helpItems.forEach(item => {
                         if (item.section) {
                             term.echo(`\n  [[b;#00FFCC;]── ${item.section}]`);
@@ -1021,7 +1041,7 @@
                 termInstance.echo(`  [[b;#00FF00;]Timothy Tippens] — ${PT.escapeBrackets(headline)}`);
                 termInstance.echo(`  [[;#555;]${PT.escapeBrackets(tagline)}]`);
                 termInstance.echo('');
-                termInstance.echo('  <a href="/resume.html">resume</a> <span style="color:#335533">·</span> <a href="/resume.html#ai">ai</a> <span style="color:#335533">·</span> <a href="/blog/">blog</a> <span style="color:#335533">·</span> <a href="/contact.html">contact</a>', { raw: true });
+                termInstance.echo('  <span class="welcome-links"><a href="/resume.html">resume</a> <span style="color:#335533">·</span> <a href="/resume.html#ai">ai</a> <span style="color:#335533">·</span> <a href="/blog/">blog</a> <span style="color:#335533">·</span> <a href="/contact.html">contact</a></span>', { raw: true });
                 termInstance.echo('');
                 termInstance.echo(`  Type [[b;#00FF00;]help] for commands · [[b;#00FF00;]neofetch] for system info · [[b;#00FF00;]skills] for tech stack`);
                 termInstance.echo(`  [[;#444;]──────────────────────────────────────────────────────────]`);
@@ -1067,6 +1087,24 @@
             }
 
             $(document).on('click', '#tippens-banner', glitchBanner);
+
+            // ── Keyboard: Esc releases the terminal so Tab can reach links; tabbing back re-enters ──
+            const termEl = document.getElementById('terminal');
+            termEl.setAttribute('tabindex', '0');
+            termEl.setAttribute('aria-label', 'Terminal. Type help for commands. Press Escape to leave it and Tab through links.');
+            document.addEventListener('keydown', e => {
+                if (e.key !== 'Escape' || !term.enabled()) return;
+                e.preventDefault();
+                e.stopPropagation();
+                term.disable();
+                term.echo('[[;#008800;]released — Tab / Shift+Tab move through links, Enter opens · Tab back here (or click) to type]');
+                const groups = termEl.querySelectorAll('.welcome-links');
+                const target = groups.length ? groups[groups.length - 1].querySelector('a') : termEl.querySelector('.terminal-output a');
+                if (target) target.focus(); else termEl.focus();
+            }, true);
+            termEl.addEventListener('focus', e => {
+                if (e.target === termEl && !term.enabled()) { term.enable(); term.focus(true); }
+            });
 
             // Mobile landing — stack tags and latest posts from data
             dataReady.then(() => {
@@ -1115,17 +1153,12 @@
             })();
 
             $(document).on('click', function(event) {
-                if (!term.enabled()) return;
                 const $target = $(event.target);
-                if (!$target.closest('#terminal').length ||
-                    ($target.closest('#terminal').length &&
-                     !$target.is('a, button, input, textarea, [contenteditable="true"]') &&
-                     !$target.closest('a, button').length)) {
-                    const activeTerminal = $.terminal.active();
-                    if (!activeTerminal || activeTerminal[0] !== term[0]) {
-                        term.focus(true);
-                    }
-                }
+                if ($target.closest('a, button, input, textarea, select').length) return;
+                const insideTerminal = $target.closest('#terminal').length > 0;
+                if (!insideTerminal && !term.enabled()) return;
+                if (!term.enabled()) term.enable();
+                term.focus(true);
             });
         });
     </script>

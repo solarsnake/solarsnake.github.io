@@ -64,3 +64,19 @@ test('gitLogLines formats commits and degrades gracefully', () => {
   assert.deepEqual(PT.gitLogLines(null), ['git log: history unavailable']);
   assert.deepEqual(PT.gitLogLines({ commits: [] }), ['git log: history unavailable']);
 });
+
+test('resolveRead handles numbers, slugs and bad input', () => {
+  const data = { posts: [
+    { slug: 'freedom', title: 'F', date: '2016-03-02', section: 'sheep', published: true },
+    { slug: 'secret', title: 'S', date: '2026-01-01', section: 'tech', published: false },
+  ] };
+  const listing = [{ slug: 'freedom', title: 'F', date: '2016-03-02' }];
+  assert.deepEqual(PT.resolveRead(data, listing, '1'), { slug: 'freedom' });
+  assert.match(PT.resolveRead(data, listing, '2').error, /no post #2 \(choose 1–1\)/);
+  assert.match(PT.resolveRead(data, null, '1').error, /run 'posts' first/);
+  assert.deepEqual(PT.resolveRead(data, null, 'Freedom'), { slug: 'freedom' });
+  assert.match(PT.resolveRead(data, null, 'secret').error, /no post named 'secret'/);
+  assert.match(PT.resolveRead(data, null, '../etc').error, /no post named/);
+  assert.match(PT.resolveRead(null, null, 'freedom').error, /no post named/);
+  assert.match(PT.resolveRead(data, listing, '').error, /usage: read/);
+});

@@ -113,5 +113,23 @@
     return build.commits.map(c => `commit ${escapeBrackets(c.sha)}  [[;#008800;]${escapeBrackets(c.subject)}]`);
   }
 
-  return { escapeBrackets, aboutText, resumeMarkdown, contactText, skillsLines, aiLines, neofetchInfo, latestPosts, gitLogLines };
+  const SLUG_RE = /^[a-z0-9]+(-[a-z0-9]+)*$/;
+
+  // Resolve `read <n|slug>`: n indexes the last `posts` listing; a slug must be a published post.
+  function resolveRead(data, listing, arg) {
+    const a = String(arg ?? '').trim();
+    if (!a) return { error: "usage: read <n|slug> — run 'posts' to list posts" };
+    if (/^\d+$/.test(a)) {
+      if (!listing || !listing.length) return { error: "read: run 'posts' first, then read <n>" };
+      const n = Number(a);
+      if (n < 1 || n > listing.length) return { error: `read: no post #${n} (choose 1–${listing.length})` };
+      return { slug: listing[n - 1].slug };
+    }
+    const slug = a.toLowerCase();
+    const known = !!data && Array.isArray(data.posts) && data.posts.some(p => p.published === true && p.slug === slug);
+    if (!SLUG_RE.test(slug) || !known) return { error: `read: no post named '${a}'` };
+    return { slug };
+  }
+
+  return { resolveRead, escapeBrackets, aboutText, resumeMarkdown, contactText, skillsLines, aiLines, neofetchInfo, latestPosts, gitLogLines };
 });
