@@ -8,13 +8,13 @@
     <!-- Open Graph / Twitter Card -->
     <meta property="og:type"        content="blog">
     <meta property="og:title"       content="Blog — tippens@portfolio">
-    <meta property="og:description" content="Writing on cloud infrastructure, DevOps, AI/ML, and engineering culture by Timothy Tippens.">
-    <meta property="og:url"         content="https://justthetipp.com/blog/index.html">
+    <meta property="og:description" content="Writing on cloud infrastructure, DevOps and AI by Timothy Tippens — plus an archive of personal essays.">
+    <meta property="og:url"         content="https://justthetipp.com/blog/">
     <meta property="og:site_name"   content="tippens@portfolio">
     <meta name="twitter:card"       content="summary">
     <meta name="twitter:title"      content="Blog — tippens@portfolio">
-    <meta name="twitter:description" content="Writing on cloud infrastructure, DevOps, AI/ML, and engineering culture.">
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <meta name="twitter:description" content="Writing on cloud infrastructure, DevOps and AI by Timothy Tippens — plus an archive of personal essays.">
+    <link rel="alternate" type="application/rss+xml" title="tippens@portfolio — Tech &amp; AI" href="/feed.xml">
     <style>
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -256,91 +256,6 @@
             margin-top: auto;
         }
 
-        .read-btn {
-            background: none;
-            border: none;
-            color: var(--text-dim);
-            font-family: var(--font-mono);
-            font-size: 0.75rem;
-            cursor: pointer;
-            padding: 0;
-            transition: color 0.15s;
-        }
-
-        .read-btn:hover { color: var(--green); }
-        .read-btn.open { color: var(--cyan); }
-
-        /* Full post content */
-        .post-full {
-            display: none;
-            padding: 1rem 1.1rem 1.2rem;
-            border-top: 1px solid var(--border);
-        }
-
-        .post-full.visible { display: block; }
-
-        .post-full .md-content {
-            font-size: 0.82rem;
-            line-height: 1.8;
-            color: var(--text);
-        }
-
-        .md-content p { margin-bottom: 1rem; }
-        .md-content p:last-child { margin-bottom: 0; }
-
-        .md-content h1, .md-content h2, .md-content h3 {
-            color: var(--green);
-            margin: 1.2rem 0 0.6rem;
-        }
-
-        .md-content strong { color: var(--green); }
-        .md-content em { color: #39ff14; font-style: italic; }
-
-        .md-content blockquote {
-            border-left: 3px solid var(--green-muted);
-            padding-left: 0.8rem;
-            margin: 0.8rem 0;
-            color: var(--text-dim);
-            font-style: italic;
-        }
-
-        .md-content blockquote p { margin-bottom: 0.4rem; }
-
-        .md-content code {
-            background: #0a0a0a;
-            border: 1px solid var(--border);
-            padding: 0.15rem 0.35rem;
-            font-size: 0.8em;
-        }
-
-        .md-content pre {
-            background: #0a0a0a;
-            border: 1px solid var(--border);
-            padding: 0.75rem;
-            overflow-x: auto;
-            margin-bottom: 1rem;
-        }
-
-        .md-content pre code { border: none; padding: 0; }
-
-        .md-content a { color: var(--cyan); }
-        .md-content ul, .md-content ol { margin: 0.5rem 0 1rem 1.2rem; }
-        .md-content li { margin-bottom: 0.3rem; }
-
-        .close-post {
-            display: inline-block;
-            margin-top: 1rem;
-            font-size: 0.75rem;
-            color: var(--text-dim);
-            cursor: pointer;
-            background: none;
-            border: none;
-            font-family: var(--font-mono);
-            padding: 0;
-        }
-
-        .close-post:hover { color: var(--green); }
-
         /* Loading / Error / Empty */
         .status-msg {
             text-align: center;
@@ -403,16 +318,25 @@
                 padding: 0.55rem 0.6rem 0.55rem 1.5rem;
                 min-height: 36px;
             }
-            .read-btn {
-                font-size: 0.8rem;
-                padding: 0.3rem 0;
-                min-height: 36px;
-                display: flex;
-                align-items: center;
-            }
             .post-title { font-size: 1rem; }
             .card-header { padding: 0.9rem 1rem 0.7rem; }
         }
+        .post-card { text-decoration: none; color: inherit; }
+        .section-tabs { display: flex; gap: 0; margin-bottom: 1.25rem; border-bottom: 1px solid var(--border); }
+        .section-tab {
+            background: none; border: none; border-bottom: 2px solid transparent;
+            color: var(--text-dim); font-family: var(--font-mono); font-size: 0.82rem;
+            padding: 0.55rem 1rem; cursor: pointer; margin-bottom: -1px;
+        }
+        .section-tab:hover { color: var(--green); }
+        .section-tab.active { color: var(--green); border-bottom-color: var(--green); }
+        .section-sub { font-size: 0.75rem; color: var(--text-dim); margin: -0.5rem 0 1.25rem; }
+        .rss-link { color: var(--cyan); font-size: 0.75rem; text-decoration: none; margin-left: 0.75rem; }
+        .rss-link:hover { text-decoration: underline; }
+        .card-footer { padding: 0.6rem 1.1rem 0.8rem; border-top: 1px solid var(--border); margin-top: auto; display: flex; justify-content: space-between; font-size: 0.72rem; color: var(--text-dim); }
+        .post-card:hover .read-more { color: var(--green); }
+        .no-results a { color: var(--cyan); }
+        @media (max-width: 600px) { .section-tab { flex: 1; min-height: 40px; } }
     </style>
 </head>
 <body>
@@ -420,26 +344,32 @@
 <nav class="site-nav">
     <div class="brand">tippens@portfolio<span>:/blog</span>$</div>
     <ul class="nav-links">
-        <li><a href="../index.html">~/terminal</a></li>
-        <li><a href="../resume.html">~/resume</a></li>
-        <li><a href="index.html" class="active">~/blog</a></li>
-        <li><a href="../contact.html">~/contact</a></li>
+        <li><a href="/">~/terminal</a></li>
+        <li><a href="/resume.html">~/resume</a></li>
+        <li><a href="/resume.html#ai">~/ai</a></li>
+        <li><a href="/blog/" class="active">~/blog</a></li>
+        <li><a href="/contact.html">~/contact</a></li>
     </ul>
 </nav>
 
 <div class="page-wrap">
     <header class="blog-header">
-        <h1>Learning to Count Sheep <span>// blog</span></h1>
-        <p>Thoughts on technology, philosophy, and the human condition.</p>
+        <h1>Writing <span>// blog</span></h1>
+        <p>Notes on cloud infrastructure, DevOps and AI — plus an archive of personal essays.
+            <a class="rss-link" href="/feed.xml">rss</a></p>
     </header>
+
+    <div class="section-tabs" role="tablist">
+        <button class="section-tab" role="tab" data-section="tech">Tech &amp; AI</button>
+        <button class="section-tab" role="tab" data-section="sheep">Learning to Count Sheep</button>
+    </div>
+    <p class="section-sub" id="section-sub"></p>
 
     <div class="controls">
         <div class="search-wrap">
             <input type="text" class="search-input" id="search" placeholder="search posts..." autocomplete="off" spellcheck="false">
         </div>
-        <div class="tag-filters" id="tag-filters">
-            <button class="tag-btn active" data-tag="all">#all</button>
-        </div>
+        <div class="tag-filters" id="tag-filters"></div>
     </div>
 
     <div class="post-count" id="post-count"></div>
@@ -448,212 +378,131 @@
         <div class="status-msg"><span class="blink">_</span> loading posts...</div>
     </div>
 </div>
+</div>
 
 <button id="back-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">^ top</button>
 
+<script src="/assets/js/blog-filter.js"></script>
 <script>
-    // Config
-    const GITHUB_RAW = 'https://raw.githubusercontent.com/solarsnake/solarsnake.github.io/terminal/posts/index.json';
-    const LOCAL_FALLBACK = '../posts/index.json';
+    const SUBTITLES = {
+        tech: 'Cloud, DevOps and AI — what I\'m building and learning.',
+        sheep: 'Personal essays, 2013–2016.',
+    };
 
     let allPosts = [];
-    let activeTag = 'all';
-    let searchQuery = '';
-    let expandedSlug = null;
+    let state = { ...BlogFilter.parseListingParams(location.search), query: '' };
 
-    // Fetch posts with raw GitHub URL for near-real-time, fall back to local
-    async function fetchPosts() {
-        const urls = [GITHUB_RAW, LOCAL_FALLBACK];
-        for (const url of urls) {
-            try {
-                const res = await fetch(url + '?_=' + Date.now(), { cache: 'no-store' });
-                if (!res.ok) continue;
-                const data = await res.json();
-                return data.posts.filter(p => p.published !== false);
-            } catch (e) {
-                // Try next URL
-            }
-        }
-        return null;
+    function formatDate(iso) {
+        const [y, m, d] = iso.split('-').map(Number);
+        return new Date(y, m - 1, d).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
     }
 
-    function slugify(text) {
-        return text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+    function el(tag, className, text) {
+        const node = document.createElement(tag);
+        if (className) node.className = className;
+        if (text !== undefined) node.textContent = text;
+        return node;
     }
 
-    function formatDate(dateStr) {
-        const d = new Date(dateStr + 'T12:00:00');
-        return d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+    function syncUrl() {
+        const q = new URLSearchParams();
+        q.set('section', state.section);
+        if (state.tag !== 'all') q.set('tag', state.tag);
+        history.replaceState(null, '', `${location.pathname}?${q}`);
     }
 
-    function allTags(posts) {
-        const tags = new Set();
-        posts.forEach(p => (p.tags || []).forEach(t => tags.add(t)));
-        return Array.from(tags).sort();
+    function renderTabs() {
+        document.querySelectorAll('.section-tab').forEach(btn => {
+            const active = btn.dataset.section === state.section;
+            btn.classList.toggle('active', active);
+            btn.setAttribute('aria-selected', String(active));
+        });
+        document.getElementById('section-sub').textContent = SUBTITLES[state.section];
     }
 
-    function buildTagFilters(posts) {
+    function renderTags() {
         const container = document.getElementById('tag-filters');
-        const tags = allTags(posts);
-        // Keep #all button
-        const allBtn = container.querySelector('[data-tag="all"]');
-        container.innerHTML = '';
-        container.appendChild(allBtn);
-        tags.forEach(tag => {
-            const btn = document.createElement('button');
-            btn.className = 'tag-btn';
-            btn.dataset.tag = tag;
-            btn.textContent = '#' + tag;
-            btn.addEventListener('click', () => setTag(tag));
+        container.textContent = '';
+        const tags = BlogFilter.tagsFor(allPosts, state.section);
+        if (state.tag !== 'all' && !tags.includes(state.tag)) state.tag = 'all';
+        ['all', ...tags].forEach(tag => {
+            const btn = el('button', 'tag-btn' + (tag === state.tag ? ' active' : ''), '#' + tag);
+            btn.addEventListener('click', () => { state.tag = tag; syncUrl(); renderTags(); renderPosts(); });
             container.appendChild(btn);
         });
     }
 
-    function setTag(tag) {
-        activeTag = tag;
-        document.querySelectorAll('.tag-btn').forEach(b => {
-            b.classList.toggle('active', b.dataset.tag === tag);
-        });
-        renderPosts();
-    }
-
-    function filterPosts() {
-        return allPosts.filter(post => {
-            const matchesTag = activeTag === 'all' || (post.tags || []).includes(activeTag);
-            const q = searchQuery.toLowerCase();
-            const matchesSearch = !q ||
-                post.title.toLowerCase().includes(q) ||
-                post.excerpt.toLowerCase().includes(q) ||
-                (post.content || '').toLowerCase().includes(q) ||
-                (post.tags || []).some(t => t.includes(q));
-            return matchesTag && matchesSearch;
-        });
-    }
-
-    function renderPosts() {
-        const filtered = filterPosts();
-        const container = document.getElementById('posts-container');
-        const countEl = document.getElementById('post-count');
-
-        countEl.textContent = `${filtered.length} post${filtered.length !== 1 ? 's' : ''} found`;
-
-        if (filtered.length === 0) {
-            container.innerHTML = '<div class="posts-grid"><div class="no-results">no posts match your query.<br><br><span style="color:var(--green-muted)">try a different search or tag.</span></div></div>';
-            return;
-        }
-
-        const grid = document.createElement('div');
-        grid.className = 'posts-grid';
-
-        filtered.forEach(post => {
-            const card = createCard(post);
-            grid.appendChild(card);
-        });
-
-        container.innerHTML = '';
-        container.appendChild(grid);
-    }
-
     function createCard(post) {
-        const isExpanded = expandedSlug === post.slug;
-        const card = document.createElement('article');
-        card.className = 'post-card' + (isExpanded ? ' expanded' : '');
-        card.dataset.slug = post.slug;
-
-        const tagsHtml = (post.tags || []).map(t =>
-            `<span class="post-tag">#${t}</span>`
-        ).join('');
-
-        card.innerHTML = `
-            <div class="card-header" role="button" tabindex="0" aria-expanded="${isExpanded}">
-                <div class="card-meta">
-                    <span class="post-date">${formatDate(post.date)}</span>
-                </div>
-                <div class="post-tags" style="margin-bottom:0.5rem">${tagsHtml}</div>
-                <h2 class="post-title">${escapeHtml(post.title)}</h2>
-                <p class="post-excerpt">${escapeHtml(post.excerpt)}</p>
-            </div>
-            <div class="card-actions">
-                <button class="read-btn ${isExpanded ? 'open' : ''}">${isExpanded ? '[ collapse ]' : '[ read more ]'}</button>
-                <span style="font-size:0.7rem;color:var(--text-dim)">${(post.content || '').split(' ').length} words</span>
-            </div>
-            <div class="post-full ${isExpanded ? 'visible' : ''}">
-                <div class="md-content">${marked.parse(post.content || '')}</div>
-                <button class="close-post">^ collapse</button>
-            </div>
-        `;
-
-        const toggle = () => {
-            if (expandedSlug === post.slug) {
-                expandedSlug = null;
-            } else {
-                expandedSlug = post.slug;
-            }
-            renderPosts();
-            if (expandedSlug) {
-                setTimeout(() => {
-                    const el = document.querySelector(`[data-slug="${expandedSlug}"]`);
-                    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }, 50);
-            }
-        };
-
-        card.querySelector('.card-header').addEventListener('click', toggle);
-        card.querySelector('.card-header').addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') toggle(); });
-        card.querySelector('.read-btn').addEventListener('click', e => { e.stopPropagation(); toggle(); });
-        const closeBtn = card.querySelector('.close-post');
-        if (closeBtn) closeBtn.addEventListener('click', e => { e.stopPropagation(); toggle(); });
-
+        const card = el('a', 'post-card');
+        card.href = `/blog/${post.slug}/`;
+        const header = el('div', 'card-header');
+        header.appendChild(el('div', 'card-meta')).appendChild(el('span', 'post-date', formatDate(post.date)));
+        const tags = header.appendChild(el('div', 'post-tags'));
+        tags.style.marginBottom = '0.5rem';
+        (post.tags || []).forEach(t => tags.appendChild(el('span', 'post-tag', '#' + t)));
+        header.appendChild(el('h2', 'post-title', post.title));
+        header.appendChild(el('p', 'post-excerpt', post.excerpt));
+        const footer = el('div', 'card-footer');
+        footer.appendChild(el('span', 'read-more', '[ read ]'));
+        footer.appendChild(el('span', '', `${(post.content || '').split(/\s+/).filter(Boolean).length} words`));
+        card.append(header, footer);
         return card;
     }
 
-    function escapeHtml(str) {
-        return (str || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    function renderPosts() {
+        const filtered = BlogFilter.filterPosts(allPosts, state);
+        const container = document.getElementById('posts-container');
+        document.getElementById('post-count').textContent = `${filtered.length} post${filtered.length !== 1 ? 's' : ''} found`;
+        container.textContent = '';
+        const grid = el('div', 'posts-grid');
+        if (filtered.length === 0) {
+            const empty = el('div', 'no-results');
+            const sectionEmpty = BlogFilter.filterPosts(allPosts, { section: state.section }).length === 0;
+            if (sectionEmpty && state.section === 'tech') {
+                empty.append('first post coming soon — meanwhile, ');
+                const a = el('a', '', 'browse the archive');
+                a.href = '?section=sheep';
+                empty.appendChild(a);
+            } else {
+                empty.textContent = 'no posts match your query. try a different search or tag.';
+            }
+            grid.appendChild(empty);
+        } else {
+            filtered.forEach(post => grid.appendChild(createCard(post)));
+        }
+        container.appendChild(grid);
     }
 
-    // Search debounce
+    document.querySelectorAll('.section-tab').forEach(btn => {
+        btn.addEventListener('click', () => {
+            state.section = btn.dataset.section;
+            state.tag = 'all';
+            syncUrl(); renderTabs(); renderTags(); renderPosts();
+        });
+    });
+
     let searchTimer;
     document.getElementById('search').addEventListener('input', e => {
         clearTimeout(searchTimer);
-        searchTimer = setTimeout(() => {
-            searchQuery = e.target.value.trim();
-            renderPosts();
-        }, 200);
+        searchTimer = setTimeout(() => { state.query = e.target.value; renderPosts(); }, 200);
     });
 
-    // Tag filter click (for #all)
-    document.getElementById('tag-filters').addEventListener('click', e => {
-        if (e.target.dataset.tag === 'all') setTag('all');
-    });
-
-    // Back to top
     const backTop = document.getElementById('back-top');
-    window.addEventListener('scroll', () => {
-        backTop.classList.toggle('visible', window.scrollY > 400);
-    });
+    window.addEventListener('scroll', () => backTop.classList.toggle('visible', window.scrollY > 400));
 
-    // Init
     (async () => {
-        const posts = await fetchPosts();
-        if (!posts) {
+        try {
+            const res = await fetch('/posts/index.json', { cache: 'no-cache' });
+            if (!res.ok) throw new Error(res.status);
+            allPosts = (await res.json()).posts || [];
+        } catch (e) {
             document.getElementById('posts-container').innerHTML =
                 '<div class="status-msg">error loading posts. check back soon.</div>';
             return;
         }
-
-        allPosts = posts.sort((a, b) => new Date(b.date) - new Date(a.date));
-        buildTagFilters(allPosts);
-        renderPosts();
-
-        // Handle #slug in URL to auto-expand a post
-        const hash = location.hash.slice(1);
-        if (hash) {
-            const post = allPosts.find(p => p.slug === hash);
-            if (post) {
-                expandedSlug = hash;
-                renderPosts();
-            }
-        }
+        const redirect = BlogFilter.hashRedirect(location.hash, allPosts);
+        if (redirect) { location.replace(redirect); return; }
+        renderTabs(); renderTags(); renderPosts();
     })();
 </script>
 </body>
