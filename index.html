@@ -7,18 +7,18 @@
 
     <!-- Open Graph / Twitter Card -->
     <meta property="og:type"        content="website">
-    <meta property="og:title"       content="tippens@portfolio — Cloud Architect & DevOps / AI Engineer">
-    <meta property="og:description" content="Interactive terminal portfolio for Timothy Tippens — Cloud Architect, DevOps, and AI Engineer with 10+ years at NASA JPL, NBCUniversal, and more.">
+    <meta property="og:title"       content="tippens@portfolio — Cloud & DevOps Engineer · AI-augmented infrastructure">
+    <meta property="og:description" content="Interactive terminal portfolio for Timothy Tippens — 16+ years of cloud and DevOps at ServiceNow, NASA JPL and NBCUniversal, now building AI agent tooling for operations.">
     <meta property="og:url"         content="https://justthetipp.com/">
     <meta property="og:site_name"   content="tippens@portfolio">
     <meta name="twitter:card"       content="summary">
     <meta name="twitter:title"      content="tippens@portfolio">
-    <meta name="twitter:description" content="Interactive terminal portfolio — Cloud Architect & DevOps / AI Engineer.">
-    <script src="https://cdn.tailwindcss.com"></script>
+    <meta name="twitter:description" content="Interactive terminal portfolio — Cloud & DevOps Engineer building AI-augmented infrastructure.">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.terminal/2.44.1/js/jquery.terminal.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery.terminal/2.44.1/css/jquery.terminal.min.css" rel="stylesheet"/>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="/assets/js/profile-text.js"></script>
 
     <style>
         ::-webkit-scrollbar { width: 8px; height: 8px; }
@@ -319,10 +319,6 @@
         .ml-navcard-cmd { font-size: 0.82rem; color: #00cc00; }
         .ml-navcard-desc { font-size: 0.68rem; color: #006600; }
 
-        /* Make contact span both columns */
-        .ml-navcard:last-child { grid-column: 1 / -1; flex-direction: row; align-items: center; gap: 1rem; }
-        .ml-navcard:last-child .ml-navcard-desc { margin-left: auto; }
-
         .ml-section-hdr {
             font-size: 0.7rem;
             color: #00ffcc;
@@ -384,7 +380,7 @@
         .ml-terminal-btn:active { color: #008800; }
     </style>
 </head>
-<body class="bg-black text-green-400">
+<body>
     <div class="crt-scanlines"></div>
     <div class="crt-vignette"></div>
     <div class="crt-sweep"></div>
@@ -398,22 +394,26 @@
         <div class="ml-body">
             <div class="ml-hero">
                 <h1>Timothy Tippens</h1>
-                <p class="ml-role">Cloud Architect &amp; DevOps / AI Engineer</p>
-                <p class="ml-credits">NASA JPL &nbsp;·&nbsp; NBCUniversal &nbsp;·&nbsp; ZEFR</p>
+                <p class="ml-role">Cloud &amp; DevOps Engineer — AI-augmented infrastructure</p>
+                <p class="ml-credits">ServiceNow &nbsp;·&nbsp; NASA JPL &nbsp;·&nbsp; NBCUniversal</p>
             </div>
 
             <div>
                 <div class="ml-section-hdr">// navigate</div>
                 <div class="ml-nav-grid">
-                    <a href="resume.html" class="ml-navcard">
+                    <a href="/resume.html" class="ml-navcard">
                         <span class="ml-navcard-cmd">~/resume</span>
                         <span class="ml-navcard-desc">interactive resume</span>
                     </a>
-                    <a href="blog/index.html" class="ml-navcard">
+                    <a href="/resume.html#ai" class="ml-navcard">
+                        <span class="ml-navcard-cmd">~/ai</span>
+                        <span class="ml-navcard-desc">agents &amp; AI work</span>
+                    </a>
+                    <a href="/blog/" class="ml-navcard">
                         <span class="ml-navcard-cmd">~/blog</span>
                         <span class="ml-navcard-desc">writing &amp; thoughts</span>
                     </a>
-                    <a href="contact.html" class="ml-navcard">
+                    <a href="/contact.html" class="ml-navcard">
                         <span class="ml-navcard-cmd">~/contact</span>
                         <span class="ml-navcard-desc">get in touch</span>
                     </a>
@@ -422,11 +422,16 @@
 
             <div>
                 <div class="ml-section-hdr">// stack</div>
-                <div class="ml-tags">
+                <div class="ml-tags" id="ml-tags">
                     <span>AWS</span><span>Kubernetes</span><span>Terraform</span>
-                    <span>Python</span><span>AI/ML</span><span>Azure</span>
+                    <span>Python</span><span>Claude Code</span><span>Azure</span>
                     <span>GCP</span><span>Docker</span><span>Go</span>
                 </div>
+            </div>
+
+            <div id="ml-latest-wrap" hidden>
+                <div class="ml-section-hdr">// latest</div>
+                <div class="ml-contacts" id="ml-latest"></div>
             </div>
 
             <div>
@@ -469,64 +474,35 @@
                 baseurl: ""
             };
 
-            // Simulated filesystem
+            const PT = window.ProfileText;
+            let profile = null;
+            let buildInfo = null;
+            const UNAVAILABLE = 'profile unavailable — see /resume.html';
+
+            const getJson = url => fetch(url, { cache: 'no-cache' })
+                .then(r => (r.ok ? r.json() : null))
+                .catch(() => null);
+
+            const dataReady = Promise.all([getJson('/data/profile.json'), getJson('/data/build.json')])
+                .then(([p, b]) => { profile = p; buildInfo = b; });
+
+            function withProfile(term, fn) {
+                term.pause();
+                dataReady.then(() => {
+                    term.resume();
+                    if (!profile) { term.error(UNAVAILABLE); return; }
+                    fn(profile);
+                });
+            }
+
+            // Simulated filesystem — file contents are generated from data/profile.json
             const filesystem = {
                 '/': { type: 'dir', content: ['about.txt', 'resume.md', 'contact.txt', 'blog', 'projects'] },
                 '/blog': { type: 'dir', content: ['index.html'] },
                 '/projects': { type: 'dir', content: [] },
-                '/about.txt': {
-                    type: 'file',
-                    content: `Timothy Tippens — Cloud Architect & DevOps / AI Engineer
-${'─'.repeat(55)}
-
-10+ years designing and operating infrastructure at scale.
-Currently focused on the intersection of DevOps and AI —
-building systems that are fast, observable, and intelligent.
-
-Specializations
-  • Infrastructure as Code  — Terraform, Pulumi, Ansible
-  • Container Orchestration — Kubernetes, EKS, AKS, GKE
-  • Multi-cloud             — AWS, Azure, GCP
-  • CI/CD & Automation      — GitHub Actions, ArgoCD, Jenkins
-  • Observability           — Prometheus, Grafana, Datadog
-  • Languages               — Python, Go, Bash, TypeScript
-  • AI/ML Ops               — MLflow, SageMaker, Vertex AI
-
-Type 'skills'  for a full skill matrix.
-Type 'resume'  to view the interactive resume.
-Type 'social'  for contact links.`
-                },
-                '/resume.md': {
-                    type: 'file',
-                    content: `# Timothy Tippens — Resume
-
-> For the full interactive resume with skill filtering,
-> type 'resume' to navigate to the resume page.
-
-## Quick Summary
-- 10+ years in Cloud Architecture & DevOps
-- Multi-cloud specialist: AWS · Azure · GCP
-- Expert in Kubernetes, Terraform, Ansible, Python
-- DevOps meets AI — building intelligent infrastructure
-
-## Experience Highlights
-- Cloud Architecture & platform engineering at scale
-- CI/CD pipeline design and optimization
-- Infrastructure automation and IaC best practices
-- Team leadership and cross-functional collaboration
-`
-                },
-                '/contact.txt': {
-                    type: 'file',
-                    content: `Contact
-${'─'.repeat(30)}
-Email     solarsnake88@proton.me
-GitHub    github.com/solarsnake
-LinkedIn  linkedin.com/in/timothytippens
-
-Feel free to reach out for opportunities, collaboration,
-or just to connect!`
-                },
+                '/about.txt':   { type: 'file', get content() { return profile ? PT.aboutText(profile) : UNAVAILABLE; } },
+                '/resume.md':   { type: 'file', get content() { return profile ? PT.resumeMarkdown(profile) : UNAVAILABLE; } },
+                '/contact.txt': { type: 'file', get content() { return profile ? PT.contactText(profile) : UNAVAILABLE; } },
                 '/blog/index.html': { type: 'file', content: '(web page — type "blog" to open)' },
             };
 
@@ -585,11 +561,13 @@ or just to connect!`
                 { cmd: 'pwd',           desc: 'Print working directory.' },
                 { section: 'Info' },
                 { cmd: 'about',         desc: 'About this portfolio.' },
+                { cmd: 'ai',           desc: 'AI work & agent tooling.' },
                 { cmd: 'date',          desc: 'Current date and time.' },
                 { cmd: 'help',          desc: 'Show this help.' },
                 { cmd: 'history',       desc: 'Command history.' },
                 { cmd: 'man <cmd>',     desc: 'Show command manual.' },
                 { cmd: 'neofetch',      desc: 'System info (portfolio edition).' },
+                { cmd: 'posts',         desc: 'Latest blog posts.' },
                 { cmd: 'projects',      desc: 'Fetch live GitHub projects.' },
                 { cmd: 'skills',        desc: 'Full skill matrix.' },
                 { cmd: 'social',        desc: 'Social links.' },
@@ -606,6 +584,8 @@ or just to connect!`
 
             // Manual pages
             const manPages = {
+                ai:      'ai - show AI work\n\nUsage: ai\n\nLists featured AI and agent-tooling work, with links.\nFull details: /resume.html#ai',
+                posts:   'posts - list latest blog posts\n\nUsage: posts\n\nShows the three most recent Tech & AI posts with links.',
                 cat:     'cat - concatenate and display file content\n\nUsage: cat <file>\n\nDisplays the content of a file. Markdown files (.md) are rendered.\n\nExamples:\n  cat about.txt\n  cat resume.md',
                 cd:      'cd - change directory\n\nUsage: cd [dir]\n\nChanges the current working directory. With no argument, returns to /.\n\nExamples:\n  cd blog\n  cd /\n  cd ..',
                 ls:      'ls - list directory contents\n\nUsage: ls [path]\n\nLists files and directories. Directories are shown in cyan.\n\nExamples:\n  ls\n  ls /blog',
@@ -683,7 +663,7 @@ or just to connect!`
                             if (pathToFile.endsWith('.md')) {
                                 term.echo(renderMarkdown(file.content), { raw: true });
                             } else {
-                                term.echo(file.content);
+                                term.echo(PT.escapeBrackets(file.content));
                             }
                         } else {
                             term.error(`cat: ${args[0]}: No such file or directory`);
@@ -727,8 +707,23 @@ or just to connect!`
 
                 // ── Info commands ──────────────────────────────────
                 } else if (cmd === 'about') {
-                    const file = getFile('/about.txt');
-                    term.echo(file ? file.content : 'about.txt not found.');
+                    withProfile(term, p => term.echo(PT.escapeBrackets(PT.aboutText(p))));
+
+                } else if (cmd === 'ai') {
+                    withProfile(term, p => PT.aiLines(p).forEach(l => term.echo(l)));
+
+                } else if (cmd === 'posts') {
+                    term.pause();
+                    getJson('/posts/index.json').then(data => {
+                        term.resume();
+                        const latest = PT.latestPosts(data, 3);
+                        if (!latest.length) { term.error('posts: could not load posts — see /blog/'); return; }
+                        term.echo('[[b;#00FF00;]Latest posts]');
+                        latest.forEach(post => {
+                            term.echo(`  [[;#008800;]${PT.escapeBrackets(post.date)}]  [[!;;;;/blog/${post.slug}/]${PT.escapeBrackets(post.title)}]`);
+                        });
+                        term.echo('  [[;#555;]all posts:] [[!;;;;/blog/]/blog/]');
+                    });
 
                 } else if (cmd === 'whoami') {
                     term.echo(siteConfig.username);
@@ -762,50 +757,18 @@ or just to connect!`
                         '      ::: :::      ',
                         '        :::        ',
                     ];
-                    const info = [
-                        `[[b;#00FF00;]${siteConfig.username}][[;#AAAAAA;]@][[b;#00FF00;]portfolio]`,
-                        `[[;#444;]${'─'.repeat(22)}]`,
-                        `[[b;#00FF00;]OS][[;#aaa;]:] Cloud Native Linux`,
-                        `[[b;#00FF00;]Host][[;#aaa;]:] ${window.location.hostname}`,
-                        `[[b;#00FF00;]Role][[;#aaa;]:] Cloud Architect & DevOps Engineer`,
-                        `[[b;#00FF00;]Shell][[;#aaa;]:] jQuery Terminal 2.44.1`,
-                        `[[b;#00FF00;]Stack][[;#aaa;]:] AWS · Azure · GCP · K8s · Terraform`,
-                        `[[b;#00FF00;]AI/ML][[;#aaa;]:] MLflow · SageMaker · Vertex AI · LLMs`,
-                        `[[b;#00FF00;]Languages][[;#aaa;]:] Python · Go · Bash · TypeScript`,
-                        `[[b;#00FF00;]Uptime][[;#aaa;]:] ${getUptime()}`,
-                        ``,
-                        `[[b;#000;#00FF00;]   ][[b;#000;#00CC00;]   ][[b;#000;#009900;]   ][[b;#000;#006600;]   ][[b;#000;#003300;]   ]`,
-                    ];
-
-                    const rows = Math.max(logo.length, info.length);
-                    for (let i = 0; i < rows; i++) {
-                        const l = (logo[i] || '                   ');
-                        const r = info[i] || '';
-                        term.echo(`  [[b;#00FF00;]${l}]  ${r}`, { raw: true });
-                    }
+                    withProfile(term, p => {
+                        const info = PT.neofetchInfo(p, { host: window.location.hostname, uptime: getUptime() });
+                        const rows = Math.max(logo.length, info.length);
+                        for (let i = 0; i < rows; i++) {
+                            const l = (logo[i] || '                   ');
+                            const r = info[i] || '';
+                            term.echo(`  [[b;#00FF00;]${l}]  ${r}`, { raw: true });
+                        }
+                    });
 
                 } else if (cmd === 'skills') {
-                    const categories = [
-                        { name: 'Cloud Platforms', items: ['AWS (EC2, EKS, RDS, Lambda, S3, IAM)', 'Azure (AKS, App Service, DevOps)', 'GCP (GKE, Cloud Run, BigQuery)'] },
-                        { name: 'Container & Orchestration', items: ['Kubernetes (EKS, AKS, GKE, self-hosted)', 'Docker, containerd', 'Helm, Kustomize', 'ArgoCD, Flux (GitOps)'] },
-                        { name: 'Infrastructure as Code', items: ['Terraform (advanced)', 'Pulumi', 'Ansible', 'CloudFormation'] },
-                        { name: 'CI/CD & Automation', items: ['GitHub Actions', 'Jenkins', 'CircleCI', 'GitLab CI'] },
-                        { name: 'Observability', items: ['Prometheus + Grafana', 'Datadog', 'ELK Stack', 'OpenTelemetry'] },
-                        { name: 'Languages', items: ['Python', 'Go', 'Bash/Shell', 'TypeScript/JavaScript'] },
-                        { name: 'AI / ML Ops', items: ['MLflow', 'AWS SageMaker', 'Google Vertex AI', 'LLM integration & prompt engineering', 'Vector databases (Pinecone, Weaviate)'] },
-                        { name: 'Databases', items: ['PostgreSQL, MySQL', 'Redis, Memcached', 'MongoDB', 'DynamoDB'] },
-                        { name: 'Networking & Security', items: ['VPC design, peering, transit gateways', 'Service meshes (Istio, Linkerd)', 'IAM, RBAC, secrets management (Vault)'] },
-                    ];
-
-                    term.echo(`[[b;#00FF00;]${siteConfig.title} — Skill Matrix]`);
-                    term.echo(`[[;#555;]${'─'.repeat(40)}]`);
-                    categories.forEach(cat => {
-                        term.echo(`\n  [[b;#00FFCC;]${cat.name}]`);
-                        cat.items.forEach(item => {
-                            term.echo(`    [[;#00CC00;]·] ${item}`);
-                        });
-                    });
-                    term.echo('');
+                    withProfile(term, p => PT.skillsLines(p).forEach(l => term.echo(l)));
 
                 } else if (cmd === 'projects') {
                     term.echo(`[[b;#00FF00;]Fetching repos from github.com/${siteConfig.github_username}...]`);
@@ -952,10 +915,7 @@ or just to connect!`
                 } else if (cmd === 'git') {
                     const sub = args[0] || '';
                     if (sub === 'log') {
-                        term.echo('commit b51b066  [[;#008800;]Modernize portfolio terminal]');
-                        term.echo('commit 2f3b054  [[;#008800;]Blog changes]');
-                        term.echo('commit be43173  [[;#008800;]Minor changes]');
-                        term.echo('commit eb33cca  [[;#008800;]Formatted resume]');
+                        PT.gitLogLines(buildInfo).forEach(l => term.echo(l));
                     } else if (sub === 'status') {
                         term.echo('On branch terminal');
                         term.echo('nothing to commit, working tree clean');
@@ -972,8 +932,12 @@ or just to connect!`
                 prompt: getPrompt(),
                 name: 'portfolio_terminal',
                 onInit: function(term) {
-                    welcomeMessage(term);
-                    term.focus(true);
+                    term.pause();
+                    dataReady.then(() => {
+                        term.resume();
+                        welcomeMessage(term);
+                        term.focus(true);
+                    });
                 },
                 convertLinks: true,
                 historySize: 200,
@@ -1052,8 +1016,12 @@ or just to connect!`
 
                 termInstance.echo(html, { raw: true });
                 termInstance.echo('');
-                termInstance.echo(`  [[b;#00FF00;]Timothy Tippens] — Cloud Architect & DevOps / AI Engineer`);
-                termInstance.echo(`  [[;#555;]Cloud Native · Kubernetes · Terraform · Python · AI/ML]`);
+                const headline = profile ? profile.headline : 'Cloud & DevOps Engineer';
+                const tagline = profile ? profile.tagline : 'Cloud Native · Kubernetes · Terraform · Python · AI Agents';
+                termInstance.echo(`  [[b;#00FF00;]Timothy Tippens] — ${PT.escapeBrackets(headline)}`);
+                termInstance.echo(`  [[;#555;]${PT.escapeBrackets(tagline)}]`);
+                termInstance.echo('');
+                termInstance.echo('  <a href="/resume.html">resume</a> <span style="color:#335533">·</span> <a href="/resume.html#ai">ai</a> <span style="color:#335533">·</span> <a href="/blog/">blog</a> <span style="color:#335533">·</span> <a href="/contact.html">contact</a>', { raw: true });
                 termInstance.echo('');
                 termInstance.echo(`  Type [[b;#00FF00;]help] for commands · [[b;#00FF00;]neofetch] for system info · [[b;#00FF00;]skills] for tech stack`);
                 termInstance.echo(`  [[;#444;]──────────────────────────────────────────────────────────]`);
@@ -1099,6 +1067,37 @@ or just to connect!`
             }
 
             $(document).on('click', '#tippens-banner', glitchBanner);
+
+            // Mobile landing — stack tags and latest posts from data
+            dataReady.then(() => {
+                if (profile && Array.isArray(profile.featuredSkills)) {
+                    const tags = document.getElementById('ml-tags');
+                    tags.textContent = '';
+                    profile.featuredSkills.forEach(s => {
+                        const span = document.createElement('span');
+                        span.textContent = s;
+                        tags.appendChild(span);
+                    });
+                }
+            });
+            getJson('/posts/index.json').then(data => {
+                const latest = PT.latestPosts(data, 3);
+                if (!latest.length) return;
+                const list = document.getElementById('ml-latest');
+                latest.forEach(post => {
+                    const a = document.createElement('a');
+                    a.className = 'ml-contact-row';
+                    a.href = `/blog/${post.slug}/`;
+                    const lbl = document.createElement('span');
+                    lbl.className = 'ml-contact-lbl';
+                    lbl.textContent = post.date.slice(0, 4);
+                    const title = document.createElement('span');
+                    title.textContent = post.title;
+                    a.append(lbl, title);
+                    list.appendChild(a);
+                });
+                document.getElementById('ml-latest-wrap').hidden = false;
+            });
 
             // Mobile landing — "open terminal" escape hatch
             (function() {
