@@ -75,10 +75,12 @@ export function renderPostPage(post, { newer = null, older = null } = {}) {
     <meta name="twitter:title" content="${t}">
     <meta name="twitter:description" content="${ex}">
     <link rel="stylesheet" href="/blog/post.css">
+    <link rel="stylesheet" href="/assets/css/focus.css">
 </head>
 <body>
+<a class="skip-link" href="#main">skip to content</a>
 ${navHtml()}
-<main class="post-wrap">
+<main class="post-wrap" id="main" tabindex="-1">
     <a class="back-link" href="/blog/?section=${section}">← all posts</a>
     <header class="post-header">
         <div class="post-meta">${escapeHtml(formatDate(post.date))} · <span class="section-label">${label}</span></div>

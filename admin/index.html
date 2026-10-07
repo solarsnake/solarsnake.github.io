@@ -14,7 +14,7 @@
     <meta http-equiv="Content-Security-Policy" content="
         default-src 'none';
         script-src 'self' 'unsafe-inline' https://unpkg.com;
-        style-src 'unsafe-inline' https://unpkg.com;
+        style-src 'self' 'unsafe-inline' https://unpkg.com;
         connect-src https://api.github.com;
         img-src data:;
         font-src 'none';
@@ -27,6 +27,7 @@
           href="https://unpkg.com/easymde@2.18.0/dist/easymde.min.css"
           integrity="sha384-uqD/OYCNfagd1EgXMgl5QedTD5K+B3e9b8GYo/41t7+Serf7CBxvl+tU1gHd+qd1"
           crossorigin="anonymous">
+    <link rel="stylesheet" href="/assets/css/focus.css">
     <script src="https://unpkg.com/easymde@2.18.0/dist/easymde.min.js"
             integrity="sha384-KtB38COewxfrhJxoN2d+olxJAeT08LF8cVZ6DQ8Poqu89zIptqO6zAXoIxpGNWYE"
             crossorigin="anonymous"></script>

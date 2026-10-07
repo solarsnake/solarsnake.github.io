@@ -45,6 +45,16 @@ test('full build of the real repo', async (t) => {
   const resume = await readFile(path.join(out, 'resume.html'), 'utf8');
   assert.ok(resume.includes('Senior Production Services Engineer'));
   assert.ok(!resume.includes('build-placeholder'));
+  const keyboardPages = ['resume.html', 'contact.html', '404.html', 'blog/index.html',
+    ...published.map(p => `blog/${p.slug}/index.html`)];
+  for (const f of keyboardPages) {
+    const html = await readFile(path.join(out, f), 'utf8');
+    assert.ok(html.includes('/assets/css/focus.css'), `${f} missing focus.css`);
+    assert.ok(html.includes('class="skip-link" href="#main"'), `${f} missing skip link`);
+    assert.ok(/id="main"/.test(html), `${f} missing #main target`);
+  }
+  assert.ok((await readFile(path.join(out, 'admin/index.html'), 'utf8')).includes('/assets/css/focus.css'));
+  assert.ok(existsSync(path.join(out, 'assets/css/focus.css')));
 
   const buildInfo = JSON.parse(await readFile(path.join(out, 'data/build.json'), 'utf8'));
   assert.ok(Array.isArray(buildInfo.commits));

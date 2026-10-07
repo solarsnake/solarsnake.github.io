@@ -38,6 +38,9 @@ test('renderPostPage escapes metadata and renders markdown', () => {
   assert.ok(html.includes('<meta property="article:published_time" content="2026-10-01">'));
   assert.ok(html.includes('<meta name="twitter:card" content="summary">'));
   assert.ok(html.includes('<link rel="stylesheet" href="/blog/post.css">'));
+  assert.ok(html.includes('<link rel="stylesheet" href="/assets/css/focus.css">'));
+  assert.ok(html.includes('<a class="skip-link" href="#main">skip to content</a>'));
+  assert.ok(html.includes('<main class="post-wrap" id="main" tabindex="-1">'));
   assert.match(html, /<h1[^>]*>Hello<\/h1>/);
   assert.ok(html.includes('href="/blog/old-tech/"'), 'older link missing');
   assert.ok(html.includes('Tech &amp; AI'));
