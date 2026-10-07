@@ -1,0 +1,178 @@
+{
+  "name": "Timothy M. Tippens",
+  "location": "San Diego, CA",
+  "headline": "Cloud & DevOps Engineer — AI-augmented infrastructure",
+  "tagline": "Cloud Native · Kubernetes · Terraform · Python · AI Agents",
+  "years": "16+",
+  "summary": "Cloud and DevOps engineer with 16+ years of experience building and running infrastructure for mission-critical environments — from NASA JPL flight software pipelines to ServiceNow's global cloud platform. I design highly available, self-healing, cost-optimized systems across AWS, Azure and GCP with Kubernetes, Terraform, Ansible and Python, and I build AI agent tooling that takes the toil out of operations.",
+  "background": "Public Trust (SF-85P) at NASA JPL, 2017–2025 · Current DoD CAC holder",
+  "contact": {
+    "email": "solarsnake88@proton.me",
+    "github": "https://github.com/solarsnake",
+    "linkedin": "https://linkedin.com/in/timothytippens"
+  },
+  "featuredSkills": ["AWS", "Kubernetes", "Terraform", "Python", "Claude Code", "Azure", "GCP", "Ansible", "Go"],
+  "highlights": [
+    { "title": "Multi-Cloud at Scale", "text": "AWS (Commercial & GovCloud), Azure and GCP — securing and automating platforms spanning 100k+ servers." },
+    { "title": "Infrastructure as Code", "text": "Terraform, CloudFormation, Ansible and Puppet — repeatable, compliant infrastructure with self-healing automation." },
+    { "title": "AI-Augmented Operations", "text": "Claude skills and agent tooling that turn operational runbooks into automated, reviewable workflows." },
+    { "title": "Mission-Critical Track Record", "text": "ServiceNow, NASA JPL (Europa Clipper), NBCUniversal and ZEFR — award-winning work across government and industry." }
+  ],
+  "skills": {
+    "Cloud": ["AWS", "AWS GovCloud", "Azure", "GCP", "vSphere", "OpenStack"],
+    "Containers & Orchestration": ["Kubernetes", "EKS", "ECS", "Helm", "Rancher", "Docker", "containerd", "Kustomize", "ArgoCD", "Flux", "Istio", "Linkerd"],
+    "IaC & Config": ["Terraform", "CloudFormation", "Ansible", "Puppet", "Pulumi", "Vault"],
+    "CI/CD": ["Jenkins", "GitHub Actions", "GitLab CI", "CircleCI", "JFrog", "Digital.ai", "SonarQube", "Coverity"],
+    "Observability": ["Prometheus", "Grafana", "Datadog", "Elasticsearch", "OpenTelemetry", "Sensu", "Nagios", "Zabbix"],
+    "AI Tooling": ["Claude Code", "Claude skills", "Codex", "Gemini", "Jupyter"],
+    "Languages": ["Bash", "Python", "Go", "Groovy", "PowerShell", "TypeScript"],
+    "Data": ["PostgreSQL", "MySQL", "MongoDB", "DynamoDB", "Redis"],
+    "Platforms & OS": ["ServiceNow", "Linux", "Red Hat", "CentOS", "Fedora", "Ubuntu", "Debian", "Windows", "macOS", "VMware", "DNS/DHCP", "Jira"]
+  },
+  "experience": [
+    {
+      "company": "ServiceNow",
+      "location": "San Diego, CA (Flex)",
+      "duration": "2025 – Present",
+      "roles": [
+        {
+          "title": "Senior Production Services Engineer",
+          "duration": "2025 – Present",
+          "summary": "Securing, automating and maintaining the backbone infrastructure that powers the ServiceNow cloud services platform.",
+          "details": [
+            "Developing automated solutions — including Claude skills and related tooling — for platform migrations, cert management, ticket management, system administration, infrastructure deployments and database management",
+            "Provide Tier 4 customer support for platform deployments across hundreds of commercial industry clients",
+            "Specialized support for ServiceNow's AI offerings",
+            "Developing containerized services in the ServiceNow platform to migrate architecture to Kubernetes",
+            "Secured platform environments for 100k+ servers across the ServiceNow cloud, Azure, GCP and AWS",
+            "Maintain platform stability by providing P1 on-call coverage for infrastructure incidents"
+          ]
+        }
+      ]
+    },
+    {
+      "company": "NASA's Jet Propulsion Laboratory",
+      "location": "Pasadena, CA (Remote)",
+      "duration": "2017 – 2025",
+      "roles": [
+        {
+          "title": "Senior Cloud Engineer",
+          "duration": "2022 – 2025",
+          "note": "Public Trust (SF-85P), 2017–2025",
+          "summary": "Designed and integrated DevOps solutions for deploying, securing and testing mission-critical flight software, cloud infrastructure automation and COTS tooling.",
+          "details": [
+            "Operationalized flight software testing and deployment for Europa Clipper in the cloud",
+            "Migrated 10+ COTS and internally developed applications from monolithic architecture to scalable EKS deployments",
+            "Containerized hardware virtualization tooling for flight missions, enabling efficient, scalable simulation pipelines",
+            "Awarded for individual contribution to cloud optimization through innovative software testing and architecture",
+            "Developed and automated AWS infrastructure deployment and system maintenance using Ansible, Python and CloudFormation, achieving 30% cost reduction for Computer Aided Engineering cloud environments",
+            "Architected and implemented automated patching and OS pipeline deployment for multi-AZ environments utilizing Ansible, CloudFormation and AWS Systems Manager, ensuring NIST compliance"
+          ]
+        },
+        {
+          "title": "System Architect",
+          "duration": "2017 – 2022",
+          "summary": "Led the design, implementation and maintenance of critical cloud-based IT infrastructure for NASA space and low Earth orbit (LEO) missions, ensuring high availability and performance.",
+          "details": [
+            "Implemented CI/CD pipeline for Computer Aided Engineering software suite deployment and testing",
+            "Redesigned Desktop Engineering platform for Windows and Linux environments for high-availability/autoscaling",
+            "Supported deployment, maintenance and security for 25+ unique applications serving 1600+ customers",
+            "Interfaced with and guided customers on new technologies from interns through senior management",
+            "Developed and released Puppet infrastructure for cloud orchestration and compliance",
+            "Developed Elasticsearch-backed research application for detailed data analysis",
+            "Automated application test suites for use across the lab, providing detailed documentation",
+            "Engineered and deployed a Kubernetes-based CI solution for projects utilizing Jenkins and Jupyter Notebooks in AWS GovCloud"
+          ]
+        }
+      ]
+    },
+    {
+      "company": "NBCUniversal",
+      "location": "Los Angeles, CA",
+      "duration": "2014 – 2017",
+      "roles": [
+        {
+          "title": "Linux Systems Administrator",
+          "duration": "2015 – 2017",
+          "summary": "Systems administration, integration and implementation across AWS, MSSQL, VMware, Docker, NetApp, macOS, Windows and Active Directory.",
+          "details": [
+            "Achieved $80k in license savings by migrating to a more cost-effective cloud backup solution",
+            "Built bare-metal high-availability (HA) environment for corporate and production environments",
+            "Administered and automated AWS infrastructure using Puppet, Terraform and the AWS CLI",
+            "Developed Oracle/Solaris-backed Data Warehouse platform for Business Intelligence",
+            "Implemented and evaluated open-source monitoring tools (Sensu, Nagios, Zabbix) for all environments",
+            "Centralized change management using Bitbucket",
+            "Built Quantum StorNext solution (CentOS-backed) for internal Production team",
+            "Developed runbooks for the Network Operations Center (NOC), standardizing web development workflows"
+          ]
+        },
+        {
+          "title": "Software Engineer",
+          "duration": "2014 – 2015",
+          "summary": "Managed the Movieclips.com tech stack and NetApp storage administration with Terraform, Python, Redis, PostgreSQL and Ceph.",
+          "details": [
+            "Managed and optimized a high-volume publishing pipeline processing 500+ videos for web/YouTube",
+            "Performed Python debugging and SQL scripting to increase production pipeline productivity",
+            "Created an efficient workflow by bridging the gap between the tech and content sides of the company",
+            "Managed relationships with multiple Hollywood studios"
+          ]
+        }
+      ]
+    },
+    {
+      "company": "ZEFR",
+      "location": "Venice, CA",
+      "duration": "2012 – 2014",
+      "roles": [
+        {
+          "title": "IT Operations",
+          "duration": "2012 – 2014",
+          "summary": "Promoted to assist the IT Manager with developing DevOps processes and supporting offices in New York, Boston, Chicago, London and India.",
+          "details": [
+            "Won the Award of Excellence in 2014",
+            "Saved $20k+ per year in AWS costs by building an on-premises virtualization cluster (OpenStack)",
+            "Completed Linux server architecture and maintenance; conducted macOS and Windows administration",
+            "Provided daily tech support to employees and executives, including PandoDaily fireside chats and TED talks"
+          ]
+        }
+      ]
+    }
+  ],
+  "education": {
+    "school": "University of North Carolina at Chapel Hill",
+    "degree": "BA in Communications · Minor in Creative Writing",
+    "year": "2010",
+    "award": "Outstanding Achievement in Scholarship & Rick Dees Production Fund Scholarship"
+  },
+  "ai": {
+    "intro": "I use AI agents the way I use Terraform: to make operations repeatable, reviewable and fast. My AI work lives where infrastructure meets LLMs — agent skills that execute runbooks, guardrails that keep sensitive data out of prompts, and keeping AI platforms healthy for customers.",
+    "featured": [
+      {
+        "title": "Agentic ops tooling",
+        "context": "ServiceNow",
+        "text": "Building Claude skills and supporting tooling that turn multi-step operational runbooks into agent-driven workflows — certificate rotation, platform migrations, ticket triage, infrastructure deployments and database maintenance across a 100k+ server fleet.",
+        "tags": ["Claude Code", "Claude skills", "automation"]
+      },
+      {
+        "title": "AI platform support",
+        "context": "ServiceNow",
+        "text": "Tier 4 specialist support for ServiceNow's AI offerings in production customer environments.",
+        "tags": ["AI platforms", "production support"]
+      },
+      {
+        "title": "kube-yaml-scrub",
+        "context": "Open source",
+        "text": "Scrubs Kubernetes manifests of secrets and identifying data so they can be shared safely with public LLMs during diagnostics.",
+        "tags": ["Kubernetes", "LLM safety"],
+        "link": "https://github.com/solarsnake/kube-yaml-scrub"
+      },
+      {
+        "title": "This site",
+        "context": "Meta",
+        "text": "Built and maintained with Claude Code using a multi-agent workflow — a planner, tightly scoped implementers and an independent verifier.",
+        "tags": ["Claude Code", "agents"],
+        "link": "https://github.com/solarsnake/solarsnake.github.io"
+      }
+    ]
+  }
+}
