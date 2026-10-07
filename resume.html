@@ -7,13 +7,13 @@
 
     <!-- Open Graph / Twitter Card -->
     <meta property="og:type"        content="profile">
-    <meta property="og:title"       content="Timothy Tippens — Cloud Architect & DevOps / AI Engineer">
-    <meta property="og:description" content="10+ years building scalable cloud infrastructure across AWS, Azure, and GCP. Interactive resume with skill filtering.">
+    <meta property="og:title"       content="Timothy Tippens — Cloud &amp; DevOps Engineer · AI-augmented infrastructure">
+    <meta property="og:description" content="16+ years building mission-critical cloud infrastructure at ServiceNow, NASA JPL and NBCUniversal — plus AI agent tooling for operations.">
     <meta property="og:url"         content="https://justthetipp.com/resume.html">
     <meta property="og:site_name"   content="tippens@portfolio">
     <meta name="twitter:card"       content="summary">
     <meta name="twitter:title"      content="Timothy Tippens — Resume">
-    <meta name="twitter:description" content="Cloud Architect & DevOps / AI Engineer — 10+ years at NASA JPL, NBCUniversal, and more.">
+    <meta name="twitter:description" content="Cloud &amp; DevOps Engineer — 16+ years at ServiceNow, NASA JPL and NBCUniversal. AI-augmented infrastructure.">
 
     <style>
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -343,10 +343,34 @@
         }
 
         #clear-filter:hover { border-color: var(--yellow); }
+        /* ── Background line ── */
+        .about-background {
+            font-size: 0.74rem;
+            color: var(--cyan);
+            margin-bottom: 0.9rem;
+        }
+
+        /* ── AI ── */
+        .ai-intro { font-size: 0.82rem; color: var(--text-dim); max-width: 680px; margin-bottom: 1.25rem; line-height: 1.7; }
+        .ai-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 0.75rem; }
+        .ai-card { background: var(--bg-card); border: 1px solid var(--border); padding: 1rem 1.1rem; display: flex; flex-direction: column; gap: 0.45rem; transition: border-color 0.15s; }
+        .ai-card:hover { border-color: var(--border-active); }
+        .ai-context { font-size: 0.66rem; color: var(--cyan); letter-spacing: 0.08em; text-transform: uppercase; }
+        .ai-card h3 { font-size: 0.86rem; color: var(--green); }
+        .ai-card p { font-size: 0.76rem; color: var(--text-dim); line-height: 1.55; }
+        .ai-tags { display: flex; flex-wrap: wrap; gap: 0.3rem; font-size: 0.66rem; color: var(--green-muted); }
+        .ai-link { font-size: 0.74rem; color: var(--cyan); text-decoration: none; margin-top: auto; }
+        .ai-link:hover { text-decoration: underline; }
+
+        /* ── Role extras ── */
+        .role-note { font-size: 0.68rem; color: var(--cyan); font-style: italic; margin-top: 0.1rem; }
+        .role-summary { font-size: 0.78rem; color: var(--text); padding: 0.2rem 0 0.4rem; line-height: 1.55; }
+
 
         @media (max-width: 640px) {
             .nav-links { display: none; }
             .nav-mobile { display: block; }
+            .ai-grid { grid-template-columns: 1fr; }
             .about-cards { grid-template-columns: 1fr; }
             /* Touch-friendly mobile nav select */
             .nav-mobile select {
@@ -384,6 +408,10 @@
             .site-nav, .nav-mobile, #filter-banner { display: none !important; }
 
             .page-wrap { max-width: 100%; padding: 0; }
+            .about-background { color: #000; }
+            .ai-intro, .ai-card p, .role-summary { color: #333; }
+            .ai-card { border: 1px solid #000; break-inside: avoid; }
+            .ai-card h3, .ai-context, .ai-tags, .ai-link, .role-note { color: #000; }
 
             section { margin-bottom: 1.5rem; break-inside: avoid; }
 
@@ -431,94 +459,64 @@
 <nav class="site-nav">
     <div class="brand">tippens@portfolio<span>:/resume</span>$</div>
     <ul class="nav-links">
-        <li><a href="index.html">~/terminal</a></li>
-        <li><a href="#about">about</a></li>
-        <li><a href="#skills">skills</a></li>
-        <li><a href="#experience">experience</a></li>
-        <li><a href="#education">education</a></li>
-        <li><a href="blog/index.html">~/blog</a></li>
-        <li><a href="contact.html">~/contact</a></li>
+        <li><a href="/">~/terminal</a></li>
+        <li><a href="/resume.html" class="active">~/resume</a></li>
+        <li><a href="#ai">~/ai</a></li>
+        <li><a href="/blog/">~/blog</a></li>
+        <li><a href="/contact.html">~/contact</a></li>
     </ul>
     <div class="nav-mobile">
-        <select id="mobile-nav">
-            <option value="index.html">~/terminal</option>
+        <select id="mobile-nav" aria-label="Navigate">
             <option value="#about">about</option>
+            <option value="#ai">ai</option>
             <option value="#skills">skills</option>
             <option value="#experience">experience</option>
             <option value="#education">education</option>
-            <option value="blog/index.html">~/blog</option>
-            <option value="contact.html">~/contact</option>
+            <option value="/">~/terminal</option>
+            <option value="/blog/">~/blog</option>
+            <option value="/contact.html">~/contact</option>
         </select>
     </div>
 </nav>
 
 <div class="page-wrap">
 
-    <!-- About -->
     <section id="about">
-        <div class="section-header">
-            <h2>// about</h2>
-        </div>
-        <p class="about-headline">Cloud Architect &amp; DevOps / AI Engineer</p>
-        <p class="about-summary">
-            Award-winning professional with 10+ years of experience driving advancements in cloud infrastructure,
-            automation, and CI/CD for mission-critical environments. Currently at the intersection of DevOps and AI —
-            building systems that are fast, observable, and intelligent.
-        </p>
-        <div class="about-cards">
-            <div class="about-card">
-                <h3>Multi-Cloud Specialist</h3>
-                <p>Expertise across AWS, Azure, and GCP — designing highly available, scalable, and cost-optimized solutions.</p>
-            </div>
-            <div class="about-card">
-                <h3>Infrastructure as Code</h3>
-                <p>Terraform, Pulumi, Ansible, CloudFormation — building robust, secure cloud operations at scale.</p>
-            </div>
-            <div class="about-card">
-                <h3>AI / MLOps</h3>
-                <p>Operationalizing machine learning pipelines with SageMaker, Vertex AI, MLflow, and LLM integrations.</p>
-            </div>
-            <div class="about-card">
-                <h3>Proven Track Record</h3>
-                <p>NASA JPL, NBCUniversal, ZEFR — solving intricate technical challenges across government and industry.</p>
-            </div>
-        </div>
+        <div class="section-header"><h2>// about</h2></div>
+        <!-- build:about --><p class="build-placeholder">run npm run build</p><!-- /build:about -->
     </section>
 
-    <!-- Skills -->
+    <section id="ai">
+        <div class="section-header">
+            <h2>// ai</h2>
+            <p>Where infrastructure meets LLMs</p>
+        </div>
+        <!-- build:ai --><p class="build-placeholder">run npm run build</p><!-- /build:ai -->
+    </section>
+
     <section id="skills">
         <div class="section-header">
             <h2>// skills</h2>
             <p>Click any skill to filter the experience timeline</p>
         </div>
-
         <div id="filter-banner">
             <span id="filter-label"></span>
             <button id="clear-filter">[ clear filter ]</button>
         </div>
-
-        <div id="skills-container"></div>
+        <div id="skills-container"><!-- build:skills --><p class="build-placeholder">run npm run build</p><!-- /build:skills --></div>
     </section>
 
-    <!-- Experience -->
     <section id="experience">
         <div class="section-header">
             <h2>// experience</h2>
             <p>Click a role to expand details</p>
         </div>
-        <div class="timeline" id="experience-container"></div>
+        <div class="timeline" id="experience-container"><!-- build:experience --><p class="build-placeholder">run npm run build</p><!-- /build:experience --></div>
     </section>
 
-    <!-- Education -->
     <section id="education">
-        <div class="section-header">
-            <h2>// education</h2>
-        </div>
-        <div class="education-card">
-            <h3>University of North Carolina at Chapel Hill</h3>
-            <p class="degree">BA in Communications · Minor in Creative Writing · 2010</p>
-            <p class="award">Outstanding Achievement in Scholarship &amp; Rick Dees Production Fund Scholarship</p>
-        </div>
+        <div class="section-header"><h2>// education</h2></div>
+        <!-- build:education --><p class="build-placeholder">run npm run build</p><!-- /build:education -->
     </section>
 
 </div>
@@ -533,267 +531,77 @@
     <a href="https://linkedin.com/in/timothytippens" target="_blank" rel="noopener">linkedin.com/in/timothytippens</a>
 </footer>
 
+<script src="/assets/js/skill-match.js"></script>
 <script>
-    const skillsData = {
-        "Software":   ["Dockerd", "Containerd", "Kubernetes", "Helm", "Rancher", "Jenkins", "Ansible", "Terraform", "CloudFormation", "Puppet", "JFrog", "Digital.ai", "Jupyter", "GitHub", "GitLab", "ECS", "EKS", "Jira", "SonarQube", "Coverity", "MySQL", "PSQL", "DNS", "DHCP", "VMware"],
-        "Languages":  ["Bash", "Python", "Go"],
-        "OSS":        ["Windows", "Linux", "CentOS", "Red Hat", "Fedora", "Ubuntu", "Debian", "macOS"],
-        "Cloud":      ["AWS", "Azure", "GCP", "VSphere", "OpenStack"]
-    };
-
-    const experienceData = [
-        {
-            company: "NASA's Jet Propulsion Laboratory",
-            location: "Pasadena, CA (Remote)",
-            duration: "2017 – Present",
-            roles: [
-                {
-                    title: "Senior Cloud Engineer",
-                    duration: "2022 – Present",
-                    details: [
-                        "Operationalized flight software testing and deployment for Europa Clipper in the cloud",
-                        "Migrated 10+ COTS & internally developed applications from monolithic architecture to scalable EKS deployments",
-                        "Containerized hardware virtualization tooling for flight missions, enabling efficient, scalable simulation pipelines",
-                        "Awarded for individual contribution to cloud optimization through innovative software testing and architecture",
-                        "Developed and automated AWS infrastructure deployment using Ansible, Python and CloudFormation — achieving 30% cost reduction for Computer Aided Engineering cloud environments",
-                        "Architected automated patching and OS pipeline deployment for multi-AZ environment using Ansible, CloudFormation and AWS Systems Manager, ensuring CSET compliance"
-                    ]
-                },
-                {
-                    title: "System Architect",
-                    duration: "2017 – 2022",
-                    details: [
-                        "Implemented CI/CD pipeline for Computer Aided Engineering software suite deployment and testing",
-                        "Redesigned Desktop Engineering platform for Windows and Linux environments for high-availability/autoscaling",
-                        "Supported deployment, maintenance and security for 25+ unique applications serving 1600+ customers",
-                        "Interfaced with and guided customers on new technologies from interns through senior management",
-                        "Developed and released Puppet infrastructure for cloud orchestration and compliance",
-                        "Developed Elasticsearch-backed research application for detailed data analysis",
-                        "Automated application test suites for use across lab with detailed documentation",
-                        "Engineered and deployed a Kubernetes-based CI solution for projects utilizing Jenkins and Jupyter Notebooks in AWS GovCloud"
-                    ]
-                }
-            ]
-        },
-        {
-            company: "NBC/Universal",
-            location: "Los Angeles, CA",
-            duration: "2014 – 2017",
-            roles: [
-                {
-                    title: "Linux Systems Administrator",
-                    duration: "2015 – 2017",
-                    details: [
-                        "Achieved $80k in license savings by migrating to a more cost-effective business unit backup solution",
-                        "Designed cloud backup architecture in AWS resulting in cost efficiencies and improved data resilience",
-                        "Built bare-metal high-availability (HA) environment for corporate and production environments",
-                        "Administered and automated AWS infrastructure using Puppet, Terraform and the AWS CLI",
-                        "Developed Oracle/Solaris-backed Data Warehouse platform for Business Intelligence",
-                        "Implemented and evaluated open-source monitoring tools (Sensu, Nagios, Zabbix) for all environments",
-                        "Built Quantum StorNext solution (CentOS-backed) for internal Production team",
-                        "Developed runbooks for the Network Operations Center (NOC), standardizing web development workflows"
-                    ]
-                },
-                {
-                    title: "Software Engineer",
-                    duration: "2014 – 2015",
-                    details: [
-                        "Managed Movieclips.com tech stack and provided NetApp storage administration — technologies: Terraform, Python, Redis, PostgreSQL, Ceph",
-                        "Managed and optimized a high-volume publishing pipeline processing 500+ videos for web/YouTube",
-                        "Architected automated content backup solution",
-                        "Performed Python debugging and SQL scripting to increase production pipeline productivity",
-                        "Bridged the gap between tech and content sides of the organization",
-                        "Managed relationships with multiple Hollywood Studios"
-                    ]
-                }
-            ]
-        },
-        {
-            company: "ZEFR INC",
-            location: "Venice, CA",
-            duration: "2012 – 2014",
-            roles: [
-                {
-                    title: "IT Operations",
-                    duration: "2012 – 2014",
-                    details: [
-                        "Won the Award of Excellence in 2014",
-                        "Saved $20k+ in AWS costs per year by building an on-premises virtualization cluster (OpenStack)",
-                        "Performed service integration and implementation",
-                        "Completed Linux Server architecture and maintenance",
-                        "Conducted macOS and Windows administration",
-                        "Provided daily tech support to employees and executives including PandoDaily fireside chats and TED talks"
-                    ]
-                }
-            ]
-        }
-    ];
-
     let activeSkill = null;
 
-    // ── Build skills section ──────────────────────────────────────────
-    const skillsContainer = document.getElementById('skills-container');
-
-    Object.entries(skillsData).forEach(([category, skills]) => {
-        const block = document.createElement('div');
-        block.className = 'skill-category';
-
-        const label = document.createElement('div');
-        label.className = 'skill-category-name';
-        label.textContent = category;
-        block.appendChild(label);
-
-        const tags = document.createElement('div');
-        tags.className = 'skill-tags';
-
-        skills.forEach(skill => {
-            const btn = document.createElement('button');
-            btn.className = 'skill-tag';
-            btn.textContent = skill;
-            btn.dataset.skill = skill;
-            btn.addEventListener('click', () => toggleSkillFilter(skill));
-            tags.appendChild(btn);
+    // ── Role expand/collapse ──────────────────────────────────────────
+    document.querySelectorAll('.role-header').forEach(header => {
+        const content = header.nextElementSibling;
+        const chevron = header.querySelector('.role-chevron');
+        const toggle = () => {
+            const open = content.classList.toggle('open');
+            chevron.classList.toggle('open', open);
+            header.setAttribute('aria-expanded', String(open));
+        };
+        header.addEventListener('click', toggle);
+        header.addEventListener('keydown', e => {
+            if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); }
         });
-
-        block.appendChild(tags);
-        skillsContainer.appendChild(block);
     });
 
-    // ── Build experience timeline ─────────────────────────────────────
-    const expContainer = document.getElementById('experience-container');
-
-    experienceData.forEach(exp => {
-        const company = document.createElement('div');
-        company.className = 'timeline-company';
-
-        const nameEl = document.createElement('div');
-        nameEl.className = 'company-name';
-        nameEl.textContent = exp.company;
-
-        const metaEl = document.createElement('div');
-        metaEl.className = 'company-meta';
-        metaEl.textContent = `${exp.location} · ${exp.duration}`;
-
-        company.appendChild(nameEl);
-        company.appendChild(metaEl);
-
-        exp.roles.forEach(role => {
-            const roleItem = document.createElement('div');
-            roleItem.className = 'role-item';
-
-            const header = document.createElement('div');
-            header.className = 'role-header';
-            header.setAttribute('role', 'button');
-            header.setAttribute('tabindex', '0');
-
-            const headerInfo = document.createElement('div');
-
-            const titleEl = document.createElement('div');
-            titleEl.className = 'role-title';
-            titleEl.textContent = role.title;
-
-            const durEl = document.createElement('div');
-            durEl.className = 'role-duration';
-            durEl.textContent = role.duration;
-
-            headerInfo.appendChild(titleEl);
-            headerInfo.appendChild(durEl);
-
-            const chevron = document.createElement('span');
-            chevron.className = 'role-chevron';
-            chevron.textContent = '▾';
-
-            header.appendChild(headerInfo);
-            header.appendChild(chevron);
-
-            const content = document.createElement('div');
-            content.className = 'role-content';
-
-            const ul = document.createElement('ul');
-            ul.className = 'role-details';
-
-            role.details.forEach(detail => {
-                const li = document.createElement('li');
-                li.className = 'experience-detail';
-                li.textContent = detail;
-                li.dataset.originalContent = detail;
-                ul.appendChild(li);
-            });
-
-            content.appendChild(ul);
-            roleItem.appendChild(header);
-            roleItem.appendChild(content);
-            company.appendChild(roleItem);
-
-            const toggle = () => {
-                content.classList.toggle('open');
-                chevron.classList.toggle('open');
-            };
-            header.addEventListener('click', toggle);
-            header.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') toggle(); });
-        });
-
-        expContainer.appendChild(company);
+    document.querySelectorAll('.experience-detail').forEach(li => {
+        li.dataset.originalContent = li.textContent;
     });
 
     // ── Skill filter ──────────────────────────────────────────────────
+    function skillButton(skill) {
+        return Array.from(document.querySelectorAll('.skill-tag')).find(b => b.dataset.skill === skill);
+    }
+
     function toggleSkillFilter(skill) {
-        const btn = document.querySelector(`.skill-tag[data-skill="${CSS.escape(skill)}"]`);
-        if (activeSkill === skill) {
-            activeSkill = null;
-            btn.classList.remove('active');
-        } else {
-            if (activeSkill) {
-                document.querySelector(`.skill-tag[data-skill="${CSS.escape(activeSkill)}"]`).classList.remove('active');
-            }
-            activeSkill = skill;
-            btn.classList.add('active');
-        }
+        if (activeSkill) skillButton(activeSkill).classList.remove('active');
+        activeSkill = activeSkill === skill ? null : skill;
+        if (activeSkill) skillButton(activeSkill).classList.add('active');
         applyFilter();
     }
 
     function applyFilter() {
         const banner = document.getElementById('filter-banner');
-        const label  = document.getElementById('filter-label');
+        document.getElementById('filter-label').textContent = activeSkill ? `filtering by: ${activeSkill}` : '';
+        banner.classList.toggle('visible', !!activeSkill);
 
-        if (activeSkill) {
-            label.textContent = `filtering by: ${activeSkill}`;
-            banner.classList.add('visible');
-        } else {
-            banner.classList.remove('visible');
-        }
-
-        // Auto-expand all companies when filtering, collapse when cleared
-        document.querySelectorAll('.role-content').forEach(c => {
-            c.classList.toggle('open', !!activeSkill);
-        });
-        document.querySelectorAll('.role-chevron').forEach(c => {
-            c.classList.toggle('open', !!activeSkill);
+        document.querySelectorAll('.role-header').forEach(header => {
+            header.nextElementSibling.classList.toggle('open', !!activeSkill);
+            header.querySelector('.role-chevron').classList.toggle('open', !!activeSkill);
+            header.setAttribute('aria-expanded', String(!!activeSkill));
         });
 
         document.querySelectorAll('.experience-detail').forEach(li => {
             const text = li.dataset.originalContent;
-            if (activeSkill) {
-                const regex = new RegExp(`\\b(${activeSkill})\\b`, 'gi');
-                if (regex.test(text)) {
-                    li.innerHTML = text.replace(new RegExp(`\\b(${activeSkill})\\b`, 'gi'),
-                        '<span class="highlight">$1</span>');
-                    li.style.display = '';
+            li.textContent = '';
+            if (!activeSkill) { li.textContent = text; li.style.display = ''; return; }
+            if (!SkillMatch.matches(text, activeSkill)) { li.textContent = text; li.style.display = 'none'; return; }
+            SkillMatch.highlightParts(text, activeSkill).forEach(part => {
+                if (part.match) {
+                    const span = document.createElement('span');
+                    span.className = 'highlight';
+                    span.textContent = part.text;
+                    li.appendChild(span);
                 } else {
-                    li.textContent = text;
-                    li.style.display = 'none';
+                    li.appendChild(document.createTextNode(part.text));
                 }
-            } else {
-                li.textContent = text;
-                li.style.display = '';
-            }
+            });
+            li.style.display = '';
         });
     }
 
+    document.querySelectorAll('.skill-tag').forEach(btn => {
+        btn.addEventListener('click', () => toggleSkillFilter(btn.dataset.skill));
+    });
+
     document.getElementById('clear-filter').addEventListener('click', () => {
-        if (activeSkill) {
-            document.querySelector(`.skill-tag[data-skill="${CSS.escape(activeSkill)}"]`).classList.remove('active');
-        }
+        if (activeSkill) skillButton(activeSkill).classList.remove('active');
         activeSkill = null;
         applyFilter();
     });
