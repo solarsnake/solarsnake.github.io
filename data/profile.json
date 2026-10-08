@@ -11,23 +11,125 @@
     "github": "https://github.com/solarsnake",
     "linkedin": "https://linkedin.com/in/timothytippens"
   },
-  "featuredSkills": ["AWS", "Kubernetes", "Terraform", "Python", "Claude Code", "Azure", "GCP", "Ansible", "Go"],
+  "featuredSkills": [
+    "AWS",
+    "Kubernetes",
+    "Terraform",
+    "Python",
+    "Claude Code",
+    "Azure",
+    "GCP",
+    "Ansible",
+    "Go"
+  ],
   "highlights": [
-    { "title": "Multi-Cloud at Scale", "text": "AWS (Commercial & GovCloud), Azure and GCP — securing and automating platforms spanning 100k+ servers." },
-    { "title": "Infrastructure as Code", "text": "Terraform, CloudFormation, Ansible and Puppet — repeatable, compliant infrastructure with self-healing automation." },
-    { "title": "AI-Augmented Operations", "text": "Claude skills and agent tooling that turn operational runbooks into automated, reviewable workflows." },
-    { "title": "Mission-Critical Track Record", "text": "ServiceNow, NASA JPL (Europa Clipper), NBCUniversal and ZEFR — award-winning work across government and industry." }
+    {
+      "title": "Multi-Cloud at Scale",
+      "text": "AWS (Commercial & GovCloud), Azure and GCP — securing and automating platforms spanning 100k+ servers."
+    },
+    {
+      "title": "Infrastructure as Code",
+      "text": "Terraform, CloudFormation, Ansible and Puppet — repeatable, compliant infrastructure with self-healing automation."
+    },
+    {
+      "title": "AI-Augmented Operations",
+      "text": "Claude skills and agent tooling that turn operational runbooks into automated, reviewable workflows."
+    },
+    {
+      "title": "Mission-Critical Track Record",
+      "text": "ServiceNow, NASA JPL (Europa Clipper), NBCUniversal and ZEFR — award-winning work across government and industry."
+    }
   ],
   "skills": {
-    "Cloud": ["AWS", "AWS GovCloud", "Azure", "GCP", "vSphere", "OpenStack"],
-    "Containers & Orchestration": ["Kubernetes", "EKS", "ECS", "Helm", "Rancher", "Docker", "containerd", "Kustomize", "ArgoCD", "Flux", "Istio", "Linkerd"],
-    "IaC & Config": ["Terraform", "CloudFormation", "Ansible", "Puppet", "Pulumi", "Vault"],
-    "CI/CD": ["Jenkins", "GitHub Actions", "GitLab CI", "CircleCI", "JFrog", "Digital.ai", "SonarQube", "Coverity"],
-    "Observability": ["Prometheus", "Grafana", "Datadog", "Elasticsearch", "OpenTelemetry", "Sensu", "Nagios", "Zabbix"],
-    "AI Tooling": ["Claude Code", "Claude skills", "Codex", "Gemini", "Jupyter"],
-    "Languages": ["Bash", "Python", "Go", "Groovy", "PowerShell", "TypeScript"],
-    "Data": ["PostgreSQL", "MySQL", "MongoDB", "DynamoDB", "Redis"],
-    "Platforms & OS": ["ServiceNow", "Linux", "Red Hat", "CentOS", "Fedora", "Ubuntu", "Debian", "Windows", "macOS", "VMware", "DNS/DHCP", "Jira"]
+    "Cloud": [
+      "AWS",
+      "AWS GovCloud",
+      "Azure",
+      "GCP",
+      "vSphere",
+      "OpenStack"
+    ],
+    "Containers & Orchestration": [
+      "Kubernetes",
+      "EKS",
+      "ECS",
+      "Helm",
+      "Rancher",
+      "Docker",
+      "containerd",
+      "Kustomize",
+      "ArgoCD",
+      "Flux",
+      "Istio",
+      "Linkerd"
+    ],
+    "IaC & Config": [
+      "Terraform",
+      "CloudFormation",
+      "Ansible",
+      "Puppet",
+      "Pulumi",
+      "Vault"
+    ],
+    "CI/CD": [
+      "Jenkins",
+      "GitHub Actions",
+      "GitLab CI",
+      "CircleCI",
+      "JFrog",
+      "Digital.ai",
+      "SonarQube",
+      "Coverity"
+    ],
+    "Observability": [
+      "Prometheus",
+      "Grafana",
+      "Datadog",
+      "Elasticsearch",
+      "OpenTelemetry",
+      "Sensu",
+      "Nagios",
+      "Zabbix"
+    ],
+    "AI Tooling": [
+      "Claude Code",
+      "Claude skills",
+      "Codex",
+      "Gemini",
+      "LLMs",
+      "Prompt Engineering",
+      "RAG",
+      "Jupyter"
+    ],
+    "Languages": [
+      "Bash",
+      "Python",
+      "Go",
+      "Groovy",
+      "PowerShell",
+      "TypeScript"
+    ],
+    "Data": [
+      "PostgreSQL",
+      "MySQL",
+      "MongoDB",
+      "DynamoDB",
+      "Redis"
+    ],
+    "Platforms & OS": [
+      "ServiceNow",
+      "Linux",
+      "Red Hat",
+      "CentOS",
+      "Fedora",
+      "Ubuntu",
+      "Debian",
+      "Windows",
+      "macOS",
+      "VMware",
+      "DNS/DHCP",
+      "Jira"
+    ]
   },
   "experience": [
     {
@@ -151,26 +253,39 @@
         "title": "Agentic ops tooling",
         "context": "ServiceNow",
         "text": "Building Claude skills and supporting tooling that turn multi-step operational runbooks into agent-driven workflows — certificate rotation, platform migrations, ticket triage, infrastructure deployments and database maintenance across a 100k+ server fleet.",
-        "tags": ["Claude Code", "Claude skills", "automation"]
+        "tags": [
+          "Claude Code",
+          "Claude skills",
+          "automation"
+        ]
       },
       {
         "title": "AI platform support",
         "context": "ServiceNow",
         "text": "Tier 4 specialist support for ServiceNow's AI offerings in production customer environments.",
-        "tags": ["AI platforms", "production support"]
+        "tags": [
+          "AI platforms",
+          "production support"
+        ]
       },
       {
         "title": "kube-yaml-scrub",
         "context": "Open source",
         "text": "Scrubs Kubernetes manifests of secrets and identifying data so they can be shared safely with public LLMs during diagnostics.",
-        "tags": ["Kubernetes", "LLM safety"],
+        "tags": [
+          "Kubernetes",
+          "LLM safety"
+        ],
         "link": "https://github.com/solarsnake/kube-yaml-scrub"
       },
       {
         "title": "This site",
         "context": "Meta",
         "text": "Built and maintained with Claude Code using a multi-agent workflow — a planner, tightly scoped implementers and an independent verifier.",
-        "tags": ["Claude Code", "agents"],
+        "tags": [
+          "Claude Code",
+          "agents"
+        ],
         "link": "https://github.com/solarsnake/solarsnake.github.io"
       }
     ]
