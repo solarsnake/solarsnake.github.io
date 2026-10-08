@@ -7,12 +7,14 @@
   "scripts": {
     "build": "node scripts/build.mjs",
     "test": "node --test \"test/**/*.test.mjs\"",
-    "check:js": "node scripts/check-inline-js.mjs"
+    "check:js": "node scripts/check-inline-js.mjs",
+    "images": "node scripts/make-images.mjs"
   },
   "dependencies": {
     "marked": "18.1.0"
   },
   "devDependencies": {
+    "@resvg/resvg-js": "2.6.2",
     "fast-xml-parser": "5.11.2"
   }
 }

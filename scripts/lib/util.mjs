@@ -1,5 +1,9 @@
 export const SITE_URL = 'https://justthetipp.com';
 
+export function postUrl(slug) {
+  return `${SITE_URL}/blog/${slug}/`;
+}
+
 const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July',
   'August', 'September', 'October', 'November', 'December'];
 
