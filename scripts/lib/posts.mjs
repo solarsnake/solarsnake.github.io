@@ -1,6 +1,9 @@
 import { createRequire } from 'node:module';
 import { marked } from 'marked';
-import { SITE_URL, escapeHtml, formatDate, rfc822 } from './util.mjs';
+import { SITE_URL, escapeHtml, formatDate, rfc822, postUrl } from './util.mjs';
+import { OG_IMAGE, jsonLdScript, blogPostingJsonLd } from './seo.mjs';
+
+export { postUrl } from './util.mjs';
 
 const require = createRequire(import.meta.url);
 const { SECTION_LABELS } = require('../../assets/js/post-rules.js');
@@ -17,10 +20,6 @@ export function publishedPosts(posts) {
   return posts
     .filter(p => p.published === true)
     .sort((a, b) => b.date.localeCompare(a.date) || a.slug.localeCompare(b.slug));
-}
-
-export function postUrl(slug) {
-  return `${SITE_URL}/blog/${slug}/`;
 }
 
 export function neighbors(published, post) {
@@ -43,7 +42,7 @@ function navHtml() {
 </nav>`;
 }
 
-export function renderPostPage(post, { newer = null, older = null } = {}) {
+export function renderPostPage(post, { newer = null, older = null } = {}, { authorName = 'Timothy M. Tippens' } = {}) {
   const t = escapeHtml(post.title);
   const ex = escapeHtml(post.excerpt);
   const url = postUrl(post.slug);
@@ -61,7 +60,7 @@ export function renderPostPage(post, { newer = null, older = null } = {}) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>${t} — tippens@portfolio</title>
+    <title>${t} — Timothy Tippens</title>
     <meta name="description" content="${ex}">
     <link rel="canonical" href="${url}">
     <link rel="alternate" type="application/rss+xml" title="tippens@portfolio — Tech &amp; AI" href="/feed.xml">
@@ -71,9 +70,17 @@ export function renderPostPage(post, { newer = null, older = null } = {}) {
     <meta property="og:url" content="${url}">
     <meta property="og:site_name" content="tippens@portfolio">
     <meta property="article:published_time" content="${escapeHtml(post.date)}">
-    <meta name="twitter:card" content="summary">
+    <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="${t}">
     <meta name="twitter:description" content="${ex}">
+    <meta property="og:image" content="${OG_IMAGE}">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta name="twitter:image" content="${OG_IMAGE}">
+    <link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="/assets/img/favicon-48.png" sizes="48x48" type="image/png">
+    <link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png">
+    ${jsonLdScript(blogPostingJsonLd(post, authorName))}
     <link rel="stylesheet" href="/blog/post.css">
     <link rel="stylesheet" href="/assets/css/focus.css">
 </head>
@@ -83,7 +90,7 @@ ${navHtml()}
 <main class="post-wrap" id="main" tabindex="-1">
     <a class="back-link" href="/blog/?section=${section}">← all posts</a>
     <header class="post-header">
-        <div class="post-meta">${escapeHtml(formatDate(post.date))} · <span class="section-label">${label}</span></div>
+        <div class="post-meta"><time datetime="${escapeHtml(post.date)}">${escapeHtml(formatDate(post.date))}</time> · <span class="section-label">${label}</span></div>
         <h1 class="post-title">${t}</h1>
         <div class="post-tags">${tags}</div>
     </header>

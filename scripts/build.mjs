@@ -5,11 +5,12 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { validateProfile, validatePosts } from './lib/validate.mjs';
 import { publishedPosts, neighbors, renderPostPage, renderFeed, renderSitemap } from './lib/posts.mjs';
+import { jsonLdScript, personJsonLd } from './lib/seo.mjs';
 import { renderResumeBlocks, injectBlocks } from './lib/resume.mjs';
 
-// Everything deployed must be listed here. resume.html and posts/index.json are written separately.
+// Everything deployed must be listed here. index.html, resume.html and posts/index.json are written separately.
 export const COPY_ALLOWLIST = [
-  'index.html', 'contact.html', '404.html', 'robots.txt', 'CNAME',
+  'contact.html', '404.html', 'robots.txt', 'CNAME',
   'blog/index.html', 'blog/post.css', 'admin', 'data', 'assets',
 ];
 
@@ -53,11 +54,14 @@ export async function build({ root, out }) {
   }
 
   const resume = await readFile(path.join(root, 'resume.html'), 'utf8');
-  await write(out, 'resume.html', injectBlocks(resume, renderResumeBlocks(profile)));
+  const jsonld = { jsonld: jsonLdScript(personJsonLd(profile)) };
+  const home = await readFile(path.join(root, 'index.html'), 'utf8');
+  await write(out, 'index.html', injectBlocks(home, jsonld));
+  await write(out, 'resume.html', injectBlocks(injectBlocks(resume, renderResumeBlocks(profile)), jsonld));
 
   const published = publishedPosts(postsData.posts);
   for (const post of published) {
-    await write(out, `blog/${post.slug}/index.html`, renderPostPage(post, neighbors(published, post)));
+    await write(out, `blog/${post.slug}/index.html`, renderPostPage(post, neighbors(published, post), { authorName: profile.name }));
   }
   await write(out, 'posts/index.json', JSON.stringify({ posts: published }, null, 2) + '\n');
   await write(out, 'feed.xml', renderFeed(published));

@@ -36,7 +36,15 @@ test('renderPostPage escapes metadata and renders markdown', () => {
   assert.ok(html.includes('<meta property="og:type" content="article">'));
   assert.ok(html.includes('<meta property="og:url" content="https://justthetipp.com/blog/new-tech/">'));
   assert.ok(html.includes('<meta property="article:published_time" content="2026-10-01">'));
-  assert.ok(html.includes('<meta name="twitter:card" content="summary">'));
+  assert.ok(html.includes('<meta name="twitter:card" content="summary_large_image">'));
+  assert.ok(html.includes('<meta property="og:image" content="https://justthetipp.com/assets/img/og-card.png">'));
+  assert.ok(html.includes('<time datetime="2026-10-01">'));
+  assert.ok(html.includes(' — Timothy Tippens</title>'));
+  const ld = html.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g) || [];
+  assert.equal(ld.length, 1, 'exactly one JSON-LD script');
+  const parsed = JSON.parse(ld[0].replace(/^<script[^>]*>|<\/script>$/g, ''));
+  assert.equal(parsed['@type'], 'BlogPosting');
+  assert.equal(parsed.headline, newTech.title);
   assert.ok(html.includes('<link rel="stylesheet" href="/blog/post.css">'));
   assert.ok(html.includes('<link rel="stylesheet" href="/assets/css/focus.css">'));
   assert.ok(html.includes('<a class="skip-link" href="#main">skip to content</a>'));
