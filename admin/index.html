@@ -13,8 +13,8 @@
     -->
     <meta http-equiv="Content-Security-Policy" content="
         default-src 'none';
-        script-src 'unsafe-inline' https://unpkg.com;
-        style-src 'unsafe-inline' https://unpkg.com;
+        script-src 'self' 'unsafe-inline' https://unpkg.com;
+        style-src 'self' 'unsafe-inline' https://unpkg.com;
         connect-src https://api.github.com;
         img-src data:;
         font-src 'none';
@@ -27,9 +27,11 @@
           href="https://unpkg.com/easymde@2.18.0/dist/easymde.min.css"
           integrity="sha384-uqD/OYCNfagd1EgXMgl5QedTD5K+B3e9b8GYo/41t7+Serf7CBxvl+tU1gHd+qd1"
           crossorigin="anonymous">
+    <link rel="stylesheet" href="/assets/css/focus.css">
     <script src="https://unpkg.com/easymde@2.18.0/dist/easymde.min.js"
             integrity="sha384-KtB38COewxfrhJxoN2d+olxJAeT08LF8cVZ6DQ8Poqu89zIptqO6zAXoIxpGNWYE"
             crossorigin="anonymous"></script>
+    <script src="/assets/js/post-rules.js"></script>
     <style>
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -152,6 +154,7 @@
         .btn-danger:hover { background: #1a0000; border-color: var(--red); color: var(--red); }
 
         .btn-sm { padding: 0.3rem 0.6rem; font-size: 0.72rem; }
+        a.btn { text-decoration: none; }
 
         #login-error {
             color: var(--red);
@@ -464,6 +467,13 @@
                             <input type="date" id="post-date">
                         </div>
                         <div class="form-group">
+                            <label for="post-section">Section</label>
+                            <select id="post-section">
+                                <option value="tech">Tech &amp; AI</option>
+                                <option value="sheep">Learning to Count Sheep</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
                             <label>Tags <span style="color:var(--text-dim)">(comma-separated)</span></label>
                             <input type="text" id="post-tags" placeholder="philosophy, tech, ...">
                         </div>
@@ -487,8 +497,7 @@
                     <div class="sidebar-section">
                         <h3>// deployment</h3>
                         <p style="font-size:0.72rem;color:var(--text-dim);line-height:1.5">
-                            Saving commits directly to GitHub. GitHub Actions will deploy the site within ~2 minutes.<br><br>
-                            The blog page fetches posts in near-real-time from the GitHub raw URL.
+                            Saving commits posts/index.json to GitHub. The site rebuilds and deploys in ~2 minutes — each post gets its own page at /blog/&lt;slug&gt;/. Drafts are never published.
                         </p>
                     </div>
                 </div>
@@ -693,7 +702,7 @@
             const metaEl = document.createElement('div');
             metaEl.className = 'post-list-meta';
             const tagsText = (post.tags || []).map(t => '#' + t).join(' ');
-            metaEl.textContent = `${post.date || ''} · ${tagsText}`;
+            metaEl.textContent = `${post.date || ''} · ${PostRules.SECTION_LABELS[post.section] || 'no section'} · ${tagsText}`;
             if (!post.published) {
                 const badge = document.createElement('span');
                 badge.className = 'post-draft-badge';
@@ -718,6 +727,15 @@
             delBtn.textContent = 'delete';
             delBtn.addEventListener('click', () => deletePost(post.slug));
 
+            if (post.published) {
+                const viewLink = document.createElement('a');
+                viewLink.className = 'btn btn-sm';
+                viewLink.href = `/blog/${post.slug}/`;
+                viewLink.target = '_blank';
+                viewLink.rel = 'noopener';
+                viewLink.textContent = 'view';
+                actions.appendChild(viewLink);
+            }
             actions.appendChild(editBtn);
             actions.appendChild(delBtn);
             item.appendChild(info);
@@ -768,6 +786,7 @@
         document.getElementById('post-excerpt').value = '';
         document.getElementById('post-slug').value = '';
         document.getElementById('post-published').value = 'true';
+        document.getElementById('post-section').value = 'tech';
         document.getElementById('post-date').value = new Date().toISOString().split('T')[0];
         showView('editor');
         initEditor();
@@ -786,6 +805,7 @@
         document.getElementById('post-slug').value = post.slug || '';
         document.getElementById('post-published').value = post.published === false ? 'false' : 'true';
         document.getElementById('post-date').value = post.date || '';
+        document.getElementById('post-section').value = post.section || 'tech';
         showView('editor');
         initEditor();
         easyMDE.value(post.content || '');
@@ -809,6 +829,7 @@
         const slug = document.getElementById('post-slug').value.trim() || slugify(title);
         const date = document.getElementById('post-date').value;
         const published = document.getElementById('post-published').value === 'true';
+        const section = document.getElementById('post-section').value;
 
         if (!title) { toast('Title is required.', 'error'); return; }
         if (!content) { toast('Content cannot be empty.', 'error'); return; }
@@ -817,35 +838,34 @@
         const tags = tagsRaw ? tagsRaw.split(',').map(t => t.trim()).filter(Boolean) : [];
 
         // Auto-generate excerpt if empty
-        const finalExcerpt = excerpt || content.replace(/[#*`>\[\]]/g, '').split('\n').find(l => l.trim()).substring(0, 180) + '...';
+        const firstLine = content.replace(/[#*`>\[\]]/g, '').split('\n').find(l => l.trim()) || title;
+        const finalExcerpt = excerpt || firstLine.trim().substring(0, 180) + (firstLine.length > 180 ? '...' : '');
 
-        const post = { slug, title, date, excerpt: finalExcerpt, tags, content, published };
+        const post = { slug, title, date, excerpt: finalExcerpt, tags, content, published, section };
 
-        if (editingSlug) {
-            const idx = allPosts.findIndex(p => p.slug === editingSlug);
-            if (idx >= 0) {
-                allPosts[idx] = post;
-            } else {
-                allPosts.unshift(post);
-            }
-        } else {
-            // Check for duplicate slug
-            if (allPosts.some(p => p.slug === slug)) {
-                toast(`Slug "${slug}" already exists. Edit the slug field.`, 'error');
-                return;
-            }
-            allPosts.unshift(post);
+        const candidate = editingSlug
+            ? allPosts.map(p => (p.slug === editingSlug ? post : p))
+            : [post, ...allPosts];
+        if (editingSlug && !allPosts.some(p => p.slug === editingSlug)) candidate.unshift(post);
+
+        const errors = PostRules.validatePosts({ posts: candidate });
+        if (errors.length) {
+            toast(errors[0].replace(/^post\[\d+\] /, ''), 'error');
+            return;
         }
+        const previous = allPosts;
+        allPosts = candidate;
 
         const action = editingSlug ? 'Update' : 'Add';
         const ok = await savePosts(`Blog: ${action} "${title}"`);
+        if (!ok) { allPosts = previous; return; }
 
-        if (ok) {
-            toast(`Post ${action === 'Add' ? 'published' : 'updated'} successfully! Site will deploy in ~2 minutes.`, 'success');
-            editingSlug = null;
-            renderPostList();
-            showView('list');
-        }
+        toast(post.published
+            ? `Saved. Live at /blog/${slug}/ in ~2 min.`
+            : 'Draft saved (not published).', 'success');
+        editingSlug = null;
+        renderPostList();
+        showView('list');
     }
 
     // ─── Delete post ───
