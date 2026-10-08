@@ -37,7 +37,8 @@ function skills(p) {
   return Object.entries(p.skills).map(([cat, list]) => {
     const tags = list.map(s =>
       `<button class="skill-tag" type="button" data-skill="${e(s)}">${e(s)}</button>`).join('');
-    return `<div class="skill-category"><div class="skill-category-name">${e(cat)}</div><div class="skill-tags">${tags}</div></div>`;
+    const cls = cat === 'AI Tooling' ? 'skill-category ai-category' : 'skill-category';
+    return `<div class="${cls}"><div class="skill-category-name">${e(cat)}</div><div class="skill-tags">${tags}</div></div>`;
   }).join('\n');
 }
 

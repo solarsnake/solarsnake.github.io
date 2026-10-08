@@ -23,6 +23,8 @@ test('content reflects the current resume', () => {
   assert.ok(blocks.ai.includes('href="https://github.com/solarsnake/kube-yaml-scrub"'));
   assert.ok(!/SageMaker|MLflow|Vertex|Pinecone|Weaviate/.test(Object.values(blocks).join('')));
   assert.ok(blocks.skills.includes('data-skill="Digital.ai"'));
+  assert.match(blocks.skills, /<div class="skill-category ai-category"><div class="skill-category-name">AI Tooling<\/div>/);
+  assert.equal((blocks.skills.match(/ai-category/g) || []).length, 1);
 });
 
 test('escapes profile values', () => {
